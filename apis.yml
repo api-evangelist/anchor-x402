@@ -1,0 +1,38 @@
+aid: anchor-x402
+name: anchor-x402
+description: anchor-x402 operates a pay-per-call API surface for AI agents, billed with the x402
+  HTTP payment protocol instead of API keys or accounts. Eighteen stateless services run on AWS Lambda
+  and FastAPI behind https://api.anchor-x402.com, each returning an x402 v2 402 PaymentRequired
+  challenge that a caller settles per request in USDC on Base or Solana (select routes also settle JPYC
+  on Polygon) via EIP-3009 transferWithAuthorization. The catalog spans on-chain anchoring and
+  attestation, wallet sanctions and risk screening, Web3 data decoding, ENS/SNS name resolution, token
+  pricing, x402 spend accounting, verifiable signed randomness, and LLM-backed content analysis, priced
+  from $0.001 to $1.77 per call. The same 18 services are exposed over MCP (hosted Streamable HTTP and
+  an npm stdio package) and over a signed A2A JSON-RPC door, with a hosted Claude chatbot at
+  chat.anchor-x402.com for non-developers. Source is MIT licensed.
+url: https://raw.githubusercontent.com/api-evangelist/anchor-x402/refs/heads/main/apis.yml
+x-type: company
+x-source: manual:direct-request
+x-tier: stub
+x-tier-reason: direct-request
+specificationVersion: '0.20'
+created: '2026-09-11'
+modified: '2026-09-11'
+tags:
+- Company
+- x402
+- Agents
+- Payments
+- Blockchain
+- MCP
+- Web3
+- Pay Per Call
+apis: []
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+common:
+- type: Website
+  url: https://anchor-x402.com
