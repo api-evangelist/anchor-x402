@@ -1,0 +1,213 @@
+# anchor-x402
+
+> 日本語版 / Japanese: [llms.ja.txt](https://anchor-x402.com/llms.ja.txt)
+
+> Eighteen x402-paid services for AI agents on three settlement rails — Base USDC, Solana USDC, and JPYC on Polygon — plus a hosted chatbot at chat.anchor-x402.com. Pay-per-call, no API keys, no accounts, no subscriptions.
+
+anchor-x402 exposes 18 stateless services on AWS Lambda + FastAPI. Each endpoint returns an x402 v2 PaymentRequired challenge with `extensions.bazaar`; clients pay $0.001–$1.77 USDC (or the JPYC equivalent ¥0.1–¥350) per call from any Base, Solana, or Polygon wallet via EIP-3009 transferWithAuthorization. USDC settles via Coinbase's CDP facilitator; JPYC settles via an in-process facilitator on Polygon. Live at https://api.anchor-x402.com.
+
+**On the JPYC rail:** the yen amounts are fixed tiers, not a live FX conversion. They are pegged at an assumed ~¥200/USD with no oracle, so the USD-equivalent of a JPYC payment floats with the real rate in both directions — worth more than the USD price when the yen is stronger than ¥200/USD (recently ~+27%), less when it is weaker. The $0.001 tier is snapped to ¥0.1 rather than ¥0.2 and so sits below the other tiers' implied rate. Both rails are honoured at face value; compare the `accepts` entries in the 402 challenge and pay whichever suits you.
+
+## Discovery (machine-readable)
+
+- [OpenAPI spec](https://api.anchor-x402.com/openapi.json) — full schema for all 18 services
+- [x402 discovery](https://anchor-x402.com/.well-known/x402.json) — service catalog with prices, schemas, payment networks
+- [A2A AgentCard](https://anchor-x402.com/.well-known/agent-card.json) — Google A2A protocol manifest (also served at https://api.anchor-x402.com/.well-known/agent-card.json)
+- [A2A door](https://api.anchor-x402.com/v1/a2a) — signed JSON-RPC for agent-to-agent calls, free; see "Agent-to-agent" below
+- [Base AI Agent plugin spec](https://anchor-x402.com/plugins/base-mcp.md) — capability catalog formatted for Base MCP's `initiate_x402_request` flow
+- [Status](https://anchor-x402.betteruptime.com) — live uptime
+- [Source code](https://github.com/hypeprinter007-stack/anchor-x402) — MIT licensed
+- [Guide: pay an x402 API from Node.js](https://anchor-x402.com/guides/pay-x402-api-node/) — complete ~30-line client, works against any endpoint here
+- [Guide: accept x402 payments in Python](https://anchor-x402.com/guides/accept-x402-payments-python/) — the FastAPI server pattern this service runs
+
+## Services (18 paid endpoints)
+
+### Commodity primitives (9)
+| Endpoint | Price | What it does |
+|---|---|---|
+| POST /v1/anchor | $0.005 | Anchor any 32-byte hash to Base + Solana mainnet in parallel; returns both tx hashes |
+| GET /v1/screen | $0.02 | Wallet risk pre-flight — OFAC sanctions + address-reputation (drainer/phishing/mixer) → allow/review/block |
+| POST /v1/attest | $0.010 | Attest a decision over (input_hash, output_hash, decision): sign it yourself or let the treasury sign, then dual-chain anchor. Free re-verify at POST /v1/attest/verify |
+| POST /v1/decode/tx | $0.001 | Structured decode of any Base/Ethereum mainnet transaction |
+| GET /v1/resolve/name | $0.001 | Cross-chain name resolution: ENS (Ethereum) + Bonfida SNS (Solana) |
+| GET /v1/price/token | $0.001 | USD spot price by symbol or chain+contract |
+| POST /v1/decode/calldata | $0.001 | 4byte selector + ABI parameter decode |
+| POST /v1/parse/datetime | $0.001 | Freeform datetime → structured ISO 8601 + unix epoch + components |
+| GET /v1/intel/wallet | $0.005 | Bundled wallet intelligence (balances + activity + identity + sanctions) |
+
+### Due diligence (1, async)
+| Endpoint | Price | What it does |
+|---|---|---|
+| POST /v1/investigate | $1.77 | Agent-driven multi-step wallet due diligence — signed markdown report + JSON sidecar + dual-chain anchor proof. ETA 5–10 min. Returns job_id; poll /v1/investigate/status/{job_id} |
+
+### Verifiable signed RNG (1)
+| Endpoint | Price | What it does |
+|---|---|---|
+| POST /v1/roll | $0.001 | Cryptographically-random integer(s) over a caller-chosen range, EIP-191 signed by the treasury EOA. Drop-in VRF for game studios, raffles, DAO voter selection, NFT mint reveals. Optional 32-byte pre-commitment closes front-running windows |
+
+### x402 spend accounting (2, one async)
+| Endpoint | Price | What it does |
+|---|---|---|
+| POST /v1/ledger/summary | $0.01 | Categorized x402 spend for any Base wallet, reconstructed from on-chain USDC transfers at request time — totals, per-service breakdown, daily series. No stored state |
+| POST /v1/ledger/report | $0.35 | Signed x402 expense report (markdown + CSV) — deterministic bytes, EIP-191 signed, SHA-256 anchored to Base + Solana. Async: returns job_id, poll /v1/ledger/report/{job_id} |
+
+### Universal LLM endpoints (5)
+| Endpoint | Price | What it does |
+|---|---|---|
+| POST /v1/roast | $0.05 | Witty roast of any target — wallet, tweet, code, idea, anything |
+| POST /v1/oracle | $0.05 | Yes/no oracle with dual-chain anchored verdict — answer + question hash + timestamp anchored on Base + Solana for cryptographic receipt |
+| POST /v1/tldr | $0.01 | Summarize a URL or pasted text into 3–5 concise bullets |
+| POST /v1/aura | $0.01 | Aura read of anything — returns color, tier (S/A/B/C/D/F), score 0–9999, and a punchy description |
+| POST /v1/grade | $0.01 | Academic letter grade (A+ to F) + red-pen marginalia + summary, for any target |
+
+## Hosted agent chatbot
+
+[chat.anchor-x402.com](https://chat.anchor-x402.com) — a hosted Claude agent that runs these services on behalf of users who don't have their own agent. Users connect a Coinbase Smart Wallet (passkey, no app needed) or any browser-extension wallet (MetaMask, Rabby, Frame, etc.) and pay per call. The chat itself is free; each paid tool call requires explicit user approval and signs a single EIP-3009 USDC authorization. Session spend caps are user-set and enforced client-side.
+
+This is the recommended path for non-developers and the canonical demo surface. Each service has free demo output available via `/demo <name>` (no payment).
+
+## How agents use the HTTP API
+
+There are three ways in. Pick by who holds the wallet key.
+
+### 1. MCP over HTTP — `POST https://api.anchor-x402.com/mcp`
+
+Streamable HTTP, stateless, no install and no API key. All 18 services are exposed as MCP tools. You keep your own key: nothing is handed to us.
+
+Protocol revisions supported: `2026-07-28`, `2025-11-25`, `2025-06-18`, `2025-03-26` — both the stateless era and the `initialize` handshake era, on one endpoint. `server/discover` and `tools/list` are free; `tools/call` is paid.
+
+Payment is the ordinary x402 dance, surfaced inside MCP rather than around it:
+
+1. `tools/call` with no payment returns a **result** (not a JSON-RPC error) with `isError: true` and the 402 challenge in `structuredContent.accepts`.
+2. Sign one of those payment options.
+3. Retry the identical `tools/call` with the signed authorization in a `PAYMENT-SIGNATURE` header (the x402 V2 name; the deprecated V1 `X-PAYMENT` spelling is also accepted).
+
+The challenge is delivered as a result on purpose: an agent can read it and pay, whereas a JSON-RPC error would be swallowed by the client before the model ever saw it.
+
+Every `tools/call` result carries verifiable payment metadata under
+`_meta["com.anchor-x402/payment"]`, so a buyer runtime can separate discovery,
+capability checks and payment without dropping to the HTTP layer:
+
+- `protocolVersion` — the revision actually negotiated for this call.
+- `requirementHash` — digest over the `accepts` array we quoted, present on the
+  402 result. Binds the quote you received to the call you later pay for.
+- `paidRequirement` — digest over the single `accepted` entry your payment
+  presented, taken from your own header rather than re-derived here.
+- `settlement` — `{success, payer, transaction}`, decoded from the
+  `payment-response` header. Worth noting: the official MCP SDKs do not surface
+  response headers to the caller, so without this the receipt is invisible to a
+  client using one.
+
+Digests are `sha256:<hex>` over compact key-sorted JSON (no spaces, UTF-8
+unescaped) — the same canonicalization the A2A door signs over, so there is one
+rule to implement. `canonicalization` states it inline on every result. Sent from
+`2025-06-18` onward, which is where `_meta` appears on `CallToolResult`.
+
+```bash
+# free — what tools exist
+curl -s https://api.anchor-x402.com/mcp \
+  -H 'Content-Type: application/json' \
+  -H 'MCP-Protocol-Version: 2026-07-28' \
+  -H 'Mcp-Method: tools/list' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{"_meta":{
+        "io.modelcontextprotocol/protocolVersion":"2026-07-28",
+        "io.modelcontextprotocol/clientCapabilities":{}}}}'
+```
+
+Note for `2026-07-28`: there is no `initialize` and no session. Every request carries its own `protocolVersion` and `clientCapabilities` in `params._meta`, the `MCP-Protocol-Version` header must match that value, and `Mcp-Method` (plus `Mcp-Name` on `tools/call`) must match the body. Older clients that send `initialize` are served the handshake era instead — no configuration needed.
+
+Server card: [`/.well-known/mcp/server-card.json`](https://anchor-x402.com/.well-known/mcp/server-card.json) (official `server.json` shape, with the endpoint under `remotes[]`).
+
+### 2. MCP over stdio — `anchor-x402-mcp` on npm
+
+[anchor-x402-mcp on npm](https://www.npmjs.com/package/anchor-x402-mcp) — 14 tools. Works with Claude Desktop, Claude Code, Codex CLI (OpenAI), ChatGPT Desktop, Cursor, OpenAI Agents SDK, and any MCP-compatible client.
+
+```json
+{
+  "mcpServers": {
+    "anchor-x402": {
+      "command": "npx",
+      "args": ["-y", "anchor-x402-mcp"],
+      "env": { "ANCHOR_WALLET_PRIVATE_KEY": "0xYOUR_BASE_WALLET_KEY" }
+    }
+  }
+}
+```
+
+This transport auto-pays each call from the agent's Base wallet via @x402/fetch + @x402/evm, which is convenient but requires a funded private key inside the local process. If that trade is not one you want to make, use the HTTP endpoint above — it exposes 18 tools instead of 14 and never sees your key.
+
+### 3. Plain HTTP
+
+Call the endpoints directly with any x402 v2 client SDK ([@x402/fetch on npm](https://www.npmjs.com/package/@x402/fetch), the Python x402 SDK, Rust). Same payment dance: 402 → sign → retry.
+
+## Listings (where this service is indexed)
+
+- [CDP Bazaar](https://docs.cdp.coinbase.com/x402/bazaar) — 18 services live, auto-indexed
+- [agentic.market](https://api.agentic.market/v1/services/search?q=api.anchor-x402.com) — 18 services live
+- [Agent Arena](https://agentarena.site/api/agent/8453/60138) — ERC-8004 on-chain agent registry (Base, agentId 60138). Carries `a2aEndpoint` + `protocols.a2a`; A2A card mirrored at `/api/agent/8453/60138/a2a`. Supersedes agentId 47261, which is stale and pending removal.
+- [Virtuals ACP](https://app.virtuals.io) — 9 GET resource offerings + investigateWallet Job
+- [Official MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=anchor-x402)
+- [Glama](https://glama.ai/mcp/servers/hypeprinter007-stack/anchor-x402-mcp)
+- [mcp.so](https://mcp.so/server/anchor-x402-mcp)
+- [npm](https://www.npmjs.com/package/anchor-x402-mcp)
+
+## Agent-to-agent (no human in the loop)
+
+`POST https://api.anchor-x402.com/v1/a2a` — JSON-RPC 2.0, free, no API key, no registration, no account. Methods: `peer/hello`, `capabilities/list`, `peer/quote`, `peer/receipt`.
+
+Our card follows A2A 0.3.0 (`protocolVersion`, `securitySchemes`/`security`, `provider.organization`) and carries a detached JWS in `signatures` (ES256 over the JCS-canonicalized card, per RFC 7515 + RFC 8785), verifiable against `card_signing_keys` in the same extension. Worth noting what that does and does not buy you: fetched over TLS from our domain, the transport already proves origin. The signature earns its keep on copies that travel outside TLS — a registry mirror, your own cache — and for detecting a substituted card once you have recorded our key from a previous exchange. Note the two key sets are for different jobs: `signatures` proves the card is authentic, while `extensions["anchor-x402:a2a"].keys` is what peers use to sign requests — the spec has no field for the latter.
+
+To be recognized, publish an Ed25519 public key in your own agent card at `https://<your-origin>/.well-known/agent-card.json` — a DER SubjectPublicKeyInfo in base64, under any `extensions.<your-namespace>` block. Either shape works: a flat `{key_id, public_key_der_base64}` pair, or a `keys: [...]` array of them (which lets you rotate without a gap). We fetch your card, take the key, and verify. Trust bootstraps from DNS + TLS, so nothing here waits on a human. Revoke by deleting the block or marking that key `"status": "retired"` — either takes effect within 1h.
+
+Our own signatures work the same way in reverse: `peer/quote` and `peer/receipt` come back with `digest`, `signature`, and `key_id`. Recompute the digest by canonicalizing the payload minus the `digest`/`signature`/`signature_algorithm`/`key_id`/`signed` fields, then verify the raw 64-byte signature against the matching `public_key_der_base64` from our card with any stock Ed25519 library. Our key is held in AWS KMS, which changes nothing on the wire.
+
+Sign every call — the whole client protocol is four lines:
+
+```js
+// canonical JSON: keys sorted at every level, no whitespace
+const canon = v => Array.isArray(v) ? `[${v.map(canon).join(",")}]`
+  : (v && typeof v === "object") ? `{${Object.keys(v).sort().map(k => JSON.stringify(k) + ":" + canon(v[k])).join(",")}}`
+  : JSON.stringify(v);
+const digest = "sha256:" + sha256Hex(canon({aud, body, exp, key_id, method, nonce, origin}));
+const signature = base64(ed25519Sign(utf8(digest), yourPrivateKey));              // sign the ASCII digest string
+```
+
+`origin` is your own card origin. `aud` is the recipient — for us, exactly `https://api.anchor-x402.com`, published as `audience` in our card's `anchor-x402:a2a` extension. Both `aud` and `key_id` are inside the signed bytes: `aud` stops an envelope signed for one server from being replayed at another (whose replay store isn't ours), and `key_id` binds your key choice so a swapped id can't defeat your own revocation.
+
+POST `{"jsonrpc":"2.0","id":"1","method":"<method>","params":{aud, origin, key_id, nonce, exp, signature_algorithm:"ed25519", signature, body}}`. `nonce` is single-use (8–128 chars); `exp` must be within 300s.
+
+One interop caveat: we re-canonicalize the `body` we receive and compare digests, so keep `body` values to strings, integers, booleans, and nested objects/arrays of those. Floats serialize differently across languages (JS `1.0` → `1`, Python → `1.0`) and would fail verification. None of the current methods need one.
+
+The endpoint also speaks the A2A spec methods themselves — `message/send`, `tasks/get`, `tasks/cancel` — unsigned, since a conformant client won't produce our envelope; authorization there is the x402 payment. `message/send` naming any of the 18 skills returns a Task in `auth-required` carrying that skill's payable URL, price and rails, plus a `correlationId` and the `X-A2A-Exchange` header to echo on the paid request. Send it and the task moves to `completed`; omit it and it stays `auth-required`, because settlement happens on another route and we won't report a state we can't observe. Both A2A 0.3.0 and 1.0 request shapes are accepted and answered in kind.
+
+This endpoint never moves money. `peer/quote` returns the metered `/v1/*` URL and price for a skill plus an `exchange_id`; you pay that URL directly with normal x402 — payment is the authorization, so no mandate, gate, or approval step exists. `peer/receipt` then returns a signed record of the exchange stating exactly what it proves and what it does not. Reference client: [scripts/a2a-call.py](https://github.com/hypeprinter007-stack/anchor-x402/blob/main/scripts/a2a-call.py).
+
+Every signed artifact carries a `type` (`a2a.quote.v1`, `a2a.receipt.v1`, `a2a.receipt-root.v1`) inside the signed bytes — check it, so a signature over one kind can never be read as another.
+
+Receipts become independently verifiable within 24h. A daily job hashes the live receipt set into a root and writes it to Base and Solana mainnet, after which `peer/receipt` returns an `anchor` block alongside the signed payload:
+
+```json
+"anchor": {"root": "<64-hex>", "anchored_at": 1785300000,
+           "chains": {"base_tx": "0x…", "solana_tx": "…"}}
+```
+
+`anchor` sits *outside* the signed payload by necessity — the root is anchored after the receipt was signed — so exclude it, along with `digest`/`signature`/`signature_algorithm`/`key_id`/`signed`, when recomputing the digest. To verify independently: read the root from either chain, then confirm sha256 over the sorted member list of that root reproduces it. At that point the receipt's existence at a point in time no longer rests on our signature at all.
+
+## Trust posture
+
+Open source (MIT), AWS Lambda + Secrets Manager + CloudWatch. The trust portal at https://anchor-x402.com/trust/ carries a full STRIDE threat model, pre-filled SIG-Lite security questionnaire, code-level self-audit guide, regulated deployment guide, on-chain verifiability primer, and observability docs.
+
+Not certified for SOC 2, ISO 27001, PCI, HIPAA, or GDPR DPA — appropriate for sandbox/POC/non-binding workflows. An institutional tier with per-tenant authentication, MSA/DPA/SLA, WORM evidence vault on S3 Object Lock, and GDPR Article 17 erasure with AML retention reconciliation is available on request ($499–$5,000+/mo).
+
+## On-chain verifiability
+
+Every `/v1/anchor`, `/v1/attest`, `/v1/oracle`, and the `/v1/investigate` report write a 32-byte hash to **both** Base and Solana mainnet. The on-chain bytes are independent of the service — anyone can verify a receipt by reading the chain, no contact with anchor-x402 required. Forging requires breaking SHA-256 OR reorging two L1s simultaneously.
+
+Worked example with live mainnet hashes: https://anchor-x402.com/trust/on-chain-verifiability
+
+## Contact
+
+- General: hello@anchor-x402.com
+- Security disclosures: security@anchor-x402.com
+- Source: https://github.com/hypeprinter007-stack/anchor-x402
+- License: MIT

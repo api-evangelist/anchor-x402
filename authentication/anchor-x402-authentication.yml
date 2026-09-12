@@ -1,0 +1,99 @@
+generated: '2026-09-11'
+method: searched
+source: >-
+  https://anchor-x402.com/llms.txt, https://api.anchor-x402.com/.well-known/agent-card.json,
+  https://api.anchor-x402.com/.well-known/mcp/server-card.json, and a live 402 challenge observed at
+  POST https://api.anchor-x402.com/v1/price/token
+docs: https://anchor-x402.com/llms.txt
+model: payment-as-authorization
+accounts: false
+api_keys: false
+oauth: false
+summary: >-
+  There is no account, no registration, no API key and no bearer token anywhere in this API. Authorization
+  IS payment. A request without a signed payment gets an HTTP 402 PaymentRequired carrying an accepts[]
+  array of settlement options; the caller signs an EIP-3009 transferWithAuthorization for one of them and
+  retries the identical request with the signed payload in a PAYMENT-SIGNATURE header. The x402 facilitator
+  verifies and settles, and the service answers. Identity is a wallet, and it is presented per call rather
+  than per session.
+schemes:
+- id: x402
+  type: apiKey
+  in: header
+  name: PAYMENT-SIGNATURE
+  legacy_name: X-PAYMENT
+  legacy_note: The deprecated x402 V1 X-PAYMENT header spelling is still accepted alongside the V2 name.
+  protocol: x402 v2
+  applies_to: all 18 paid /v1/* routes and MCP tools/call
+  description: >-
+    x402 v2 pay-per-call. Modeled in the A2A agent card as an apiKey-in-header scheme because that is the
+    closest A2A primitive; it is not a static credential - the header value is a signed, single-use,
+    amount-bound payment authorization.
+- id: a2a-ed25519-envelope
+  type: signature
+  applies_to: the four anchor-x402 extension methods on POST /v1/a2a (peer/hello, capabilities/list, peer/quote, peer/receipt)
+  algorithm: ed25519
+  digest: 'sha256:<hex> over compact key-sorted canonical JSON'
+  signed_fields: [aud, body, exp, key_id, method, nonce, origin]
+  audience: https://api.anchor-x402.com
+  replay_protection:
+    nonce: single-use, 8-128 chars
+    exp_window_seconds: 300
+  key_discovery: >-
+    Peer identity bootstraps from DNS + TLS. A calling agent publishes an Ed25519 public key as a base64
+    DER SubjectPublicKeyInfo in its own /.well-known/agent-card.json under any extensions.<namespace> block,
+    either as a flat {key_id, public_key_der_base64} pair or a keys[] array for gapless rotation.
+    anchor-x402 fetches that card and verifies against it. No human step and no registration.
+  revocation: >-
+    Delete the block or mark that key with a "status" of "retired"; either takes effect within 1h.
+  server_keys:
+    location: extensions["anchor-x402:a2a"].keys in the agent card
+    custody: AWS KMS
+    note: >-
+      Two distinct key sets serve two jobs - signatures[] proves the card itself is authentic, while
+      extensions["anchor-x402:a2a"].keys is what peers use to sign requests. The A2A spec has no field for
+      the latter, which is why it lives in an extension.
+  spec_methods_unsigned: >-
+    The A2A spec methods themselves (message/send, tasks/get, tasks/cancel) are accepted unsigned, because a
+    conformant A2A client will not produce this envelope; authorization there is the x402 payment.
+settlement_rails:
+- network: eip155:8453
+  name: Base mainnet
+  asset: USDC
+  asset_contract: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+  pay_to: '0x127462e296fAc1A7F5cF33bA57bB2f0FFf5cD0B6'
+  facilitator: https://api.cdp.coinbase.com/platform/v2/x402
+  max_timeout_seconds: 300
+- network: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'
+  name: Solana mainnet
+  asset: USDC
+  asset_contract: EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
+  pay_to: 6apuZvJQ51Led9iEjnHw6f5jfnXL4qjt8S1h58PeXzuR
+  fee_payer: CjNFTjvBhbJJd2B5ePPMHRLx1ELZpa8dwQgGL727eKww
+  facilitator: https://api.cdp.coinbase.com/platform/v2/x402
+  max_timeout_seconds: 300
+- network: 'eip155:137'
+  name: Polygon mainnet
+  asset: JPYC
+  asset_contract: '0x431D5dfF03120AFA4bDf332c61A6e1766eF37BDB'
+  asset_decimals: 18
+  pay_to: '0x127462e296fAc1A7F5cF33bA57bB2f0FFf5cD0B6'
+  facilitator: in-process
+  max_timeout_seconds: 300
+  caveat: >-
+    The yen amounts are fixed tiers, not a live FX conversion - pegged at an assumed ~JPY200/USD with no
+    oracle, so the USD-equivalent of a JPYC payment floats against the USD price in both directions. The
+    provider states this plainly in llms.txt rather than burying it.
+free_and_anonymous:
+- GET /health
+- GET /openapi.json
+- GET /docs
+- GET /redoc
+- POST /v1/attest/verify
+- MCP server/discover, initialize and tools/list
+- POST /v1/a2a spec methods and capabilities/list
+spec_gap: >-
+  openapi.json declares no components.securitySchemes and carries no security requirement on any operation,
+  so the published OpenAPI reads as an entirely open API. Everything in this file was reconstructed from the
+  agent card, the MCP server card, llms.txt and a live 402 response. A securitySchemes block naming the
+  PAYMENT-SIGNATURE header would make the contract self-describing.

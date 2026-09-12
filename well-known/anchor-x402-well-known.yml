@@ -1,0 +1,158 @@
+generated: '2026-09-11'
+method: probed
+source: direct HTTPS probe of the named /.well-known/ path list on every host this record knows
+hit_count: 5
+path_echo_control: passed
+soft_404_control:
+  note: >-
+    A negative-control path that cannot exist was probed on all three hosts and returned 404 on every one,
+    so no host here is a catch-all. anchor-x402.com serves a 9,379-byte HTML 404 page; api.anchor-x402.com
+    and chat.anchor-x402.com return a FastAPI {"detail":"Not Found"} JSON 404.
+hosts:
+- host: https://api.anchor-x402.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: anchor-x402-agent-card.json
+  - path: /.well-known/agent.json
+    status: 200
+    file: anchor-x402-agent-card.json
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    file: anchor-x402-mcp-server-card.json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /.well-known/anchor-x402-negative-control-7f3ab91c.json
+    status: 404
+- host: https://anchor-x402.com
+  documents:
+  - path: /.well-known/x402.json
+    status: 200
+    file: anchor-x402-x402.json
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: anchor-x402-agent-card.json
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/anchor-x402-negative-control-7f3ab91c.json
+    status: 404
+- host: https://chat.anchor-x402.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: anchor-x402-agent-card.json
+  - path: /.well-known/agent.json
+    status: 200
+    file: anchor-x402-agent-card.json
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/anchor-x402-negative-control-7f3ab91c.json
+    status: 404
+non_standard_documents:
+- path: /.well-known/x402.json
+  description: >-
+    x402 discovery catalog v2.0 - the operator's own machine-readable service catalog. Carries operator,
+    homepage, trust_portal, openapi_url, base_url, facilitator, x402_version, the three settlement networks
+    with asset contract and payTo address, free_endpoints[], and routes[] - 18 entries each with path,
+    method, price_usd, category, JSON Schema input_schema and tags. This is the richest single machine-
+    readable document the provider publishes and it is not covered by the standard well-known path list.
+  status: 200
+  file: anchor-x402-x402.json
+- path: /.well-known/mcp/server-card.json
+  description: >-
+    Official MCP server.json shape ($schema static.modelcontextprotocol.io/schemas/2025-12-11) with the
+    hosted Streamable HTTP endpoint under remotes[] and the npm stdio package under packages[]. Served on
+    the API host only; the llms.txt link points at the apex, where it 404s.
+  status: 200
+  file: anchor-x402-mcp-server-card.json
+other_agent_policy_files:
+- path: /ai.txt
+  host: https://anchor-x402.com
+  status: 200
+  note: >-
+    Explicit permissive AI usage policy - ai-training allow, agent-calls-paid $0.001-$1.77 USDC per call,
+    agent-calls-free-paths /health /openapi.json /docs, agent-discovery pointing at x402.json, the agent
+    card and llms.txt. Not saved as a well-known document because it is served at the site root.
+- path: /robots.txt
+  host: https://anchor-x402.com
+  status: 200
+  note: Explicitly allows GPTBot, ChatGPT-User, OAI-SearchBot, ClaudeBot and every other crawler.
+- path: /llms.txt
+  host: https://anchor-x402.com
+  status: 200
+  note: Saved to llms/anchor-x402-llms.txt. A Japanese translation is served at /llms.ja.txt (200).
+findings:
+- no_security_txt: >-
+    The operator publishes a real vulnerability disclosure policy (SECURITY.md in the source repo, plus
+    security@anchor-x402.com in llms.txt and ai.txt) but serves no RFC 9116 /.well-known/security.txt on any
+    host. This is a one-file gap between a published policy and a machine-discoverable one.
+- no_apis_json: No APIs.json index at /apis.json, /apis.yml or /.well-known/apis.json on any host.
+- no_oauth_metadata: >-
+    No OAuth or OIDC discovery documents anywhere, which is correct rather than missing - the service has no
+    accounts and no API keys; x402 payment is the authorization.

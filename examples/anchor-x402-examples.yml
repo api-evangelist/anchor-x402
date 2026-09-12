@@ -1,0 +1,158 @@
+generated: '2026-09-11'
+method: derived
+source: a2a/anchor-x402-agent-card.json (skills[].examples) and well-known/anchor-x402-x402.json (routes[].input_schema
+  and the bazaar output example carried in each live 402 challenge)
+note: 'The published OpenAPI contains zero examples - not one example or examples keyword in 46KB of document.
+  The provider does publish worked examples, just never in the contract: two request examples per skill
+  in the A2A agent card, and an input body plus a full output example per route in the x402 discovery
+  catalog and in every live 402 challenge. This file collects them against their operationIds so a client
+  generated from the spec can still be exercised. Every value below is the provider''s own; none was invented.'
+example_count: 13
+operations_covered: 18
+examples:
+- skill: anchor_hash
+  operationId: anchor_v1_anchor_post
+  path: /v1/anchor
+  documented_method: POST
+  price_usd: 0.005
+  request_examples:
+  - hash: ab0898397c86fbf97c99c6f8b29e55ab697315705777ee1d106e2dcb9bd686b3
+  - data:
+      decision: APPROVED
+      vendor: Acme
+    note: Q2 vendor diligence
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/anchor]/input_schema
+- skill: attest_decision
+  operationId: attest_v1_attest_post
+  path: /v1/attest
+  documented_method: POST
+  price_usd: 0.01
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/attest]/input_schema
+- skill: aura_read
+  operationId: aura_v1_aura_post
+  path: /v1/aura
+  documented_method: POST
+  price_usd: 0.01
+  request_examples:
+  - target: '0x1234567890123456789012345678901234567890'
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/aura]/input_schema
+- skill: decode_calldata
+  operationId: decode_calldata_v1_decode_calldata_post
+  path: /v1/decode/calldata
+  documented_method: POST
+  price_usd: 0.001
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/decode/calldata]/input_schema
+- skill: decode_tx
+  operationId: decode_tx_v1_decode_tx_post
+  path: /v1/decode/tx
+  documented_method: POST
+  price_usd: 0.001
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/decode/tx]/input_schema
+- skill: grade_target
+  operationId: grade_v1_grade_post
+  path: /v1/grade
+  documented_method: POST
+  price_usd: 0.01
+  request_examples:
+  - target: 'def f(x): return x*2'
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/grade]/input_schema
+- skill: intel_wallet
+  operationId: intel_wallet_post_v1_intel_wallet_post
+  path: /v1/intel/wallet
+  documented_method: GET
+  price_usd: 0.005
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/intel/wallet]/input_schema
+- skill: investigate_wallet
+  operationId: investigate_dispatch_v1_investigate_post
+  path: /v1/investigate
+  documented_method: POST
+  price_usd: 1.77
+  request_examples:
+  - address: '0x1234567890123456789012345678901234567890'
+    depth: standard
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/investigate]/input_schema
+- skill: ledger_report
+  operationId: ledger_report_dispatch_v1_ledger_report_post
+  path: /v1/ledger/report
+  documented_method: POST
+  price_usd: 0.35
+  request_examples:
+  - wallet: '0x1234567890123456789012345678901234567890'
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/ledger/report]/input_schema
+- skill: ledger_summary
+  operationId: ledger_summary_v1_ledger_summary_post
+  path: /v1/ledger/summary
+  documented_method: POST
+  price_usd: 0.01
+  request_examples:
+  - from: '2026-06-01'
+    wallet: '0x1234567890123456789012345678901234567890'
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/ledger/summary]/input_schema
+- skill: oracle_verdict
+  operationId: oracle_v1_oracle_post
+  path: /v1/oracle
+  documented_method: POST
+  price_usd: 0.05
+  request_examples:
+  - question: Is this contract a proxy?
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/oracle]/input_schema
+- skill: parse_datetime
+  operationId: parse_datetime_v1_parse_datetime_post
+  path: /v1/parse/datetime
+  documented_method: POST
+  price_usd: 0.001
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/parse/datetime]/input_schema
+- skill: resolve_name
+  operationId: resolve_name_post_v1_resolve_name_post
+  path: /v1/resolve/name
+  documented_method: GET
+  price_usd: 0.001
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/resolve/name]/input_schema
+- skill: roast_target
+  operationId: roast_v1_roast_post
+  path: /v1/roast
+  documented_method: POST
+  price_usd: 0.05
+  request_examples:
+  - target: my portfolio
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/roast]/input_schema
+- skill: roll_random
+  operationId: roll_v1_roll_post
+  path: /v1/roll
+  documented_method: POST
+  price_usd: 0.001
+  request_examples:
+  - count: 1
+    max: 100
+    min: 1
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/roll]/input_schema
+- skill: screen_wallet
+  operationId: screen_post_v1_screen_post
+  path: /v1/screen
+  documented_method: GET
+  price_usd: 0.02
+  request_examples:
+  - wallet: '0x8589427373d6d84e98730d7795d8f6f8731fda16'
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/screen]/input_schema
+- skill: tldr_text
+  operationId: tldr_v1_tldr_post
+  path: /v1/tldr
+  documented_method: POST
+  price_usd: 0.01
+  request_examples:
+  - url: https://example.com/long-post
+  - text: …pasted text…
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/tldr]/input_schema
+- skill: token_price
+  operationId: token_price_post_v1_price_token_post
+  path: /v1/price/token
+  documented_method: GET
+  price_usd: 0.001
+  request_examples: []
+  input_schema_source: well-known/anchor-x402-x402.json#/routes[path=/v1/price/token]/input_schema

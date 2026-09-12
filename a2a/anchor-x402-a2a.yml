@@ -1,0 +1,97 @@
+generated: '2026-09-11'
+method: probed
+source: https://api.anchor-x402.com/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: api.anchor-x402.com
+  also_served_at:
+  - https://anchor-x402.com/.well-known/agent-card.json
+  - https://chat.anchor-x402.com/.well-known/agent-card.json
+  - https://api.anchor-x402.com/.well-known/agent.json
+  note: >-
+    All four locations return a byte-identical document (sha256 332d305ce913c47e...); the provider serves the
+    card at both the A2A 1.0 canonical path and the pre-0.3 legacy path on three hosts.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+    default_input_modes_present: true
+    default_output_modes_present: true
+    preferred_transport_present: true
+    additional_interfaces_present: true
+    security_schemes_present: true
+  deviations: []
+  note: >-
+    The card self-documents why protocolVersion is 0.3.0 rather than 1.0 - A2A 1.0 requires
+    supported_interfaces, which this card does not yet emit. The /v1/a2a endpoint accepts and answers both
+    the 0.3.0 and 1.0 request dialects.
+card:
+  name: anchor-x402
+  url: https://api.anchor-x402.com/v1/a2a
+  version: 0.4.0
+  documentation_url: https://anchor-x402.com
+  provider:
+    organization: anchor-x402
+    url: https://anchor-x402.com
+  license: MIT
+  source: https://github.com/hypeprinter007-stack/anchor-x402
+  capabilities:
+    streaming: false
+    pushNotifications: false
+    stateTransitionHistory: false
+  security_schemes:
+  - name: x402
+    type: apiKey
+    in: header
+    header: PAYMENT-SIGNATURE
+    note: No account or API key exists; payment is the authorization.
+  skills: 18
+  signed: true
+  signature:
+    present: true
+    form: detached JWS in signatures[], ES256 over the JCS-canonicalized card (RFC 7515 + RFC 8785)
+    verification_keys: card_signing_keys in the anchor-x402:a2a extension
+  extensions:
+  - 'anchor-x402:a2a'
+  - 'anchor-x402:x402'
+  - 'anchor-x402:discovery'
+  - 'agoragentic:federation'
+  file: anchor-x402-agent-card.json
+endpoint:
+  url: https://api.anchor-x402.com/v1/a2a
+  transport: JSONRPC
+  spec_methods:
+  - message/send
+  - tasks/get
+  - tasks/cancel
+  extension_methods:
+  - peer/hello
+  - capabilities/list
+  - peer/quote
+  - peer/receipt
+  extension_envelope:
+    signature_algorithm: ed25519
+    digest: sha256-canonical-json
+    signed_fields: [aud, body, exp, key_id, method, nonce, origin]
+    audience: https://api.anchor-x402.com
+    nonce: single-use, 8-128 chars
+    exp_window_seconds: 300
+  probe:
+    request: 'POST /v1/a2a {"jsonrpc":"2.0","id":"1","method":"capabilities/list","params":{}}'
+    http_status: 200
+    body: '{"jsonrpc":"2.0","id":"1","error":{"code":-32602,"message":"params.aud is required"}}'
+    note: >-
+      The door is live and anonymous; extension methods reject an unsigned envelope with a JSON-RPC
+      -32602 rather than an HTTP error. Not fabricated - this is the observed response.
+x-evidence:
+  fetched: '2026-09-11'
+  url: https://api.anchor-x402.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  bytes: 19024

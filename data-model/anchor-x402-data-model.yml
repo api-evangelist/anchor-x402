@@ -1,0 +1,154 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/anchor-x402-openapi.json ($ref graph across 51 component schemas and 24 operations)
+shape: stateless-request-response
+persistence: none
+summary: >-
+  This API has no entity model in the usual sense. It is deliberately stateless - the trust portal calls the
+  statelessness a compensating control and says no per-customer PII is stored - so there are no resources to
+  create, list, update or delete, no ids to hold between calls, and no relationships that outlive a request.
+  What the $ref graph describes is nine request/response pairs plus nine shared value objects. The only
+  identifiers that survive a single call are a job_id for the two async services and an on-chain transaction
+  hash, and neither is a resource an agent can enumerate.
+entities:
+- name: ChainAnchor
+  kind: value-object
+  used_by: [AnchorResponse, AttestResponse]
+  meaning: One chain's half of a dual-chain anchor - the tx identifier on Base or Solana mainnet.
+  relationships:
+  - from: AnchorResponse
+    to: ChainAnchor
+    type: has_many
+    via: $ref
+  - from: AttestResponse
+    to: ChainAnchor
+    type: has_many
+    via: $ref
+  durable: true
+  durability_note: >-
+    The only genuinely persistent artifact this service produces, and it persists on Base and Solana rather
+    than here. The provider's whole trust argument rests on that: the on-chain bytes are readable without
+    contacting the service at all.
+- name: ScreenSignal
+  kind: value-object
+  used_by: [ScreenResponse]
+  meaning: One risk signal with its source and severity, contributing to the allow/review/block verdict.
+  relationships:
+  - from: ScreenResponse
+    to: ScreenSignal
+    type: has_many
+    via: $ref
+- name: ScreenResponse
+  kind: response
+  meaning: >-
+    The wallet risk verdict - recommendation (allow/review/block), risk_score 0-100, signals[],
+    sanctions_match, sanctioned_lists, address_type, notes.
+  relationships:
+  - from: IntelWalletResponse
+    to: ScreenResponse
+    type: has_one
+    via: $ref
+  note: >-
+    The one schema reused across two priced services. intel_wallet ($0.005) embeds the whole screen verdict
+    ($0.02) inside its bundle alongside balances, activity and identity - so the bundled call is cheaper
+    than the screening call it contains. Worth knowing before choosing which to invoke.
+- name: IntelWalletResponse
+  kind: response
+  meaning: The bundled wallet intelligence envelope - the widest composite in the API.
+  relationships:
+  - from: IntelWalletResponse
+    to: IntelWalletBalances
+    type: has_one
+    via: $ref
+  - from: IntelWalletResponse
+    to: IntelWalletActivity
+    type: has_one
+    via: $ref
+  - from: IntelWalletResponse
+    to: IntelWalletIdentity
+    type: has_one
+    via: $ref
+  - from: IntelWalletResponse
+    to: ScreenResponse
+    type: has_one
+    via: $ref
+  - from: IntelWalletResponse
+    to: IntelWalletError
+    type: has_many
+    via: $ref
+  note: >-
+    IntelWalletError is a per-component partial-failure channel inside a 200 response, not an HTTP error -
+    an upstream that is unavailable degrades one section of the bundle rather than failing the call. The
+    same degrade-don't-fail posture appears in the screen skill's documented "partial" verdict.
+- name: DecodedParam
+  kind: value-object
+  used_by: [CalldataDecodeResponse]
+  relationships:
+  - from: CalldataDecodeResponse
+    to: DecodedParam
+    type: has_many
+    via: $ref
+- name: DatetimeComponents
+  kind: value-object
+  used_by: [DatetimeParseResponse]
+  relationships:
+  - from: DatetimeParseResponse
+    to: DatetimeComponents
+    type: has_one
+    via: $ref
+- name: NameAddress
+  kind: value-object
+  used_by: [NameResolveResponse]
+  meaning: One resolved address for a name, per chain (ENS on Ethereum, Bonfida SNS on Solana).
+  relationships:
+  - from: NameResolveResponse
+    to: NameAddress
+    type: has_many
+    via: $ref
+- name: InvestigateDeliverable
+  kind: value-object
+  used_by: [InvestigateStatusResponse]
+  meaning: One output of a finished investigation - signed markdown report, JSON sidecar, or anchor proof.
+  relationships:
+  - from: InvestigateStatusResponse
+    to: InvestigateDeliverable
+    type: has_many
+    via: $ref
+- name: ValidationError
+  kind: error
+  used_by: [HTTPValidationError]
+  relationships:
+  - from: HTTPValidationError
+    to: ValidationError
+    type: has_many
+    via: $ref
+transient_identifiers:
+- id: job_id
+  produced_by: [investigate_dispatch_v1_investigate_post, ledger_report_dispatch_v1_ledger_report_post]
+  consumed_by: [investigate_status_v1_investigate_status__job_id__get, ledger_report_status_v1_ledger_report__job_id__get]
+  listable: false
+  note: >-
+    The only server-side handle in the API. There is no endpoint to list a caller's jobs, so a client that
+    loses a job_id has no way to recover a $1.77 investigation it already paid for. No retention period is
+    documented.
+- id: exchange_id
+  produced_by: POST /v1/a2a peer/quote
+  consumed_by: [POST /v1/a2a peer/receipt, the paid /v1/* call]
+  note: Correlates an A2A quote with the settlement that redeems it.
+- id: transaction hash
+  produced_by: [anchor, attest, oracle, investigate]
+  durable: true
+  note: Persists on Base and Solana mainnet, independent of this service.
+- id: receipt root
+  produced_by: a daily job that hashes the live receipt set
+  durable: true
+  note: >-
+    Within 24h a daily job writes a root over the receipt set to Base and Solana, after which peer/receipt
+    returns an anchor block {root, anchored_at, chains{base_tx, solana_tx}}. At that point a receipt's
+    existence at a point in time no longer depends on the operator's signature.
+observations:
+- 51 component schemas, 9 with any $ref at all - the graph is 9 shallow trees, not a connected model.
+- No schema carries an id field that references another schema, so there are no foreign keys to map.
+- >-
+  Only one schema (ScreenResponse) is reused across service boundaries. Everything else is a single-use
+  request or response type, which is why components.schemas reuse is low despite the schema count.

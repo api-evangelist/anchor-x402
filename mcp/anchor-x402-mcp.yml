@@ -1,0 +1,132 @@
+generated: '2026-09-11'
+method: probed
+source: https://api.anchor-x402.com/mcp (tools/list, HTTP 200) + https://api.anchor-x402.com/.well-known/mcp/server-card.json
+status: published
+deployment:
+  mode: both
+  endpoint: https://api.anchor-x402.com/mcp
+  install: npx -y anchor-x402-mcp
+  package: https://www.npmjs.com/package/anchor-x402-mcp
+  auth: none
+  verified: probed
+  note: Both surfaces are real and they are not the same product. The remote Streamable HTTP endpoint
+    exposes 18 tools, needs no install and never sees the caller's key - payment happens per tools/call
+    via an x402 challenge returned inside the result. The stdio npm package exposes 14 tools and requires
+    a funded EVM private key in ANCHOR_WALLET_PRIVATE_KEY inside the local process. The provider documents
+    this trade-off explicitly in llms.txt.
+  probe_prior: (never probed)
+  probe: live
+  probe_why: live
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
+server:
+  name: anchor-x402
+  registry_name: io.github.hypeprinter007-stack/anchor-x402
+  title: anchor-x402
+  version: 0.3.0
+  transport: streamable-http
+  url: https://api.anchor-x402.com/mcp
+  website: https://anchor-x402.com
+  repository: https://github.com/hypeprinter007-stack/anchor-x402
+  server_card: https://api.anchor-x402.com/.well-known/mcp/server-card.json
+  protocol_versions:
+  - '2026-07-28'
+  - '2025-11-25'
+  - '2025-06-18'
+  - '2025-03-26'
+  latest_protocol_version: '2026-07-28'
+  capabilities:
+    tools: true
+authentication:
+  type: x402
+  header: PAYMENT-SIGNATURE
+  header_legacy: X-PAYMENT
+  free_methods:
+  - server/discover
+  - initialize
+  - tools/list
+  paid_methods:
+  - tools/call
+  flow: A tools/call without payment returns a RESULT (not a JSON-RPC error) with isError true and the
+    x402 challenge in structuredContent.accepts. The caller signs one of the offered rails and retries
+    the identical tools/call with a PAYMENT-SIGNATURE header. The provider states the challenge is delivered
+    as a result deliberately, because a JSON-RPC error would be swallowed by the client before the model
+    saw it.
+  payment_metadata:
+    location: _meta["com.anchor-x402/payment"]
+    since_protocol_version: '2025-06-18'
+    fields:
+    - protocolVersion
+    - requirementHash
+    - paidRequirement
+    - settlement
+    canonicalization: sha256 over compact key-sorted JSON, stated inline on every result
+probe:
+  method: tools/list
+  http_status: 200
+  bytes: 13684
+  tool_count: 18
+  input_schemas_present: true
+  fetched: '2026-09-11'
+  saved: mcp/anchor-x402-tools-list.json
+  note: tools/list is free and anonymous, so the live tool set with real inputSchema per tool was captured
+    verbatim rather than derived. No auth gate.
+tools:
+- name: anchor_hash
+  source_operation: openapi/anchor-x402-openapi.json#anchor_v1_anchor_post
+- name: attest_decision
+  source_operation: openapi/anchor-x402-openapi.json#attest_v1_attest_post
+- name: aura_read
+  source_operation: openapi/anchor-x402-openapi.json#aura_v1_aura_post
+- name: decode_calldata
+  source_operation: openapi/anchor-x402-openapi.json#decode_calldata_v1_decode_calldata_post
+- name: decode_tx
+  source_operation: openapi/anchor-x402-openapi.json#decode_tx_v1_decode_tx_post
+- name: grade_target
+  source_operation: openapi/anchor-x402-openapi.json#grade_v1_grade_post
+- name: intel_wallet
+  source_operation: openapi/anchor-x402-openapi.json#intel_wallet_post_v1_intel_wallet_post
+- name: investigate_wallet
+  source_operation: openapi/anchor-x402-openapi.json#investigate_dispatch_v1_investigate_post
+- name: ledger_report
+  source_operation: openapi/anchor-x402-openapi.json#ledger_report_dispatch_v1_ledger_report_post
+- name: ledger_summary
+  source_operation: openapi/anchor-x402-openapi.json#ledger_summary_v1_ledger_summary_post
+- name: oracle_verdict
+  source_operation: openapi/anchor-x402-openapi.json#oracle_v1_oracle_post
+- name: parse_datetime
+  source_operation: openapi/anchor-x402-openapi.json#parse_datetime_v1_parse_datetime_post
+- name: resolve_name
+  source_operation: openapi/anchor-x402-openapi.json#resolve_name_post_v1_resolve_name_post
+- name: roast_target
+  source_operation: openapi/anchor-x402-openapi.json#roast_v1_roast_post
+- name: roll_random
+  source_operation: openapi/anchor-x402-openapi.json#roll_v1_roll_post
+- name: screen_wallet
+  source_operation: openapi/anchor-x402-openapi.json#screen_post_v1_screen_post
+- name: tldr_text
+  source_operation: openapi/anchor-x402-openapi.json#tldr_v1_tldr_post
+- name: token_price
+  source_operation: openapi/anchor-x402-openapi.json#token_price_post_v1_price_token_post
+stdio_package:
+  registry: npm
+  name: anchor-x402-mcp
+  version: 0.2.4
+  published: '2026-09-04'
+  runtime_hint: npx
+  tool_count: 14
+  required_env:
+  - name: ANCHOR_WALLET_PRIVATE_KEY
+    secret: true
+    description: EVM private key that auto-pays each x402 call from the agent's Base wallet.
+  clients_documented:
+  - Claude Desktop
+  - Claude Code
+  - Codex CLI
+  - ChatGPT Desktop
+  - Cursor
+  - OpenAI Agents SDK
+listings:
+- https://registry.modelcontextprotocol.io/v0/servers?search=anchor-x402
+- https://glama.ai/mcp/servers/hypeprinter007-stack/anchor-x402-mcp
+- https://mcp.so/server/anchor-x402-mcp

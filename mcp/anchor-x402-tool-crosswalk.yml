@@ -1,0 +1,211 @@
+generated: '2026-09-11'
+method: derived
+source: >-
+  mcp/anchor-x402-tools-list.json (live tools/list, 18 tools), openapi/anchor-x402-openapi.json (24
+  operations), a2a/anchor-x402-agent-card.json (18 skills) and well-known/anchor-x402-x402.json (18 routes)
+surfaces:
+  openapi:
+    url: https://api.anchor-x402.com/openapi.json
+    file: openapi/anchor-x402-openapi.json
+    operations: 24
+    gated: false
+  mcp:
+    url: https://api.anchor-x402.com/mcp
+    transport: streamable-http
+    tools: 18
+    gated: false
+    note: tools/list is free and anonymous; tools/call is x402-paid.
+  a2a:
+    url: https://api.anchor-x402.com/v1/a2a
+    transport: JSONRPC
+    skills: 18
+    gated: false
+  graphql: null
+coverage:
+  mcp_tools: 18
+  bound_to_rest: 18
+  mcp_only: 0
+  rest_only: 6
+  confidence_high: 18
+  note: >-
+    Every MCP tool binds to a real OpenAPI operationId, so each tool's true input contract is that
+    operation's requestBody schema. The divergence runs the other way - six REST operations have no tool.
+crosswalk:
+- tool: anchor_hash
+  category: security
+  rest: [anchor_v1_anchor_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.005
+- tool: attest_decision
+  category: security
+  rest: [attest_v1_attest_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.010
+- tool: screen_wallet
+  category: security
+  rest: [screen_post_v1_screen_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.020
+  note: >-
+    The agent card and x402.json advertise this skill as GET /v1/screen; the OpenAPI documents only the
+    POST wrapper. Both are live - see spec_gaps below.
+- tool: intel_wallet
+  category: security
+  rest: [intel_wallet_post_v1_intel_wallet_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.005
+  note: Advertised as GET /v1/intel/wallet; OpenAPI documents only POST.
+- tool: investigate_wallet
+  category: security
+  rest: [investigate_dispatch_v1_investigate_post, investigate_status_v1_investigate_status__job_id__get]
+  binding: rest
+  confidence: high
+  price_usd: 1.770
+  note: Async. Dispatch returns a job_id; the tool folds the status poll that REST exposes separately.
+- tool: decode_tx
+  category: web3
+  rest: [decode_tx_v1_decode_tx_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.001
+- tool: decode_calldata
+  category: web3
+  rest: [decode_calldata_v1_decode_calldata_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.001
+- tool: resolve_name
+  category: web3
+  rest: [resolve_name_post_v1_resolve_name_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.001
+  note: Advertised as GET /v1/resolve/name; OpenAPI documents only POST.
+- tool: token_price
+  category: finance
+  rest: [token_price_post_v1_price_token_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.001
+  note: Advertised as GET /v1/price/token; OpenAPI documents only POST.
+- tool: ledger_summary
+  category: finance
+  rest: [ledger_summary_v1_ledger_summary_post, ledger_summary_get_v1_ledger_summary_get]
+  binding: rest
+  confidence: high
+  price_usd: 0.010
+- tool: ledger_report
+  category: finance
+  rest: [ledger_report_dispatch_v1_ledger_report_post, ledger_report_dispatch_get_v1_ledger_report_get, ledger_report_status_v1_ledger_report__job_id__get]
+  binding: rest
+  confidence: high
+  price_usd: 0.350
+  note: Async. The tool covers dispatch plus the job status poll.
+- tool: parse_datetime
+  category: ai
+  rest: [parse_datetime_v1_parse_datetime_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.001
+- tool: roll_random
+  category: gaming
+  rest: [roll_v1_roll_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.001
+- tool: oracle_verdict
+  category: ai
+  rest: [oracle_v1_oracle_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.050
+- tool: roast_target
+  category: ai
+  rest: [roast_v1_roast_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.050
+- tool: tldr_text
+  category: content-extraction
+  rest: [tldr_v1_tldr_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.010
+- tool: aura_read
+  category: ai
+  rest: [aura_v1_aura_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.010
+- tool: grade_target
+  category: ai
+  rest: [grade_v1_grade_post]
+  binding: rest
+  confidence: high
+  price_usd: 0.010
+mcp_only: []
+rest_only:
+- operation: health_health_get
+  path: GET /health
+  reason: Liveness probe. Free and unmetered; not worth a tool.
+- operation: attest_verify_v1_attest_verify_post
+  path: POST /v1/attest/verify
+  reason: >-
+    Free re-verification of a previously anchored attestation. No MCP tool exposes it, so an agent holding
+    an attestation over MCP has to drop to HTTP to verify it. A real surface divergence.
+- operation: investigate_status_v1_investigate_status__job_id__get
+  path: GET /v1/investigate/status/{job_id}
+  reason: Folded into the investigate_wallet tool rather than exposed separately.
+- operation: ledger_report_status_v1_ledger_report__job_id__get
+  path: GET /v1/ledger/report/{job_id}
+  reason: Folded into the ledger_report tool rather than exposed separately.
+- operation: ledger_summary_get_v1_ledger_summary_get
+  path: GET /v1/ledger/summary
+  reason: GET variant of a POST tool already bound.
+- operation: ledger_report_dispatch_get_v1_ledger_report_get
+  path: GET /v1/ledger/report
+  reason: GET variant of a POST tool already bound.
+stdio_divergence:
+  package: anchor-x402-mcp@0.2.4
+  tools: 14
+  missing_vs_remote: [ledger_summary, ledger_report, investigate_wallet, roll_random]
+  confidence: medium
+  note: >-
+    The npm package's own description enumerates 9 commodity primitives plus 5 LLM endpoints, and llms.txt
+    states the stdio transport exposes 14 tools against the remote endpoint's 18. The four listed here are
+    the arithmetic remainder, inferred from the package description rather than from a tools/list against
+    the stdio server - confidence is medium for that reason.
+spec_gaps:
+- finding: four live GET routes are absent from the published OpenAPI
+  detail: >-
+    GET /v1/screen, GET /v1/price/token, GET /v1/resolve/name and GET /v1/intel/wallet each return a live
+    402 PaymentRequired challenge and are advertised in llms.txt, the agent card and /.well-known/x402.json,
+    but openapi.json documents only the POST wrapper for all four. An agent generating a client from the
+    OpenAPI alone would never discover the GET form the provider's own documentation recommends.
+  evidence:
+  - url: https://api.anchor-x402.com/v1/screen?wallet=0x0000000000000000000000000000000000000000
+    status: 402
+  - url: https://api.anchor-x402.com/v1/price/token?symbol=ETH
+    status: 402
+  - url: https://api.anchor-x402.com/v1/resolve/name?name=vitalik.eth
+    status: 402
+  - url: https://api.anchor-x402.com/v1/intel/wallet?wallet=0x0000000000000000000000000000000000000000
+    status: 402
+- finding: the OpenAPI declares no securitySchemes
+  detail: >-
+    Every paid operation is gated by an x402 PAYMENT-SIGNATURE header, and the agent card models it
+    correctly as an apiKey-in-header scheme, but components.securitySchemes is absent from openapi.json and
+    no operation carries a security requirement. The contract therefore reads as fully anonymous.
+- finding: the OpenAPI carries no tags and no examples
+  detail: >-
+    All 24 operations are untagged and there is not a single example anywhere in the document, while the
+    agent card carries two worked examples per skill and x402.json carries a full input and output example
+    per route. The richest example material the provider publishes is outside the spec.
+- finding: version drift across the provider's own manifests
+  detail: >-
+    openapi.json info.version is 0.3.0, the MCP server card version is 0.3.0, and the agent card version is
+    0.4.0. Nothing reconciles them.

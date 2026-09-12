@@ -1,0 +1,251 @@
+overlay: 1.0.0
+info:
+  title: anchor-x402 API Evangelist enhancement overlay
+  version: 1.0.0
+x-generated: '2026-09-11'
+x-method: generated
+x-source: >-
+  openapi/anchor-x402-openapi.json, enriched from well-known/anchor-x402-x402.json,
+  a2a/anchor-x402-agent-card.json, well-known/anchor-x402-mcp-server-card.json and a live 402 challenge
+x-note: >-
+  Captures the API Evangelist enhancements to the provider's published spec without mutating it. Every value
+  below was harvested from a document the provider itself publishes or from an observed live response - the
+  overlay adds nothing about this API that anchor-x402 has not already stated somewhere else. The three
+  substantive additions are the missing servers[] block, the missing securitySchemes for the x402
+  PAYMENT-SIGNATURE header, and a content schema for the 402 challenge, which 20 operations declare with no
+  body shape at all.
+extends: openapi/anchor-x402-openapi.json
+actions:
+- target: $
+  description: >-
+    Add the servers[] block. The published spec has no servers key whatsoever, so a generated client has no
+    base URL. The host is stated as base_url in /.well-known/x402.json and as the skill URL prefix in the
+    agent card.
+  update:
+    servers:
+    - url: https://api.anchor-x402.com
+      description: Production. The only host; there is no sandbox or staging environment.
+- target: $.info
+  description: Add license, terms and provider contact surfaces the spec omits but the provider publishes.
+  update:
+    license:
+      name: MIT
+      url: https://github.com/hypeprinter007-stack/anchor-x402/blob/main/LICENSE
+    contact:
+      name: anchor-x402
+      url: https://anchor-x402.com
+      email: hello@anchor-x402.com
+- target: $.components
+  description: >-
+    Add the x402 security scheme. The provider models it this way itself in the A2A agent card's
+    securitySchemes and in the MCP server card's authentication block; the OpenAPI declares no
+    securitySchemes at all, so the contract currently reads as an entirely open API.
+  update:
+    securitySchemes:
+      x402:
+        type: apiKey
+        in: header
+        name: PAYMENT-SIGNATURE
+        description: >-
+          x402 v2 pay-per-call. No account and no API key exists. Request without payment to receive a 402
+          challenge carrying the accepted rails and exact amounts, then retry the identical request with the
+          signed EIP-3009 payment payload in this header. The deprecated x402 V1 X-PAYMENT spelling is also
+          accepted.
+- target: $.components.schemas
+  description: >-
+    Add a schema for the x402 PaymentRequired challenge body. Twenty operations declare a 402 response with
+    a description and no content block, leaving the single response every caller must parse in order to pay
+    with no shape in the contract. Shape taken verbatim from an observed live 402.
+  update:
+    X402PaymentRequired:
+      type: object
+      title: X402PaymentRequired
+      required: [x402Version, error, resource, accepts]
+      properties:
+        x402Version:
+          type: integer
+          const: 2
+        error:
+          type: string
+          example: Payment required
+        resource:
+          type: object
+          properties:
+            url: {type: string, format: uri}
+            description: {type: string}
+            mimeType: {type: string}
+            serviceName: {type: string}
+            tags: {type: array, items: {type: string}}
+            iconUrl: {type: string, format: uri}
+        accepts:
+          type: array
+          description: One entry per settlement rail the caller may choose from.
+          items:
+            type: object
+            required: [scheme, network, asset, amount, payTo]
+            properties:
+              scheme: {type: string, example: exact}
+              network:
+                type: string
+                description: CAIP-2 chain id.
+                examples: ['eip155:8453', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp', 'eip155:137']
+              asset: {type: string, description: Token contract address or mint.}
+              amount: {type: string, description: Amount in the asset's smallest unit, as a decimal string.}
+              payTo: {type: string}
+              maxTimeoutSeconds: {type: integer, example: 300}
+              extra: {type: object}
+        extensions:
+          type: object
+          description: >-
+            Carries the CDP Bazaar discovery extension - bazaar.info.input, bazaar.info.output.example and a
+            2020-12 JSON Schema for the route, plus a builder-code block.
+- target: $.tags
+  description: >-
+    Add the category taxonomy. All 24 operations are untagged in the published spec; the provider's own
+    x402 discovery catalog assigns every route one of six categories.
+  update:
+  - name: security
+    description: On-chain anchoring, attestation, wallet sanctions screening and due diligence.
+  - name: web3
+    description: Transaction and calldata decoding, ENS and SNS name resolution.
+  - name: finance
+    description: Token pricing and x402 spend accounting.
+  - name: ai
+    description: LLM-backed content analysis - oracle, roast, aura, grade, datetime parsing.
+  - name: gaming
+    description: Verifiable signed randomness.
+  - name: content-extraction
+    description: Summarization.
+- target: $.paths./v1/anchor.post
+  description: Tag, price and payment metadata for the anchoring service.
+  update:
+    tags: [security]
+    security: [{x402: []}]
+    x-price-usd: 0.005
+    x-mcp-tool: anchor_hash
+    x-a2a-skill: anchor_hash
+    x-reversible: false
+    x-reversibility-note: Writes a 32-byte hash to Base and Solana mainnet. There is no undo.
+- target: $.paths./v1/attest.post
+  update:
+    tags: [security]
+    security: [{x402: []}]
+    x-price-usd: 0.010
+    x-mcp-tool: attest_decision
+    x-reversible: false
+- target: $.paths./v1/attest/verify.post
+  update:
+    tags: [security]
+    x-price-usd: 0
+    x-free: true
+    x-note: Free re-verification of a previously anchored attestation. No MCP tool exposes this.
+- target: $.paths./v1/screen.post
+  update:
+    tags: [security]
+    security: [{x402: []}]
+    x-price-usd: 0.020
+    x-mcp-tool: screen_wallet
+    x-undocumented-sibling: GET /v1/screen?wallet= is live (402 observed) but absent from this spec.
+- target: $.paths./v1/intel/wallet.post
+  update:
+    tags: [security]
+    security: [{x402: []}]
+    x-price-usd: 0.005
+    x-mcp-tool: intel_wallet
+    x-undocumented-sibling: GET /v1/intel/wallet?wallet= is live (402 observed) but absent from this spec.
+- target: $.paths./v1/investigate.post
+  update:
+    tags: [security]
+    security: [{x402: []}]
+    x-price-usd: 1.770
+    x-mcp-tool: investigate_wallet
+    x-async: true
+    x-eta: 5-10 minutes
+    x-reversible: false
+- target: $.paths./v1/decode/tx.post
+  update:
+    tags: [web3]
+    security: [{x402: []}]
+    x-price-usd: 0.001
+    x-mcp-tool: decode_tx
+- target: $.paths./v1/decode/calldata.post
+  update:
+    tags: [web3]
+    security: [{x402: []}]
+    x-price-usd: 0.001
+    x-mcp-tool: decode_calldata
+- target: $.paths./v1/resolve/name.post
+  update:
+    tags: [web3]
+    security: [{x402: []}]
+    x-price-usd: 0.001
+    x-mcp-tool: resolve_name
+    x-undocumented-sibling: GET /v1/resolve/name?name= is live (402 observed) but absent from this spec.
+- target: $.paths./v1/price/token.post
+  update:
+    tags: [finance]
+    security: [{x402: []}]
+    x-price-usd: 0.001
+    x-mcp-tool: token_price
+    x-undocumented-sibling: GET /v1/price/token?symbol= is live (402 observed) but absent from this spec.
+- target: $.paths./v1/ledger/summary.post
+  update:
+    tags: [finance]
+    security: [{x402: []}]
+    x-price-usd: 0.010
+    x-mcp-tool: ledger_summary
+- target: $.paths./v1/ledger/report.post
+  update:
+    tags: [finance]
+    security: [{x402: []}]
+    x-price-usd: 0.350
+    x-mcp-tool: ledger_report
+    x-async: true
+- target: $.paths./v1/parse/datetime.post
+  update:
+    tags: [ai]
+    security: [{x402: []}]
+    x-price-usd: 0.001
+    x-mcp-tool: parse_datetime
+- target: $.paths./v1/oracle.post
+  update:
+    tags: [ai]
+    security: [{x402: []}]
+    x-price-usd: 0.050
+    x-mcp-tool: oracle_verdict
+    x-reversible: false
+    x-reversibility-note: Anchors the verdict and question hash to Base and Solana mainnet.
+- target: $.paths./v1/roast.post
+  update:
+    tags: [ai]
+    security: [{x402: []}]
+    x-price-usd: 0.050
+    x-mcp-tool: roast_target
+- target: $.paths./v1/tldr.post
+  update:
+    tags: [content-extraction]
+    security: [{x402: []}]
+    x-price-usd: 0.010
+    x-mcp-tool: tldr_text
+- target: $.paths./v1/aura.post
+  update:
+    tags: [ai]
+    security: [{x402: []}]
+    x-price-usd: 0.010
+    x-mcp-tool: aura_read
+- target: $.paths./v1/grade.post
+  update:
+    tags: [ai]
+    security: [{x402: []}]
+    x-price-usd: 0.010
+    x-mcp-tool: grade_target
+- target: $.paths./v1/roll.post
+  update:
+    tags: [gaming]
+    security: [{x402: []}]
+    x-price-usd: 0.001
+    x-mcp-tool: roll_random
+- target: $.paths./health.get
+  update:
+    x-free: true
+    x-note: Liveness probe. Free and unmetered.

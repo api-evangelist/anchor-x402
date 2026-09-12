@@ -1,0 +1,68 @@
+generated: '2026-09-11'
+method: searched
+source: >-
+  https://registry.npmjs.org/anchor-x402-mcp, https://api.anchor-x402.com/.well-known/mcp/server-card.json,
+  https://anchor-x402.com/llms.txt
+package_count: 1
+official_count: 1
+packages:
+- language: javascript
+  registry: npm
+  name: anchor-x402-mcp
+  url: https://www.npmjs.com/package/anchor-x402-mcp
+  install: npx -y anchor-x402-mcp
+  official: true
+  version: 0.2.4
+  published: '2026-09-04'
+  license: MIT
+  repository: https://github.com/hypeprinter007-stack/anchor-x402-mcp
+  homepage: https://anchor-x402.com
+  release_count: 8
+  first_published: '2026-05-09'
+  kind: mcp-server
+  note: >-
+    This is an MCP stdio server, not a conventional client SDK - it wraps 14 of the 18 services as MCP tools
+    and auto-pays each call from a Base wallet key supplied in ANCHOR_WALLET_PRIVATE_KEY. Current as of this
+    pass: the latest release is one week old and the API it wraps last shipped 2026-09-09, so there is no
+    abandonment signal here.
+registries_probed:
+- registry: npm
+  result: 1 first-party package found (anchor-x402-mcp)
+- registry: pypi
+  result: 404 on anchor-x402; no first-party Python package published
+- registry: crates.io
+  result: not published
+- registry: rubygems
+  result: not published
+- registry: packagist
+  result: not published
+- registry: nuget
+  result: not published
+- registry: maven-central
+  result: not published
+- registry: pkg.go.dev
+  result: not published
+third_party_clients_recommended_by_the_provider:
+- name: '@x402/fetch'
+  registry: npm
+  url: https://www.npmjs.com/package/@x402/fetch
+  official: false
+  version: null
+  published: null
+  note: >-
+    Coinbase's generic x402 v2 client, recommended in llms.txt as the plain-HTTP path. Not first-party to
+    anchor-x402; version deliberately not recorded here because it is another vendor's release cadence.
+- name: x402 Python SDK
+  registry: pypi
+  url: null
+  official: false
+  version: null
+  published: null
+  note: >-
+    llms.txt names "the Python x402 SDK" without linking a package, so no registry coordinate could be
+    confirmed. Recorded as an honest gap rather than guessed.
+finding: >-
+  There is no first-party client SDK in any language. The provider's position is that none is needed - the
+  wire protocol is an ordinary HTTP 402 challenge that any x402 v2 client already speaks - so the one
+  package it does ship is an MCP server rather than an SDK. That is a defensible design choice, but a
+  consumer who is not already running an x402 client has no vendor-maintained library to reach for.

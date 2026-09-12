@@ -1,0 +1,177 @@
+generated: '2026-09-11'
+method: searched
+source: >-
+  https://anchor-x402.com/llms.txt, openapi/anchor-x402-openapi.json,
+  well-known/anchor-x402-x402.json, a2a/anchor-x402-agent-card.json, and a live 402 response
+docs: https://anchor-x402.com/llms.txt
+auth_style:
+  model: payment-as-authorization (x402 v2)
+  header: PAYMENT-SIGNATURE
+  see: authentication/anchor-x402-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  header: null
+  retention: null
+  detail: >-
+    There is no Idempotency-Key header, no request-id de-duplication and no documented replay window on any
+    of the 18 paid routes. Retrying a call that may already have succeeded re-charges the caller and, for
+    /v1/anchor, /v1/attest, /v1/oracle and /v1/investigate, writes a second independent hash to Base and
+    Solana mainnet. Because the payment itself is per-request and irreversible, a duplicate here costs real
+    money in a way a duplicate against a card-on-file API does not.
+  what_exists_instead:
+  - mechanism: EIP-3009 authorization
+    effect: >-
+      A signed payment authorization is nonce-bound and single-use at the token contract, so the same signed
+      payload cannot be settled twice. This stops a replayed PAYMENT for one call; it does not stop a client
+      from signing a second authorization for a repeat of the same logical request.
+  - mechanism: requirementHash / paidRequirement digests
+    surface: MCP tools/call results, _meta["com.anchor-x402/payment"], protocol 2025-06-18 and later
+    effect: >-
+      Binds the quote the caller received to the payment the caller presented. A correlation and audit aid,
+      not a de-duplication key.
+  - mechanism: A2A signed-envelope nonce
+    surface: the four extension methods on POST /v1/a2a
+    effect: >-
+      Single-use nonce with a 300-second exp window gives genuine replay protection - but only on free,
+      non-mutating identity methods, not on any paid write.
+  - mechanism: /v1/roll pre-commitment
+    surface: POST /v1/roll
+    effect: >-
+      An optional 32-byte pre-commitment closes the front-running window on a verifiable dice roll. It
+      constrains the result, not the number of times the caller is charged.
+  recommendation: >-
+    An Idempotency-Key header honoured for the lifetime of the payment authorization (maxTimeoutSeconds is
+    already 300 on every rail) would map cleanly onto the existing x402 flow and is the highest-value
+    agent-readiness addition available to this API.
+reversibility:
+  grade: documented
+  coverage: partial
+  detail: >-
+    The service divides cleanly into write surfaces that are irreversible by design and async jobs that can
+    be cancelled. The provider is candid about the first category - permanence is the product - but no
+    refund, void or reversal path is documented for any paid call.
+  surfaces:
+  - surface: on-chain anchoring
+    operations: [anchor_v1_anchor_post, attest_v1_attest_post, oracle_v1_oracle_post, investigate_dispatch_v1_investigate_post]
+    reversal: none
+    window: null
+    irreversible_by_design: true
+    note: >-
+      Each writes a 32-byte hash to Base and Solana mainnet. The provider states the on-chain bytes are
+      independent of the service and that forging one would require breaking SHA-256 or reorging two L1s -
+      which is precisely the property being sold, and precisely why no undo can exist. An agent must treat
+      these as irrevocable before it calls them.
+    compensating_read: >-
+      POST /v1/attest/verify re-verifies a previously anchored attestation and is free. It confirms what was
+      written; it does not unwrite it.
+  - surface: async jobs
+    operations: [investigate_dispatch_v1_investigate_post, ledger_report_dispatch_v1_ledger_report_post]
+    reversal: tasks/cancel
+    reversal_surface: POST /v1/a2a (A2A spec method)
+    window: null
+    window_documented: false
+    note: >-
+      The agent card advertises tasks/cancel among its A2A spec methods, so a dispatched task can be
+      cancelled in principle. No documentation states how long a job stays cancellable, whether cancellation
+      refunds the payment, or what happens to a report already anchored. The window is therefore NOT
+      recorded here - it is not stated anywhere the provider publishes, and inventing one could cost a
+      caller USD 1.77 per mistaken assumption.
+  - surface: payment
+    reversal: none
+    window: null
+    note: >-
+      Settlement is an on-chain USDC or JPYC transfer to the operator's treasury address. There is no refund
+      endpoint, no chargeback and no dispute mechanism. The provider's stated position is that the price is
+      low enough to make this acceptable ("Self-DoS via paying for thousands of calls quickly" is listed as
+      out of scope for security reports because "it is pay-per-use; volume costs you USDC").
+  - surface: read-only services
+    operations: [screen_post_v1_screen_post, decode_tx_v1_decode_tx_post, decode_calldata_v1_decode_calldata_post, resolve_name_post_v1_resolve_name_post, token_price_post_v1_price_token_post, parse_datetime_v1_parse_datetime_post, intel_wallet_post_v1_intel_wallet_post, ledger_summary_v1_ledger_summary_post, tldr_v1_tldr_post, aura_v1_aura_post, grade_v1_grade_post, roast_v1_roast_post, roll_v1_roll_post]
+    reversal: na
+    note: >-
+      These create no durable server-side state - the service is deliberately stateless and stores nothing
+      per customer. Nothing to reverse except the charge.
+dry_run_mode:
+  supported: partial
+  detail: >-
+    There is no dry-run parameter on any endpoint, but two free rehearsal surfaces exist. Every paid route
+    answers an unpaid request with a full 402 challenge naming the exact price, rails and - via
+    extensions.bazaar - the input JSON Schema and a worked output example, so an agent can inspect precisely
+    what a call would cost and return before spending. The hosted chatbot separately offers free demo output
+    per service via "/demo <name>".
+pagination:
+  style: none
+  detail: >-
+    No endpoint in the 18-service catalog returns a collection that pages. Async jobs are polled by job_id
+    rather than listed.
+filtering_and_expansion:
+  supported: false
+metadata:
+  supported: partial
+  detail: >-
+    POST /v1/anchor accepts an optional 200-character "note" echoed in the response but deliberately NOT
+    written on-chain. There is no general-purpose metadata bag.
+request_tracing:
+  header: apigw-requestid
+  origin: AWS API Gateway
+  documented: false
+  observed: true
+  detail: >-
+    Every response carries an apigw-requestid header (observed on 200 and 402 responses alike). It is an
+    infrastructure artifact rather than a documented correlation id, and the docs never mention it, so a
+    caller has no published guidance on quoting it in a support request.
+  application_level:
+  - id: exchange_id
+    surface: POST /v1/a2a peer/quote
+    detail: Correlates a quote with the paid /v1/* call that redeems it.
+  - id: X-A2A-Exchange
+    surface: A2A message/send
+    detail: Header echoed on the paid request to tie a Task to its settlement.
+  - id: correlationId
+    surface: A2A Task in auth-required state
+versioning:
+  style: uri-path
+  current: v1
+  detail: >-
+    All paid routes sit under /v1/. The document versions drift from each other - openapi.json info.version
+    0.3.0, MCP server card 0.3.0, A2A agent card 0.4.0 - and none of them is the URI version.
+  mcp_protocol_negotiation: >-
+    The MCP endpoint carries four protocol revisions on one URL - 2026-07-28, 2025-11-25, 2025-06-18 and
+    2025-03-26 - spanning both the stateless era and the initialize-handshake era, selected per request
+    rather than per deployment. That is a notably careful piece of backward compatibility.
+  a2a_version_negotiation: >-
+    POST /v1/a2a accepts both A2A 0.3.0 and 1.0 request shapes and replies in the dialect it received,
+    detecting 0.3.0 by its required "kind" discriminators.
+error_envelope:
+  shape: non-standard
+  rfc9457: false
+  detail: >-
+    Validation errors use the FastAPI default {"detail": [{"loc", "msg", "type"}]} envelope; 404s return
+    {"detail": "Not Found"}. Neither carries application/problem+json. The 402 body is an x402 v2 challenge
+    object, which is a payment protocol document rather than an error envelope.
+  see: errors/anchor-x402-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  detail: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header appears on any observed response, and no limits are
+    documented. The economic model substitutes for a quota - see rate-limits/anchor-x402-rate-limits.yml.
+canonicalization:
+  rule: 'sha256:<hex> over compact key-sorted JSON, UTF-8, no whitespace, unescaped'
+  applies_to:
+  - MCP _meta payment digests (requirementHash, paidRequirement)
+  - A2A signed-envelope digests
+  - peer/quote and peer/receipt payload digests
+  note: >-
+    One canonicalization rule across every signed surface, stated inline on every MCP result under a
+    "canonicalization" field. Callers must keep body values to strings, integers, booleans and nested
+    objects or arrays of those - floats serialize differently across languages and break verification.
+  artifact_type_binding: >-
+    Every signed artifact carries a "type" (a2a.quote.v1, a2a.receipt.v1, a2a.receipt-root.v1) INSIDE the
+    signed bytes, so a signature over one kind can never be read as another. This is a deliberate
+    cross-protocol-confusion defence and is unusual to see stated at all.
+cross_links:
+  errors: errors/anchor-x402-problem-types.yml
+  lifecycle: lifecycle/anchor-x402-lifecycle.yml
+  authentication: authentication/anchor-x402-authentication.yml
+  rate_limits: rate-limits/anchor-x402-rate-limits.yml
+  plans: plans/anchor-x402-plans-pricing.yml

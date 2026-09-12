@@ -1,0 +1,197 @@
+generated: '2026-09-11'
+method: probed
+source: https://anchor-x402.com/.well-known/x402.json
+docs: https://anchor-x402.com/llms.txt
+model: pay-per-call
+plan_count: 3
+priced_plan_count: 2
+note: >-
+  There are no subscription tiers, no free tier with a quota, no seats and no minimum commitment. Price is
+  attached to the individual call and quoted by the server in the 402 challenge before the caller spends
+  anything. The two "plans" recorded here are the commodity pay-per-call tier - the actual product - and an
+  institutional tier the provider offers on request. Per-call prices below were read from the provider's own
+  machine-readable catalog at /.well-known/x402.json, not from a marketing page.
+plans:
+- name: Commodity (pay-per-call)
+  price: null
+  currency: USD
+  billing_period: per-request
+  signup_required: false
+  account_required: false
+  api_key_required: false
+  free_allowance: >-
+    /health, /openapi.json, /docs, /redoc, POST /v1/attest/verify, MCP server/discover + initialize +
+    tools/list, and the A2A door (peer/hello, capabilities/list, peer/quote, peer/receipt, message/send,
+    tasks/get, tasks/cancel) are all free and unmetered.
+  settlement:
+  - USDC on Base mainnet
+  - USDC on Solana mainnet
+  - JPYC on Polygon mainnet (fixed yen tiers, no FX oracle)
+  overage: na
+  limits: none published
+  price_range_usd: [0.001, 1.77]
+- name: Institutional
+  price: 499-5000+
+  currency: USD
+  billing_period: month
+  availability: on request
+  contact: hello@anchor-x402.com
+  inclusions:
+  - per-tenant authentication
+  - signed MSA / DPA / SLA
+  - WORM evidence vault on S3 Object Lock
+  - GDPR Article 17 erasure reconciled with AML retention
+  source: https://anchor-x402.com/trust/
+  note: >-
+    A stated price band with no public order form, no self-serve path and no published contract terms. The
+    provider is explicit that the commodity tier is "fit for sandboxes, POCs, and non-binding workflows" and
+    that this tier is what a regulated buyer would need.
+- name: White-label / custom bot
+  price: null
+  currency: USD
+  billing_period: null
+  availability: on request
+  contact: hello@anchor-x402.com
+  inclusions:
+  - customer branding and system prompt
+  - a chosen subset of the 18 tools
+  - tenant-scoped subdomain
+  - revenue share on tool calls
+  source: https://anchor-x402.com
+  note: >-
+    No price is published for this offering - it is counted in plan_count as a published plan but not in
+    priced_plan_count.
+per_call_prices:
+- path: /v1/anchor
+  method: POST
+  price_usd: 0.005
+  category: security
+  description: >-
+    Anchor a 32-byte hash to Base + Solana mainnet in parallel. Returns both tx URLs as cryptographic proof of when the hash existed.
+- path: /v1/screen
+  method: GET
+  price_usd: 0.02
+  category: security
+  description: >-
+    Wallet risk pre-flight for agent payments: OFAC SDN sanctions plus address-reputation (drainer, phishing, mixer, laundering) resolved to an allow / review / block recommendation with per-signal detail.
+- path: /v1/attest
+  method: POST
+  price_usd: 0.01
+  category: security
+  description: >-
+    Attest a decision over (input_hash, output_hash, decision) with domain separation: supply your own signature, or omit it and the treasury signs for you (for wallet-less agents), then dual-chain anchor the Merkle root. Returns the signer, on-chain proof, and a free re-verify URL (POST /v1/attest/verify).
+- path: /v1/decode/tx
+  method: POST
+  price_usd: 0.001
+  category: web3
+  description: >-
+    Structured decode of any mainnet transaction. EVM (Base/Ethereum): from/to/value/gas/status/calldata. Solana: slot/fee/signers/program_calls.
+- path: /v1/resolve/name
+  method: GET
+  price_usd: 0.001
+  category: web3
+  description: >-
+    Cross-chain name resolution: ENS (.eth) and Bonfida SNS (.sol). Returns resolved address(es) per registry.
+- path: /v1/price/token
+  method: GET
+  price_usd: 0.001
+  category: finance
+  description: >-
+    USD spot price for any major token by symbol or chain+contract. CoinGecko-backed, 60s cache.
+- path: /v1/decode/calldata
+  method: POST
+  price_usd: 0.001
+  category: web3
+  description: >-
+    Decode raw EVM calldata into function name + typed parameters via openchain.xyz signature directory + eth_abi.
+- path: /v1/parse/datetime
+  method: POST
+  price_usd: 0.001
+  category: ai
+  description: >-
+    Parse any freeform datetime string into structured ISO 8601 + components + relative time + confidence.
+- path: /v1/intel/wallet
+  method: GET
+  price_usd: 0.005
+  category: security
+  description: >-
+    Unified wallet intelligence bundle. ONE call returns balances on Base + Ethereum + Solana, USDC across chains, tx counts, ENS/SNS reverse, sanctions verdict — aggregated from 8-10 parallel sources.
+- path: /v1/investigate
+  method: POST
+  price_usd: 1.77
+  category: security
+  description: >-
+    Agent-driven wallet due diligence. Multi-step LLM investigation: sanctions screen, on-chain history, identity correlation, counterparty graph. Delivered as signed markdown report + JSON sidecar with dual-chain anchor proof on Base + Solana. Async — returns job_id, poll /v1/investigate/status/{job_id}. ETA 5-10 min.
+- path: /v1/roast
+  method: POST
+  price_usd: 0.05
+  category: ai
+  description: >-
+    Witty roast of any target — wallet, tweet, idea, code, anything. Powered by Claude on AWS Bedrock. Universal text input.
+- path: /v1/oracle
+  method: POST
+  price_usd: 0.05
+  category: ai
+  description: >-
+    Yes/no oracle with dual-chain anchored verdict on Base + Solana. Returns MAYBE/YES/NO + explanation + on-chain proof (merkle_root, base_tx, solana_tx).
+- path: /v1/tldr
+  method: POST
+  price_usd: 0.01
+  category: content-extraction
+  description: >-
+    Summarize a URL (fetched server-side) or pasted text into 3-5 concise bullets. Powered by Claude on AWS Bedrock.
+- path: /v1/aura
+  method: POST
+  price_usd: 0.01
+  category: ai
+  description: >-
+    Aura read of any target. Returns color (free-form), tier (S/A/B/C/D/F), score (0-9999), description. Screenshot-friendly viral output.
+- path: /v1/grade
+  method: POST
+  price_usd: 0.01
+  category: ai
+  description: >-
+    Academic letter grade with red-pen marginalia for anything. Returns letter_grade (A-F), marginalia bullets, summary.
+- path: /v1/roll
+  method: POST
+  price_usd: 0.001
+  category: gaming
+  description: >-
+    Cryptographically-random integer(s) over a caller-chosen range, signed by the treasury EOA (EIP-191). Drop-in VRF for game studios, raffles, DAO voter selection, NFT mint reveals. Optional 32-byte pre-commitment binds inputs into the signed payload to close front-running windows.
+- path: /v1/ledger/summary
+  method: POST
+  price_usd: 0.01
+  category: finance
+  description: >-
+    x402 spend accounting for any Base wallet — totals, per-service breakdown, and daily series reconstructed from on-chain USDC transfers at request time. Services labeled via a versioned registry; unregistered x402 payments detected by EIP-3009 calldata.
+- path: /v1/ledger/report
+  method: POST
+  price_usd: 0.35
+  category: finance
+  description: >-
+    Signed x402 expense report (markdown + CSV) for any Base wallet — deterministic, EIP-191 signed, SHA-256 anchored to Base + Solana mainnet. Async: returns job_id, poll /v1/ledger/report/{job_id}. Audit artifact, not just a CSV export.
+jpyc_tier_mapping:
+  note: >-
+    Fixed yen amounts, not an FX conversion. The provider states they are pegged at an assumed ~JPY200/USD
+    with no oracle, so the USD-equivalent floats in both directions, and that the $0.001 tier is snapped to
+    JPY0.1 rather than JPY0.2 and therefore sits below the other tiers' implied rate. Both rails are honoured
+    at face value and the caller picks from the accepts[] array.
+  tiers:
+    '0.001': 0.1
+    '0.005': 1
+    '0.01': 2
+    '0.05': 10
+    '1.77': 350
+    '5.00': 1000
+payment_addresses:
+  base: '0x127462e296fAc1A7F5cF33bA57bB2f0FFf5cD0B6'
+  solana: 6apuZvJQ51Led9iEjnHw6f5jfnXL4qjt8S1h58PeXzuR
+  polygon: '0x127462e296fAc1A7F5cF33bA57bB2f0FFf5cD0B6'
+facilitators:
+  usdc: https://api.cdp.coinbase.com/platform/v2/x402
+  jpyc: in-process
+refunds:
+  policy_published: false
+  note: >-
+    No refund, void or chargeback path is documented for any call. Settlement is an on-chain transfer to the
+    treasury address. See the reversibility block in conventions/anchor-x402-conventions.yml.

@@ -1,0 +1,91 @@
+generated: '2026-09-11'
+method: searched
+source: >-
+  https://anchor-x402.com/llms.txt, https://anchor-x402.com/trust/,
+  https://github.com/hypeprinter007-stack/anchor-x402, openapi/anchor-x402-openapi.json
+versioning:
+  scheme: uri-path
+  current: v1
+  spec_version: 0.3.0
+  agent_card_version: 0.4.0
+  mcp_server_card_version: 0.3.0
+  drift_note: >-
+    Three provider-published manifests carry three version numbers for the same service and nothing
+    reconciles them. openapi.json info.version and the MCP server card both say 0.3.0; the A2A agent card
+    says 0.4.0. The URI version (v1) is independent of all three.
+  breaking_change_policy: null
+  breaking_change_policy_note: No versioning or breaking-change policy is published anywhere.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No deprecation policy, no Sunset or Deprecation headers, no advance-notice commitment. No Deprecation
+    pointer was emitted in apis.yml for that reason - the two deprecations below are individual facts the
+    provider states, not a policy a consumer can rely on.
+  deprecated_operations: []
+  deprecations_stated_in_docs:
+  - item: x402 V1 X-PAYMENT header spelling
+    status: deprecated, still accepted
+    replacement: PAYMENT-SIGNATURE (x402 V2)
+    sunset_date: null
+    source: https://anchor-x402.com/llms.txt
+  - item: Agent Arena agentId 47261
+    status: stale, pending removal
+    replacement: agentId 60138
+    sunset_date: null
+    source: https://anchor-x402.com/llms.txt
+    note: >-
+      The homepage still links the superseded 47261 registration while llms.txt says it is stale and pending
+      removal - the two surfaces disagree.
+  protocol_support_posture: >-
+    The opposite of deprecation is worth recording here. The MCP endpoint carries four protocol revisions
+    concurrently on one URL (2026-07-28, 2025-11-25, 2025-06-18, 2025-03-26), spanning both the stateless
+    era and the initialize-handshake era, and the A2A door accepts both 0.3.0 and 1.0 request dialects and
+    answers in the one it received. Nothing has been retired; older clients keep working without config.
+status_page:
+  url: https://anchor-x402.betteruptime.com
+  provider: Better Stack (BetterUptime)
+  http_status: 200
+  verified: '2026-09-11'
+  linked_from:
+  - https://anchor-x402.com/llms.txt
+  - https://anchor-x402.com/trust/
+  - https://anchor-x402.com/.well-known/x402.json
+health_endpoint:
+  url: https://api.anchor-x402.com/health
+  method: GET
+  free: true
+  http_status: 200
+  body: '{"status":"ok","service":"anchor-x402"}'
+  verified: '2026-09-11'
+sla:
+  published: false
+  commodity_tier: >-
+    No SLA at the commodity tier. The trust portal states the service is "appropriate for sandbox/POC/
+    non-binding workflows".
+  institutional_tier: >-
+    A signed MSA/DPA/SLA is offered as part of the institutional tier (USD 499-5,000+/mo, on request).
+release_cadence:
+  source_repository: https://github.com/hypeprinter007-stack/anchor-x402
+  license: MIT
+  last_push: '2026-09-09'
+  github_releases: 0
+  github_tags: 0
+  changelog_file: false
+  npm_package_releases: 8
+  npm_first_published: '2026-05-09'
+  npm_latest_published: '2026-09-04'
+  note: >-
+    The service is actively developed - source pushed two days before this pass and the npm package a week
+    before - but there is no dated changelog, no tagged release and no GitHub release anywhere. A consumer
+    has no way to learn what changed between 0.3.0 and 0.4.0. No changelog/ artifact was written because
+    there is nothing to harvest.
+maturity:
+  stage: early commercial
+  self_described: >-
+    The provider's own SECURITY.md calls this "the early commercial phase" and the trust portal calls the
+    current offering "the commodity tier".
+  operator: Christopher Ferjo
+  first_public_artifact: '2026-05-09'

@@ -1,0 +1,49 @@
+generated: '2026-09-11'
+method: probed
+source: >-
+  live responses from https://api.anchor-x402.com (GET /health 200 and POST /v1/price/token 402),
+  https://anchor-x402.com/llms.txt, https://anchor-x402.com/ai.txt,
+  https://github.com/hypeprinter007-stack/anchor-x402/blob/main/SECURITY.md
+limit_count: 0
+rate_limits: []
+headers_observed: []
+headers_documented: []
+status_on_exhaustion: null
+note: >-
+  No rate limits are published anywhere on this provider's surface, and none were observed. Response headers
+  on both a 200 (/health) and a 402 (/v1/price/token) carried date, content-type, content-length and an AWS
+  apigw-requestid - no X-RateLimit-*, no RateLimit-*, no Retry-After. This is a recorded zero, not an
+  unchecked field.
+economic_rate_limiting:
+  present: true
+  detail: >-
+    The provider's stated position is that price is the quota. SECURITY.md lists "Self-DoS via paying for
+    thousands of calls quickly" as explicitly OUT OF SCOPE for security reports, with the reasoning "it is
+    pay-per-use; volume costs you USDC". ai.txt states the free paths (/health, /openapi.json, /docs) are
+    "unlimited and unpriced" and that agent calls cost $0.001-$1.77 USDC each.
+  implication: >-
+    For an agent this is a genuinely different risk shape from a quota. There is no 429 to back off from and
+    no documented ceiling, so the only bound on a runaway loop is the wallet balance. The one spend control
+    the provider ships is client-side - the hosted chatbot at chat.anchor-x402.com enforces user-set session
+    spend caps in the browser - and it does not exist on the HTTP, MCP or A2A paths.
+free_surfaces_unmetered:
+- GET /health
+- GET /openapi.json
+- GET /docs
+- GET /redoc
+- POST /v1/attest/verify
+- MCP server/discover, initialize, tools/list
+- POST /v1/a2a (all methods)
+per_call_timeout:
+  max_timeout_seconds: 300
+  applies_to: every entry in the 402 accepts[] array, on all three rails
+  meaning: >-
+    How long a signed payment authorization stays valid, not a request timeout and not a rate limit.
+async_job_eta:
+  investigate: 5-10 minutes
+  ledger_report: async, job_id polled
+  note: Published ETAs, not enforced limits.
+recommendation: >-
+  A documented per-wallet ceiling with RateLimit-* headers, or even a published statement that there is
+  deliberately none, would let an agent runtime reason about worst-case spend. Right now the absence has to
+  be inferred from a security-policy exclusion.

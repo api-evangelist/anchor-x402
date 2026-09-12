@@ -1,0 +1,89 @@
+generated: '2026-09-11'
+method: searched
+source: >-
+  https://anchor-x402.com/llms.txt, https://anchor-x402.com/demos/, https://anchor-x402.com/ai.txt,
+  https://api.anchor-x402.com/docs, and live probes
+sandbox_present: true
+shape: free-preview-and-demo (no test network, no test keys)
+test_network: false
+test_credentials: false
+note: >-
+  There is no testnet, no test-mode key prefix and no fixture wallet, because there is no key and no account
+  to have a test version of. Every call settles on mainnet with real USDC or JPYC. What exists instead is a
+  set of genuinely free rehearsal surfaces that let a developer or an agent see exactly what a call costs
+  and what it returns before spending anything.
+surfaces:
+- name: 402 challenge as a free price quote
+  url: https://api.anchor-x402.com/v1/{service}
+  free: true
+  verified: '2026-09-11'
+  detail: >-
+    An unpaid request to any paid route returns the full x402 challenge - exact amount per rail, the payTo
+    address, the input JSON Schema and a worked output example under extensions.bazaar. This is the closest
+    thing to a dry run the API offers and it costs nothing.
+  evidence:
+    url: https://api.anchor-x402.com/v1/price/token
+    status: 402
+- name: Swagger UI
+  url: https://api.anchor-x402.com/docs
+  free: true
+  verified: '2026-09-11'
+  detail: Interactive try-it console over the full OpenAPI. Calls hit the live paid API.
+- name: ReDoc
+  url: https://api.anchor-x402.com/redoc
+  free: true
+  verified: '2026-09-11'
+- name: Hosted chatbot free demo mode
+  url: https://chat.anchor-x402.com
+  free: true
+  verified: '2026-09-11'
+  detail: >-
+    The hosted Claude agent offers free demo output for each of the 18 services via the "/demo <name>"
+    command, with no payment and no wallet connected. The provider calls this the canonical demo surface and
+    the recommended path for non-developers.
+- name: Demos page
+  url: https://anchor-x402.com/demos/
+  free: true
+  verified: '2026-09-11'
+  detail: Worked demo output per service on the marketing site.
+- name: MCP tools/list
+  url: https://api.anchor-x402.com/mcp
+  free: true
+  verified: '2026-09-11'
+  detail: >-
+    tools/list, server/discover and initialize are free and anonymous, so an MCP client can enumerate all
+    18 tools with real input schemas before any wallet is connected.
+- name: A2A door
+  url: https://api.anchor-x402.com/v1/a2a
+  free: true
+  verified: '2026-09-11'
+  detail: >-
+    Free in its entirety. peer/quote returns the price and payable URL for a skill without moving money;
+    the provider states the endpoint "never moves money".
+- name: Free verification endpoint
+  url: https://api.anchor-x402.com/v1/attest/verify
+  free: true
+  detail: Re-verifies a previously anchored attestation at no charge.
+- name: Self-host
+  url: https://github.com/hypeprinter007-stack/anchor-x402
+  free: true
+  license: MIT
+  detail: >-
+    The whole service is MIT-licensed with a template.yaml SAM stack and a .env.example, so a reviewer can
+    deploy a private instance instead of using a sandbox. The provider frames this as the audit path:
+    "fork it, audit it, deploy your own".
+guides:
+- name: Pay an x402 API from Node.js
+  url: https://anchor-x402.com/guides/pay-x402-api-node/
+  status: 200
+  detail: Complete ~30-line client that works against any endpoint here.
+- name: Accept x402 payments in Python
+  url: https://anchor-x402.com/guides/accept-x402-payments-python/
+  status: 200
+  detail: The FastAPI server pattern this service runs.
+cheapest_real_call_usd: 0.001
+gap: >-
+  A developer cannot exercise the paid path at all without funding a mainnet wallet. At $0.001 the barrier
+  is financial only in the narrowest sense, but it is still a wallet, a bridge and a mainnet transaction
+  before the first successful call - which is a meaningfully higher first-run cost than an API key, and the
+  provider ships no testnet rail to remove it.

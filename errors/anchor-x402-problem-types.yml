@@ -1,0 +1,89 @@
+generated: '2026-09-11'
+method: derived
+source: >-
+  openapi/anchor-x402-openapi.json (4xx/5xx responses), enriched from https://anchor-x402.com/llms.txt and a
+  live 402 response observed at POST https://api.anchor-x402.com/v1/price/token
+format: non-rfc9457
+media_type: application/json
+rfc9457: false
+envelope:
+  validation: '{"detail": [{"loc": [...], "msg": "...", "type": "..."}]}'
+  not_found: '{"detail": "Not Found"}'
+  payment_required: x402 v2 challenge object - see the 402 entry below
+  note: >-
+    The 4xx surface is the FastAPI default. No application/problem+json anywhere, no error codes, no type
+    URIs and no remediation strings. An agent branching on failure has the HTTP status and a free-text msg.
+problem_types:
+- status: 402
+  title: Payment Required
+  operations: 20
+  declared_media_type: null
+  declared_schema: null
+  format: x402 v2 PaymentRequired challenge
+  retryable: true
+  is_an_error: false
+  meaning: >-
+    Not a failure. This is the normal first half of every paid call - the server quoting a price. The body
+    carries x402Version, a resource block (url, description, serviceName, tags, iconUrl) and an accepts[]
+    array of settlement options, one per rail, each with scheme, network, asset, amount, payTo,
+    maxTimeoutSeconds and an extra block. An extensions.bazaar block carries the input JSON Schema and a
+    worked output example for the route.
+  remediation: >-
+    Pick an entry from accepts[], sign an EIP-3009 transferWithAuthorization for it, and retry the identical
+    request with the signed payload in a PAYMENT-SIGNATURE header (the deprecated V1 X-PAYMENT spelling is
+    also accepted).
+  response_headers:
+  - name: payment-required
+    value: base64 of the same challenge document, for clients that read headers rather than bodies
+  spec_defect: >-
+    The OpenAPI declares the 402 response with a description and NO content block on all 20 operations - so
+    the single most important response shape in this API, the one every caller must parse to pay, has no
+    schema in the contract. The shape is fully documented in llms.txt and observable live; it is simply
+    absent from the machine-readable document.
+  evidence:
+    url: https://api.anchor-x402.com/v1/price/token
+    method: POST
+    status: 402
+    content_type: application/json
+    bytes: 3124
+- status: 422
+  title: Validation Error
+  operations: 23
+  media_type: application/json
+  schema: '#/components/schemas/HTTPValidationError'
+  retryable: false
+  meaning: Request body or query parameters failed Pydantic validation.
+  shape: detail[] of {loc[], msg, type, input?, ctx?}
+  remediation: >-
+    Correct the field named in detail[].loc. The per-route input JSON Schema is published in
+    /.well-known/x402.json routes[].input_schema and in the MCP tools/list inputSchema, both free to fetch,
+    so validation failures are fully avoidable before spending.
+- status: 404
+  title: Not Found
+  operations: 0
+  declared: false
+  observed: true
+  media_type: application/json
+  shape: '{"detail": "Not Found"}'
+  meaning: Route does not exist. Observed on every unmapped path probed on api.anchor-x402.com.
+  note: Undeclared in the OpenAPI; recorded here because it was observed, not because it was documented.
+mcp_error_convention:
+  surface: POST https://api.anchor-x402.com/mcp
+  detail: >-
+    A tools/call without payment does NOT return a JSON-RPC error. It returns a RESULT with isError true and
+    the 402 challenge in structuredContent.accepts. The provider states the reason explicitly: a JSON-RPC
+    error would be swallowed by the MCP client before the model ever saw it, whereas a result reaches the
+    model, which can then pay. This is a deliberate inversion of the usual error convention and a caller
+    that treats isError as terminal will never complete a paid call.
+a2a_error_convention:
+  surface: POST https://api.anchor-x402.com/v1/a2a
+  detail: >-
+    Ordinary JSON-RPC 2.0 error objects at HTTP 200. An unsigned extension-method call returns
+    {"code": -32602, "message": "params.aud is required"} - observed live. A message/send naming a paid
+    skill returns a Task in "auth-required" state carrying the payable URL, price and rails rather than an
+    error.
+gaps:
+- No 5xx response is declared on any operation, so upstream failure modes (RPC node, CoinGecko,
+  openchain.xyz, the CDP facilitator) have no documented shape.
+- No error code registry, no type URIs, no machine-branchable error identifiers anywhere.
+- The 402 challenge - the response that matters most - has no schema in the OpenAPI.

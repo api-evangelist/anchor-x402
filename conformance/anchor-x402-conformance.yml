@@ -1,0 +1,157 @@
+generated: '2026-09-11'
+method: searched
+source: >-
+  openapi/anchor-x402-openapi.json, well-known/anchor-x402-x402.json, a2a/anchor-x402-agent-card.json,
+  well-known/anchor-x402-mcp-server-card.json, mcp/anchor-x402-tools-list.json,
+  https://anchor-x402.com/llms.txt, and a live 402 challenge
+conformance:
+- id: openapi-3.1
+  conforms: true
+  evidence: 'openapi/anchor-x402-openapi.json - "openapi": "3.1.0", 24 operations, 51 component schemas'
+- id: json-schema-2020-12
+  conforms: true
+  evidence: >-
+    /.well-known/x402.json declares $schema https://json-schema.org/draft/2020-12/schema on the bazaar
+    extension schemas, and every route carries an input_schema in the same dialect.
+- id: rfc8615-well-known
+  conforms: true
+  evidence: Agent card served at /.well-known/agent-card.json (200) on three hosts.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    No application/problem+json on any response. 422 uses the FastAPI {"detail":[{loc,msg,type}]} envelope.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: >-
+    /.well-known/security.txt returns 404 on anchor-x402.com, api.anchor-x402.com and chat.anchor-x402.com,
+    although a full disclosure policy is published in the source repo's SECURITY.md.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No OAuth anywhere and none expected - the service has no accounts. /.well-known/oauth-authorization-server
+    and /.well-known/oauth-protected-resource are 404 on every host.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration 404 on every host.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header on any of the 18 paid routes. See conventions/anchor-x402-conventions.yml.
+- id: pagination
+  conforms: false
+  na: true
+  evidence: No endpoint returns a pageable collection.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation headers; no deprecation policy published.
+domain_standards:
+- id: x402
+  name: x402 HTTP payment protocol
+  version: '2'
+  conforms: true
+  role: server
+  evidence: >-
+    The contract declares it about itself rather than in prose. A live unpaid POST to
+    https://api.anchor-x402.com/v1/price/token returns HTTP 402 with a body whose first field is
+    "x402Version": 2, followed by a resource block and an accepts[] array of three settlement options, plus
+    a base64 payment-required response header carrying the same document. /.well-known/x402.json declares
+    "x402_version": 2 and "discovery_extension": "bazaar" at the top level. 20 of 24 OpenAPI operations
+    declare a 402 response.
+  evidence_urls:
+  - url: https://api.anchor-x402.com/v1/price/token
+    status: 402
+  - url: https://anchor-x402.com/.well-known/x402.json
+    status: 200
+  detail: >-
+    This is the domain standard for this provider's market - machine-payable HTTP for AI agents - and the
+    provider implements the server half of it across its entire surface rather than on a demo route. It
+    additionally implements the x402 V1 X-PAYMENT header for backward compatibility.
+- id: x402-bazaar
+  name: CDP Bazaar discovery extension for x402
+  conforms: true
+  evidence: >-
+    Every 402 challenge carries extensions.bazaar with an info block (input type/method/bodyType/body and an
+    output example) and a 2020-12 JSON Schema, plus discoverable true and a category. The service is
+    auto-indexed in CDP Bazaar as a result.
+  evidence_url: https://docs.cdp.coinbase.com/x402/bazaar
+- id: eip-3009
+  name: EIP-3009 transferWithAuthorization
+  conforms: true
+  evidence: >-
+    The documented settlement primitive on both EVM rails - the caller signs a transferWithAuthorization and
+    the facilitator submits it, so the payer needs no prior approval transaction. Stated in llms.txt and
+    implied by the accepts[].extra {name, version} EIP-712 domain fields in the live challenge.
+- id: eip-191
+  name: EIP-191 signed data
+  conforms: true
+  evidence: >-
+    /v1/roll results and /v1/ledger/report bytes are EIP-191 signed by the treasury EOA; the hosted chatbot
+    signs a single EIP-3009 USDC authorization per approved tool call.
+- id: mcp
+  name: Model Context Protocol
+  versions: ['2026-07-28', '2025-11-25', '2025-06-18', '2025-03-26']
+  conforms: true
+  role: server
+  transport: streamable-http (remote) and stdio (npm package)
+  evidence: >-
+    A live anonymous tools/list against https://api.anchor-x402.com/mcp returned HTTP 200 with 18 tools each
+    carrying a real inputSchema. The server card at /.well-known/mcp/server-card.json validates against the
+    official server.json shape ($schema static.modelcontextprotocol.io/schemas/2025-12-11) with the endpoint
+    under remotes[] and the npm package under packages[]. Listed in the official MCP registry.
+  evidence_urls:
+  - url: https://api.anchor-x402.com/mcp
+    status: 200
+  - url: https://api.anchor-x402.com/.well-known/mcp/server-card.json
+    status: 200
+- id: a2a
+  name: Agent2Agent Protocol
+  version: 0.3.0
+  also_accepts: '1.0'
+  conforms: true
+  grade: conformant
+  evidence: >-
+    /.well-known/agent-card.json returns a card with capabilities as an object, protocolVersion 0.3.0,
+    skills as an 18-element array, preferredTransport JSONRPC, defaultInputModes and defaultOutputModes,
+    additionalInterfaces, securitySchemes and a detached JWS in signatures[]. The /v1/a2a door implements
+    message/send, tasks/get and tasks/cancel and answers in whichever of the 0.3.0 or 1.0 dialects it
+    receives. See a2a/anchor-x402-a2a.yml.
+  evidence_url: https://api.anchor-x402.com/.well-known/agent-card.json
+- id: rfc7515-jws
+  name: JSON Web Signature
+  conforms: true
+  evidence: The agent card carries a detached JWS (ES256) in signatures[].
+- id: rfc8785-jcs
+  name: JSON Canonicalization Scheme
+  conforms: true
+  evidence: >-
+    The card signature is computed over the JCS-canonicalized card. The provider additionally applies one
+    compact key-sorted canonicalization rule across MCP payment digests and A2A envelope and receipt
+    digests, stated inline on every MCP result.
+- id: erc-8004
+  name: ERC-8004 on-chain agent registry
+  conforms: true
+  role: registrant
+  evidence: >-
+    Registered on Base as agentId 60138 with a2aEndpoint and protocols.a2a, and the A2A card mirrored at
+    /api/agent/8453/60138/a2a. Supersedes agentId 47261, which llms.txt marks stale and pending removal.
+  evidence_url: https://agentarena.site/api/agent/8453/60138
+- id: ofac-sdn
+  name: OFAC SDN crypto address corpus
+  conforms: partial
+  role: consumer
+  evidence: >-
+    /v1/screen and /v1/intel/wallet screen against the public OFAC SDN crypto entries plus a GoPlus
+    address-reputation layer. The provider states the corpus covers publicly documented targets (Tornado
+    Cash, Lazarus Group, Hydra Market, Blender.io) and explicitly positions it as a first-pass filter rather
+    than Chainalysis-grade coverage. "conforms: partial" records exactly that self-limitation.
+  evidence_url: https://github.com/hypeprinter007-stack/anchor-x402/blob/main/pay-skills/anchor-x402/wallet-screen/PAY.md
+certifications:
+  soc2: false
+  iso27001: false
+  pci_dss: false
+  hipaa: false
+  fedramp: false
+  gdpr_dpa: false
+  note: >-
+    The provider disclaims every one of these in writing on its own trust portal. No Compliance pointer was
+    emitted in apis.yml. See security/anchor-x402-trust-center.yml, including the correction recorded there.
