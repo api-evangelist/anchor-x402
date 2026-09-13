@@ -26,6 +26,7 @@ conformance:
   soft_gaps:
   - content-type-not-ai-catalog-json
   - cors-not-wildcard
+  - did-web-does-not-resolve
   - entry-no-representativeQueries
   official_tool:
     tool: ARD conformance-test v0.9.1 (ards-project/ard-spec)
@@ -44,6 +45,11 @@ conformance:
     informational:
     - '[anchor-x402 OpenAPI] Media type ''application/openapi+json'' is a valid application extension
       media type. ARD permits extension types without core registration.'
+  did_web:
+    identifier: did:web:anchor-x402.com
+    resolved: false
+    verification_methods: 0
+    http_status: 404
 catalog:
   host_display_name: anchor-x402
   host_identifier: did:web:anchor-x402.com
