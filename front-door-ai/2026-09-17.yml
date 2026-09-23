@@ -1,0 +1,36 @@
+# Front Door AI Index — anchor-x402 — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: anchor-x402
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: anchor-x402.com
+  final_host: anchor-x402.com
+  ownership: own
+  owner: anchor-x402
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 22
+  host_score: 22
+  density: 22.63
+  words: 972
+  tiers:
+    agentic: 11
+    core: 6
+    model: 5
+  ambiguous: 20
+  top_terms:
+    agent: 18
+    AI agent: 3
+    AI: 3
+    Claude: 3
+    LLMs: 3
+    MCP: 3
+    chatbot: 2
+    ChatGPT: 1
+    OpenAI: 1
+    agentic: 1
+    intelligence: 1
+    llms.txt: 1
