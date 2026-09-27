@@ -2,6 +2,24 @@ aid: anchor-x402
 name: anchor-x402
 description: >-
   anchor-x402 operates a pay-per-call API surface for AI agents, billed with the x402 HTTP payment protocol instead of API keys or accounts. Eighteen stateless services run on AWS Lambda and FastAPI behind https://api.anchor-x402.com, each returning an x402 v2 402 PaymentRequired challenge that a caller settles per request in USDC on Base or Solana (select routes also settle JPYC on Polygon) via EIP-3009 transferWithAuthorization. The catalog spans on-chain anchoring and attestation, wallet sanctions and risk screening, Web3 data decoding, ENS/SNS name resolution, token pricing, x402 spend accounting, verifiable signed randomness, and LLM-backed content analysis, priced from $0.001 to $1.77 per call. The same 18 services are exposed over MCP (a hosted Streamable HTTP endpoint at https://api.anchor-x402.com/mcp whose tools/list is free and anonymous, plus an npm stdio package) and over a signed A2A JSON-RPC door at /v1/a2a, with a conformant A2A 0.3.0 agent card and a hosted Claude chatbot at chat.anchor-x402.com for non-developers. Source is MIT licensed and the operator publishes a trust portal that states plainly it holds no SOC 2, ISO 27001, PCI or HIPAA certification.
+deliveryModel:
+  model: open-core
+  license: MIT
+  license_evidence:
+    repo: hypeprinter007-stack/anchor-x402
+    spdx: MIT
+    stars: 4
+  open_source: true
+  commercial: true
+  callable_host: false
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  - repository-license
+  generated: '2026-09-25'
+  method: derived
 image: https://anchor-x402.com/og.png
 url: https://raw.githubusercontent.com/api-evangelist/anchor-x402/refs/heads/main/apis.yml
 x-type: company
@@ -24,10 +42,11 @@ tags:
 - MCP
 - Web3
 - pay-per-call
-- Agent Payments
+- Agentic Payments
 - Stablecoins
 - Compliance
 - Attestation
+- A2A
 tags_raw:
 - Company
 - x402
@@ -41,6 +60,7 @@ tags_raw:
 - Stablecoins
 - Compliance
 - Attestation
+- A2A
 apis:
 - aid: anchor-x402:anchor-x402-anchor-api
   name: anchor-x402 Anchor API
@@ -355,3 +375,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 36
   pass: local-v3
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://api.anchor-x402.com/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3.0"
+  control: 404

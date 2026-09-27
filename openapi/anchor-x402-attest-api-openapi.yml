@@ -74,32 +74,19 @@ paths:
       - Attest
 components:
   schemas:
-    ValidationError:
+    ChainAnchor:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        tx:
           type: string
-          title: Message
-        type:
+          title: Tx
+        explorer_url:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Explorer Url
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - tx
+      - explorer_url
+      title: ChainAnchor
     AttestRequest:
       properties:
         input_hash:
@@ -142,109 +129,6 @@ components:
       - output_hash
       - decision
       title: AttestRequest
-    AttestResponse:
-      properties:
-        merkle_root:
-          type: string
-          title: Merkle Root
-          description: SHA-256 over the domain-separated (input_hash, output_hash, decision) — this is what gets anchored.
-        signer_verified:
-          type: boolean
-          title: Signer Verified
-        signer:
-          type: string
-          title: Signer
-          description: Recovered EVM address (eip191) or supplied Solana pubkey (ed25519).
-        base:
-          anyOf:
-          - $ref: '#/components/schemas/ChainAnchor'
-          - type: 'null'
-        solana:
-          anyOf:
-          - $ref: '#/components/schemas/ChainAnchor'
-          - type: 'null'
-        decision:
-          type: string
-          title: Decision
-        signed_at:
-          type: integer
-          title: Signed At
-        signed_by:
-          type: string
-          title: Signed By
-          description: '"caller" (you supplied the signature) or "treasury" (hosted-signer mode).'
-          default: caller
-        verify_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Verify Url
-          description: Free endpoint a relying party POSTs this receipt to for independent re-verification.
-      type: object
-      required:
-      - merkle_root
-      - signer_verified
-      - signer
-      - decision
-      - signed_at
-      title: AttestResponse
-    AttestVerifyResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-          description: True iff signature verified AND the Base tx confirms the exact root.
-        merkle_root:
-          type: string
-          title: Merkle Root
-        signature_valid:
-          type: boolean
-          title: Signature Valid
-        signer:
-          type: string
-          title: Signer
-        anchor_confirmed:
-          type: boolean
-          title: Anchor Confirmed
-        root_matches:
-          type: boolean
-          title: Root Matches
-        anchored_at_block:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Anchored At Block
-        anchored_at_time:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Anchored At Time
-        notes:
-          type: string
-          title: Notes
-      type: object
-      required:
-      - valid
-      - merkle_root
-      - signature_valid
-      - signer
-      - anchor_confirmed
-      - root_matches
-      - notes
-      title: AttestVerifyResponse
-    ChainAnchor:
-      properties:
-        tx:
-          type: string
-          title: Tx
-        explorer_url:
-          type: string
-          title: Explorer Url
-      type: object
-      required:
-      - tx
-      - explorer_url
-      title: ChainAnchor
     AttestVerifyRequest:
       properties:
         input_hash:
@@ -292,6 +176,32 @@ components:
       description: 'A minted receipt submitted for free re-verification: the signed tuple plus
 
         the signature and the Base tx that should carry the anchored root.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -301,3 +211,93 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    AttestVerifyResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+          description: True iff signature verified AND the Base tx confirms the exact root.
+        merkle_root:
+          type: string
+          title: Merkle Root
+        signature_valid:
+          type: boolean
+          title: Signature Valid
+        signer:
+          type: string
+          title: Signer
+        anchor_confirmed:
+          type: boolean
+          title: Anchor Confirmed
+        root_matches:
+          type: boolean
+          title: Root Matches
+        anchored_at_block:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Anchored At Block
+        anchored_at_time:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Anchored At Time
+        notes:
+          type: string
+          title: Notes
+      type: object
+      required:
+      - valid
+      - merkle_root
+      - signature_valid
+      - signer
+      - anchor_confirmed
+      - root_matches
+      - notes
+      title: AttestVerifyResponse
+    AttestResponse:
+      properties:
+        merkle_root:
+          type: string
+          title: Merkle Root
+          description: SHA-256 over the domain-separated (input_hash, output_hash, decision) — this is what gets anchored.
+        signer_verified:
+          type: boolean
+          title: Signer Verified
+        signer:
+          type: string
+          title: Signer
+          description: Recovered EVM address (eip191) or supplied Solana pubkey (ed25519).
+        base:
+          anyOf:
+          - $ref: '#/components/schemas/ChainAnchor'
+          - type: 'null'
+        solana:
+          anyOf:
+          - $ref: '#/components/schemas/ChainAnchor'
+          - type: 'null'
+        decision:
+          type: string
+          title: Decision
+        signed_at:
+          type: integer
+          title: Signed At
+        signed_by:
+          type: string
+          title: Signed By
+          description: '"caller" (you supplied the signature) or "treasury" (hosted-signer mode).'
+          default: caller
+        verify_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Verify Url
+          description: Free endpoint a relying party POSTs this receipt to for independent re-verification.
+      type: object
+      required:
+      - merkle_root
+      - signer_verified
+      - signer
+      - decision
+      - signed_at
+      title: AttestResponse

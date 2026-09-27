@@ -48,18 +48,6 @@ paths:
       - Oracle
 components:
   schemas:
-    OracleRequest:
-      properties:
-        question:
-          type: string
-          maxLength: 1000
-          minLength: 1
-          title: Question
-          description: A yes/no question for the oracle.
-      type: object
-      required:
-      - question
-      title: OracleRequest
     ValidationError:
       properties:
         loc:
@@ -86,6 +74,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     OracleResponse:
       properties:
         answer:
@@ -121,12 +118,15 @@ components:
       - base_tx
       - asked_at
       title: OracleResponse
-    HTTPValidationError:
+    OracleRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        question:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Question
+          description: A yes/no question for the oracle.
       type: object
-      title: HTTPValidationError
+      required:
+      - question
+      title: OracleRequest

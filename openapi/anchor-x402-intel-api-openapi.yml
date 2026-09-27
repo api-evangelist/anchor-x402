@@ -48,71 +48,42 @@ paths:
       - Intel
 components:
   schemas:
-    ValidationError:
+    ScreenSignal:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        code:
+          type: string
+          title: Code
+        severity:
+          type: string
+          title: Severity
+          description: '"critical" | "high" | "medium"'
+        source:
+          type: string
+          title: Source
+          description: '"treasury.gov" | "goplus"'
+        detail:
+          type: string
+          title: Detail
+      type: object
+      required:
+      - code
+      - severity
+      - source
+      - detail
+      title: ScreenSignal
+    IntelWalletError:
+      properties:
+        source:
+          type: string
+          title: Source
+        message:
           type: string
           title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    IntelWalletResponse:
-      properties:
-        wallet:
-          type: string
-          title: Wallet
-        chain_inferred:
-          type: string
-          title: Chain Inferred
-        balances:
-          $ref: '#/components/schemas/IntelWalletBalances'
-        activity:
-          $ref: '#/components/schemas/IntelWalletActivity'
-        identity:
-          $ref: '#/components/schemas/IntelWalletIdentity'
-        sanctions:
-          anyOf:
-          - $ref: '#/components/schemas/ScreenResponse'
-          - type: 'null'
-        errors:
-          items:
-            $ref: '#/components/schemas/IntelWalletError'
-          type: array
-          title: Errors
-        fetched_at:
-          type: integer
-          title: Fetched At
-        cache_age_seconds:
-          type: integer
-          title: Cache Age Seconds
-      type: object
-      required:
-      - wallet
-      - chain_inferred
-      - balances
-      - activity
-      - identity
-      - fetched_at
-      - cache_age_seconds
-      title: IntelWalletResponse
+      - source
+      - message
+      title: IntelWalletError
     _WalletBody:
       properties:
         wallet:
@@ -137,94 +108,6 @@ components:
           title: Has History
       type: object
       title: IntelWalletActivity
-    IntelWalletError:
-      properties:
-        source:
-          type: string
-          title: Source
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - source
-      - message
-      title: IntelWalletError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    IntelWalletBalances:
-      properties:
-        base_eth:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Eth
-        eth_eth:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eth Eth
-        base_usdc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Usdc
-        sol:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sol
-        solana_usdc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Solana Usdc
-      type: object
-      title: IntelWalletBalances
-    ScreenSignal:
-      properties:
-        code:
-          type: string
-          title: Code
-        severity:
-          type: string
-          title: Severity
-          description: '"critical" | "high" | "medium"'
-        source:
-          type: string
-          title: Source
-          description: '"treasury.gov" | "goplus"'
-        detail:
-          type: string
-          title: Detail
-      type: object
-      required:
-      - code
-      - severity
-      - source
-      - detail
-      title: ScreenSignal
-    IntelWalletIdentity:
-      properties:
-        ens_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ens Name
-        sns_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sns Name
-      type: object
-      title: IntelWalletIdentity
     ScreenResponse:
       properties:
         wallet:
@@ -296,3 +179,120 @@ components:
       - notes
       - checked_at
       title: ScreenResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    IntelWalletBalances:
+      properties:
+        base_eth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Eth
+        eth_eth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eth Eth
+        base_usdc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Usdc
+        sol:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sol
+        solana_usdc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Solana Usdc
+      type: object
+      title: IntelWalletBalances
+    IntelWalletResponse:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+        chain_inferred:
+          type: string
+          title: Chain Inferred
+        balances:
+          $ref: '#/components/schemas/IntelWalletBalances'
+        activity:
+          $ref: '#/components/schemas/IntelWalletActivity'
+        identity:
+          $ref: '#/components/schemas/IntelWalletIdentity'
+        sanctions:
+          anyOf:
+          - $ref: '#/components/schemas/ScreenResponse'
+          - type: 'null'
+        errors:
+          items:
+            $ref: '#/components/schemas/IntelWalletError'
+          type: array
+          title: Errors
+        fetched_at:
+          type: integer
+          title: Fetched At
+        cache_age_seconds:
+          type: integer
+          title: Cache Age Seconds
+      type: object
+      required:
+      - wallet
+      - chain_inferred
+      - balances
+      - activity
+      - identity
+      - fetched_at
+      - cache_age_seconds
+      title: IntelWalletResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    IntelWalletIdentity:
+      properties:
+        ens_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ens Name
+        sns_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sns Name
+      type: object
+      title: IntelWalletIdentity

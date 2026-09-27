@@ -82,6 +82,88 @@ paths:
       - Decode
 components:
   schemas:
+    TxDecodeRequest:
+      properties:
+        chain:
+          type: string
+          enum:
+          - base
+          - ethereum
+          - solana
+          title: Chain
+        tx_hash:
+          type: string
+          maxLength: 128
+          minLength: 1
+          title: Tx Hash
+      type: object
+      required:
+      - chain
+      - tx_hash
+      title: TxDecodeRequest
+    CalldataDecodeRequest:
+      properties:
+        chain:
+          type: string
+          enum:
+          - ethereum
+          - solana
+          title: Chain
+          description: '"ethereum" supported; "solana" returns 400.'
+        calldata_hex:
+          type: string
+          minLength: 8
+          title: Calldata Hex
+          description: Raw EVM calldata (>=4-byte selector), with or without 0x prefix.
+        contract_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contract Address
+          description: Optional. Reserved for future on-chain ABI lookups; currently unused.
+      type: object
+      required:
+      - chain
+      - calldata_hex
+      title: CalldataDecodeRequest
+    CalldataDecodeResponse:
+      properties:
+        function_selector:
+          type: string
+          title: Function Selector
+        function_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Function Name
+        function_signature:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Function Signature
+        params:
+          items:
+            $ref: '#/components/schemas/DecodedParam'
+          type: array
+          title: Params
+        decoded:
+          type: boolean
+          title: Decoded
+        candidates:
+          items:
+            type: string
+          type: array
+          title: Candidates
+          description: Other matching sigs when the 4byte selector is ambiguous.
+        source:
+          type: string
+          title: Source
+          default: openchain.xyz
+      type: object
+      required:
+      - function_selector
+      - decoded
+      title: CalldataDecodeResponse
     ValidationError:
       properties:
         loc:
@@ -108,48 +190,6 @@ components:
       - msg
       - type
       title: ValidationError
-    DecodedParam:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        type:
-          type: string
-          title: Type
-        value:
-          title: Value
-      type: object
-      required:
-      - type
-      - value
-      title: DecodedParam
-    CalldataDecodeRequest:
-      properties:
-        chain:
-          type: string
-          enum:
-          - ethereum
-          - solana
-          title: Chain
-          description: '"ethereum" supported; "solana" returns 400.'
-        calldata_hex:
-          type: string
-          minLength: 8
-          title: Calldata Hex
-          description: Raw EVM calldata (>=4-byte selector), with or without 0x prefix.
-        contract_address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contract Address
-          description: Optional. Reserved for future on-chain ABI lookups; currently unused.
-      type: object
-      required:
-      - chain
-      - calldata_hex
-      title: CalldataDecodeRequest
     TxDecodeResponse:
       properties:
         chain:
@@ -244,63 +284,6 @@ components:
       - chain
       - tx_hash
       title: TxDecodeResponse
-    CalldataDecodeResponse:
-      properties:
-        function_selector:
-          type: string
-          title: Function Selector
-        function_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Function Name
-        function_signature:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Function Signature
-        params:
-          items:
-            $ref: '#/components/schemas/DecodedParam'
-          type: array
-          title: Params
-        decoded:
-          type: boolean
-          title: Decoded
-        candidates:
-          items:
-            type: string
-          type: array
-          title: Candidates
-          description: Other matching sigs when the 4byte selector is ambiguous.
-        source:
-          type: string
-          title: Source
-          default: openchain.xyz
-      type: object
-      required:
-      - function_selector
-      - decoded
-      title: CalldataDecodeResponse
-    TxDecodeRequest:
-      properties:
-        chain:
-          type: string
-          enum:
-          - base
-          - ethereum
-          - solana
-          title: Chain
-        tx_hash:
-          type: string
-          maxLength: 128
-          minLength: 1
-          title: Tx Hash
-      type: object
-      required:
-      - chain
-      - tx_hash
-      title: TxDecodeRequest
     HTTPValidationError:
       properties:
         detail:
@@ -310,3 +293,20 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    DecodedParam:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        type:
+          type: string
+          title: Type
+        value:
+          title: Value
+      type: object
+      required:
+      - type
+      - value
+      title: DecodedParam

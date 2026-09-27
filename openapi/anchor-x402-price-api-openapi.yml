@@ -48,28 +48,6 @@ paths:
       - Price
 components:
   schemas:
-    _TokenPriceBody:
-      properties:
-        symbol:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Symbol
-          description: Token symbol like 'ETH', 'BTC', 'SOL', 'USDC'. Mutually exclusive with chain+contract.
-        chain:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chain
-          description: 'Chain slug: base, ethereum, solana, polygon, arbitrum, optimism, bsc, avalanche. Use with contract.'
-        contract:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contract
-          description: Token contract address. Requires chain.
-      type: object
-      title: _TokenPriceBody
     ValidationError:
       properties:
         loc:
@@ -147,6 +125,28 @@ components:
       - fetched_at
       - age_seconds
       title: TokenPriceResponse
+    _TokenPriceBody:
+      properties:
+        symbol:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Symbol
+          description: Token symbol like 'ETH', 'BTC', 'SOL', 'USDC'. Mutually exclusive with chain+contract.
+        chain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chain
+          description: 'Chain slug: base, ethereum, solana, polygon, arbitrum, optimism, bsc, avalanche. Use with contract.'
+        contract:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contract
+          description: Token contract address. Requires chain.
+      type: object
+      title: _TokenPriceBody
     HTTPValidationError:
       properties:
         detail:

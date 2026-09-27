@@ -74,18 +74,15 @@ components:
       - msg
       - type
       title: ValidationError
-    AuraRequest:
+    HTTPValidationError:
       properties:
-        target:
-          type: string
-          maxLength: 4000
-          minLength: 1
-          title: Target
-          description: Anything to read the aura of.
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - target
-      title: AuraRequest
+      title: HTTPValidationError
     AuraResponse:
       properties:
         color:
@@ -116,12 +113,15 @@ components:
       - score
       - description
       title: AuraResponse
-    HTTPValidationError:
+    AuraRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        target:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Target
+          description: Anything to read the aura of.
       type: object
-      title: HTTPValidationError
+      required:
+      - target
+      title: AuraRequest

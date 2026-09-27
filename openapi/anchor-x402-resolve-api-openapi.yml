@@ -48,6 +48,24 @@ paths:
       - Resolve
 components:
   schemas:
+    NameAddress:
+      properties:
+        chain:
+          type: string
+          title: Chain
+          description: '"ethereum" | "solana"'
+        address:
+          type: string
+          title: Address
+        ttl_hint_seconds:
+          type: integer
+          title: Ttl Hint Seconds
+      type: object
+      required:
+      - chain
+      - address
+      - ttl_hint_seconds
+      title: NameAddress
     ValidationError:
       properties:
         loc:
@@ -74,34 +92,15 @@ components:
       - msg
       - type
       title: ValidationError
-    _NameBody:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          title: Name
-          description: Human-readable name, e.g. 'vitalik.eth' or 'bonfida.sol'. ENS (.eth) and Bonfida SNS (.sol) are supported.
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - name
-      title: _NameBody
-    NameAddress:
-      properties:
-        chain:
-          type: string
-          title: Chain
-          description: '"ethereum" | "solana"'
-        address:
-          type: string
-          title: Address
-        ttl_hint_seconds:
-          type: integer
-          title: Ttl Hint Seconds
-      type: object
-      required:
-      - chain
-      - address
-      - ttl_hint_seconds
-      title: NameAddress
+      title: HTTPValidationError
     NameResolveResponse:
       properties:
         name:
@@ -137,12 +136,13 @@ components:
       - resolved_at
       - supported_tlds
       title: NameResolveResponse
-    HTTPValidationError:
+    _NameBody:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        name:
+          type: string
+          title: Name
+          description: Human-readable name, e.g. 'vitalik.eth' or 'bonfida.sol'. ENS (.eth) and Bonfida SNS (.sol) are supported.
       type: object
-      title: HTTPValidationError
+      required:
+      - name
+      title: _NameBody
