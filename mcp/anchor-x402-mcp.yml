@@ -74,40 +74,74 @@ probe:
 tools:
 - name: anchor_hash
   source_operation: openapi/anchor-x402-openapi.json#anchor_v1_anchor_post
+  description: Anchor a 32-byte hash to Base + Solana mainnet in parallel. Returns both tx URLs as cryptographic
+    proof of when the hash existed. $0.005 USDC.
 - name: attest_decision
   source_operation: openapi/anchor-x402-openapi.json#attest_v1_attest_post
+  description: 'Attest a decision over (input_hash, output_hash, decision): sign it yourself, or omit
+    the signature and the treasury signs for you — then dual-chain anchor. Returns the signer, on-chain
+    proof URLs, and a free re-verify URL. $0.010 USDC.'
 - name: aura_read
   source_operation: openapi/anchor-x402-openapi.json#aura_v1_aura_post
+  description: Read the aura of anything — color, tier (S/A/B/C/D/F), score 0-9999, description. $0.01
+    USDC.
 - name: decode_calldata
   source_operation: openapi/anchor-x402-openapi.json#decode_calldata_v1_decode_calldata_post
+  description: Decode raw EVM calldata into function name + typed parameters via openchain.xyz + eth_abi.
+    EVM-only. $0.001 USDC.
 - name: decode_tx
   source_operation: openapi/anchor-x402-openapi.json#decode_tx_v1_decode_tx_post
+  description: Structured decode of any mainnet transaction by hash. Supports Base, Ethereum, Solana.
+    Mined txs cached. $0.001 USDC.
 - name: grade_target
   source_operation: openapi/anchor-x402-openapi.json#grade_v1_grade_post
+  description: Academic letter grade with red-pen marginalia for anything. $0.01 USDC.
 - name: intel_wallet
   source_operation: openapi/anchor-x402-openapi.json#intel_wallet_post_v1_intel_wallet_post
+  description: 'Unified wallet intelligence bundle. ONE call: balances on Base + Ethereum + Solana, USDC,
+    tx counts, ENS/SNS reverse, sanctions verdict. 8-10 parallel sources. $0.005 USDC.'
 - name: investigate_wallet
   source_operation: openapi/anchor-x402-openapi.json#investigate_dispatch_v1_investigate_post
+  description: Agent-driven wallet due diligence — multi-step investigation, signed markdown report +
+    JSON sidecar, dual-chain anchored. Async — returns job_id; poll /v1/investigate/status/{job_id} for
+    the deliverable. ETA 5-10 min. $1.77 USDC.
 - name: ledger_report
   source_operation: openapi/anchor-x402-openapi.json#ledger_report_dispatch_v1_ledger_report_post
+  description: Signed + dual-chain-anchored x402 expense report (markdown + CSV, async job). $0.35 USDC.
 - name: ledger_summary
   source_operation: openapi/anchor-x402-openapi.json#ledger_summary_v1_ledger_summary_post
+  description: x402 spend accounting for any Base wallet — totals + per-service breakdown reconstructed
+    from chain data. $0.01 USDC.
 - name: oracle_verdict
   source_operation: openapi/anchor-x402-openapi.json#oracle_v1_oracle_post
+  description: Yes/no oracle with dual-chain anchored verdict (Base + Solana). $0.05 USDC.
 - name: parse_datetime
   source_operation: openapi/anchor-x402-openapi.json#parse_datetime_v1_parse_datetime_post
+  description: Parse freeform datetime strings into ISO 8601 + components + relative time + confidence.
+    $0.001 USDC.
 - name: resolve_name
   source_operation: openapi/anchor-x402-openapi.json#resolve_name_post_v1_resolve_name_post
+  description: 'Cross-chain name resolution: ENS (.eth) and Bonfida SNS (.sol). Returns resolved address(es).
+    1h cache. $0.001 USDC.'
 - name: roast_target
   source_operation: openapi/anchor-x402-openapi.json#roast_v1_roast_post
+  description: Witty roast of any target — wallet, tweet, idea, code, anything. $0.05 USDC.
 - name: roll_random
   source_operation: openapi/anchor-x402-openapi.json#roll_v1_roll_post
+  description: Verifiable RNG — cryptographically-random integer(s) signed by the treasury key. Drop-in
+    VRF for game studios. $0.001 USDC.
 - name: screen_wallet
   source_operation: openapi/anchor-x402-openapi.json#screen_post_v1_screen_post
+  description: 'Wallet risk pre-flight for agent payments: OFAC SDN sanctions plus address-reputation
+    (drainer, phishing, mixer, laundering) resolved to an allow/review/block recommendation with per-signal
+    detail. $0.02 USDC.'
 - name: tldr_text
   source_operation: openapi/anchor-x402-openapi.json#tldr_v1_tldr_post
+  description: Summarize a URL or pasted text into 3-5 concise bullets. $0.01 USDC.
 - name: token_price
   source_operation: openapi/anchor-x402-openapi.json#token_price_post_v1_price_token_post
+  description: USD spot price for any major token. By symbol or chain+contract. CoinGecko-backed, 60s
+    cache. $0.001 USDC.
 stdio_package:
   registry: npm
   name: anchor-x402-mcp
@@ -130,3 +164,5 @@ listings:
 - https://registry.modelcontextprotocol.io/v0/servers?search=anchor-x402
 - https://glama.ai/mcp/servers/hypeprinter007-stack/anchor-x402-mcp
 - https://mcp.so/server/anchor-x402-mcp
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
