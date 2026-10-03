@@ -218,6 +218,138 @@ paths:
       - Ledger
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LedgerReportAccepted:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+          description: Unique job id; poll /v1/ledger/report/{job_id}.
+        status:
+          type: string
+          const: accepted
+          title: Status
+          default: accepted
+        status_url:
+          type: string
+          title: Status Url
+          description: Absolute URL to poll for completion.
+        eta_seconds:
+          type: integer
+          title: Eta Seconds
+          description: Approximate wait until DELIVERED.
+          default: 120
+      type: object
+      required:
+      - job_id
+      - status_url
+      title: LedgerReportAccepted
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    LedgerReportRequest:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+          description: EVM address (Base) whose x402 spend to reconstruct.
+        from:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: From
+          description: 'ISO date or datetime, start of range. Default: 30 days before `to`.'
+        to:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: To
+          description: 'ISO date or datetime, end of range. Default: now.'
+        direction:
+          type: string
+          enum:
+          - outbound
+          - inbound
+          - both
+          title: Direction
+          description: outbound = spend, inbound = revenue.
+          default: outbound
+        min_amount:
+          anyOf:
+          - type: string
+          - type: number
+          - type: 'null'
+          title: Min Amount
+          description: Minimum USDC per transfer, e.g. 0.001.
+        group_by:
+          type: string
+          enum:
+          - service
+          - recipient
+          - day
+          title: Group By
+          default: service
+        include_unfiltered:
+          type: boolean
+          title: Include Unfiltered
+          description: Include non-x402 USDC transfers as category=other_transfer.
+          default: false
+        format:
+          type: string
+          enum:
+          - markdown
+          - csv
+          - both
+          title: Format
+          description: Which report files to produce. Default both.
+          default: both
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+          description: Report title; appears in the markdown header.
+        prepared_for:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Prepared For
+          description: Optional client name for the report header.
+      type: object
+      required:
+      - wallet
+      title: LedgerReportRequest
     LedgerSummaryRequest:
       properties:
         wallet:
@@ -310,135 +442,3 @@ components:
       - job_id
       - status
       title: LedgerReportStatus
-    LedgerReportRequest:
-      properties:
-        wallet:
-          type: string
-          title: Wallet
-          description: EVM address (Base) whose x402 spend to reconstruct.
-        from:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: From
-          description: 'ISO date or datetime, start of range. Default: 30 days before `to`.'
-        to:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: To
-          description: 'ISO date or datetime, end of range. Default: now.'
-        direction:
-          type: string
-          enum:
-          - outbound
-          - inbound
-          - both
-          title: Direction
-          description: outbound = spend, inbound = revenue.
-          default: outbound
-        min_amount:
-          anyOf:
-          - type: string
-          - type: number
-          - type: 'null'
-          title: Min Amount
-          description: Minimum USDC per transfer, e.g. 0.001.
-        group_by:
-          type: string
-          enum:
-          - service
-          - recipient
-          - day
-          title: Group By
-          default: service
-        include_unfiltered:
-          type: boolean
-          title: Include Unfiltered
-          description: Include non-x402 USDC transfers as category=other_transfer.
-          default: false
-        format:
-          type: string
-          enum:
-          - markdown
-          - csv
-          - both
-          title: Format
-          description: Which report files to produce. Default both.
-          default: both
-        title:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Title
-          description: Report title; appears in the markdown header.
-        prepared_for:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Prepared For
-          description: Optional client name for the report header.
-      type: object
-      required:
-      - wallet
-      title: LedgerReportRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    LedgerReportAccepted:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-          description: Unique job id; poll /v1/ledger/report/{job_id}.
-        status:
-          type: string
-          const: accepted
-          title: Status
-          default: accepted
-        status_url:
-          type: string
-          title: Status Url
-          description: Absolute URL to poll for completion.
-        eta_seconds:
-          type: integer
-          title: Eta Seconds
-          description: Approximate wait until DELIVERED.
-          default: 120
-      type: object
-      required:
-      - job_id
-      - status_url
-      title: LedgerReportAccepted

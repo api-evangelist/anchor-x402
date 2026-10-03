@@ -48,19 +48,6 @@ paths:
       - Anchor
 components:
   schemas:
-    ChainAnchor:
-      properties:
-        tx:
-          type: string
-          title: Tx
-        explorer_url:
-          type: string
-          title: Explorer Url
-      type: object
-      required:
-      - tx
-      - explorer_url
-      title: ChainAnchor
     ValidationError:
       properties:
         loc:
@@ -87,15 +74,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     AnchorResponse:
       properties:
         merkle_root:
@@ -124,6 +102,19 @@ components:
       - base
       - anchored_at
       title: AnchorResponse
+    ChainAnchor:
+      properties:
+        tx:
+          type: string
+          title: Tx
+        explorer_url:
+          type: string
+          title: Explorer Url
+      type: object
+      required:
+      - tx
+      - explorer_url
+      title: ChainAnchor
     AnchorRequest:
       properties:
         hash:
@@ -147,3 +138,12 @@ components:
           description: Optional 200-char note included in the response (not on-chain).
       type: object
       title: AnchorRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

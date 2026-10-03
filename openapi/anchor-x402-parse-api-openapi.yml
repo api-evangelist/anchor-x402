@@ -48,29 +48,32 @@ paths:
       - Parse
 components:
   schemas:
-    DatetimeParseRequest:
+    ValidationError:
       properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
         input:
-          type: string
-          maxLength: 500
-          minLength: 1
           title: Input
-          description: Freeform datetime string in any format.
-        base_time:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Time
-          description: ISO 8601 reference; defaults to now UTC.
-        timezone:
-          type: string
-          title: Timezone
-          description: IANA tz name (e.g. 'America/New_York').
-          default: UTC
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - input
-      title: DatetimeParseRequest
+      - loc
+      - msg
+      - type
+      title: ValidationError
     DatetimeComponents:
       properties:
         year:
@@ -110,6 +113,38 @@ components:
       - weekday
       - day_name
       title: DatetimeComponents
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DatetimeParseRequest:
+      properties:
+        input:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Input
+          description: Freeform datetime string in any format.
+        base_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Time
+          description: ISO 8601 reference; defaults to now UTC.
+        timezone:
+          type: string
+          title: Timezone
+          description: IANA tz name (e.g. 'America/New_York').
+          default: UTC
+      type: object
+      required:
+      - input
+      title: DatetimeParseRequest
     DatetimeParseResponse:
       properties:
         iso:
@@ -150,38 +185,3 @@ components:
       - confidence
       - parsed_input
       title: DatetimeParseResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

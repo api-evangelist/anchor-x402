@@ -82,50 +82,32 @@ paths:
       - Decode
 components:
   schemas:
-    TxDecodeRequest:
+    ValidationError:
       properties:
-        chain:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          enum:
-          - base
-          - ethereum
-          - solana
-          title: Chain
-        tx_hash:
+          title: Message
+        type:
           type: string
-          maxLength: 128
-          minLength: 1
-          title: Tx Hash
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - chain
-      - tx_hash
-      title: TxDecodeRequest
-    CalldataDecodeRequest:
-      properties:
-        chain:
-          type: string
-          enum:
-          - ethereum
-          - solana
-          title: Chain
-          description: '"ethereum" supported; "solana" returns 400.'
-        calldata_hex:
-          type: string
-          minLength: 8
-          title: Calldata Hex
-          description: Raw EVM calldata (>=4-byte selector), with or without 0x prefix.
-        contract_address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contract Address
-          description: Optional. Reserved for future on-chain ABI lookups; currently unused.
-      type: object
-      required:
-      - chain
-      - calldata_hex
-      title: CalldataDecodeRequest
+      - loc
+      - msg
+      - type
+      title: ValidationError
     CalldataDecodeResponse:
       properties:
         function_selector:
@@ -164,32 +146,48 @@ components:
       - function_selector
       - decoded
       title: CalldataDecodeResponse
-    ValidationError:
+    DecodedParam:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
         type:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Type
+        value:
+          title: Value
       type: object
       required:
-      - loc
-      - msg
       - type
-      title: ValidationError
+      - value
+      title: DecodedParam
+    CalldataDecodeRequest:
+      properties:
+        chain:
+          type: string
+          enum:
+          - ethereum
+          - solana
+          title: Chain
+          description: '"ethereum" supported; "solana" returns 400.'
+        calldata_hex:
+          type: string
+          minLength: 8
+          title: Calldata Hex
+          description: Raw EVM calldata (>=4-byte selector), with or without 0x prefix.
+        contract_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contract Address
+          description: Optional. Reserved for future on-chain ABI lookups; currently unused.
+      type: object
+      required:
+      - chain
+      - calldata_hex
+      title: CalldataDecodeRequest
     TxDecodeResponse:
       properties:
         chain:
@@ -293,20 +291,22 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    DecodedParam:
+    TxDecodeRequest:
       properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        type:
+        chain:
           type: string
-          title: Type
-        value:
-          title: Value
+          enum:
+          - base
+          - ethereum
+          - solana
+          title: Chain
+        tx_hash:
+          type: string
+          maxLength: 128
+          minLength: 1
+          title: Tx Hash
       type: object
       required:
-      - type
-      - value
-      title: DecodedParam
+      - chain
+      - tx_hash
+      title: TxDecodeRequest

@@ -48,6 +48,60 @@ paths:
       - Intel
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    IntelWalletActivity:
+      properties:
+        base_tx_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Base Tx Count
+        has_history:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Has History
+      type: object
+      title: IntelWalletActivity
+    IntelWalletIdentity:
+      properties:
+        ens_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ens Name
+        sns_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sns Name
+      type: object
+      title: IntelWalletIdentity
     ScreenSignal:
       properties:
         code:
@@ -71,6 +125,16 @@ components:
       - source
       - detail
       title: ScreenSignal
+    _WalletBody:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
+      type: object
+      required:
+      - wallet
+      title: _WalletBody
     IntelWalletError:
       properties:
         source:
@@ -84,30 +148,15 @@ components:
       - source
       - message
       title: IntelWalletError
-    _WalletBody:
+    HTTPValidationError:
       properties:
-        wallet:
-          type: string
-          title: Wallet
-          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - wallet
-      title: _WalletBody
-    IntelWalletActivity:
-      properties:
-        base_tx_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Base Tx Count
-        has_history:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Has History
-      type: object
-      title: IntelWalletActivity
+      title: HTTPValidationError
     ScreenResponse:
       properties:
         wallet:
@@ -179,32 +228,6 @@ components:
       - notes
       - checked_at
       title: ScreenResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     IntelWalletBalances:
       properties:
         base_eth:
@@ -273,26 +296,3 @@ components:
       - fetched_at
       - cache_age_seconds
       title: IntelWalletResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    IntelWalletIdentity:
-      properties:
-        ens_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ens Name
-        sns_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sns Name
-      type: object
-      title: IntelWalletIdentity
