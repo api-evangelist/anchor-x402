@@ -48,15 +48,6 @@ paths:
       - Tldr
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -83,21 +74,15 @@ components:
       - msg
       - type
       title: ValidationError
-    TldrResponse:
+    HTTPValidationError:
       properties:
-        summary_bullets:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Summary Bullets
-        source_chars:
-          type: integer
-          title: Source Chars
+          title: Detail
       type: object
-      required:
-      - summary_bullets
-      - source_chars
-      title: TldrResponse
+      title: HTTPValidationError
     TldrRequest:
       properties:
         text:
@@ -116,3 +101,18 @@ components:
           description: URL to fetch and summarize. Provide either text or url.
       type: object
       title: TldrRequest
+    TldrResponse:
+      properties:
+        summary_bullets:
+          items:
+            type: string
+          type: array
+          title: Summary Bullets
+        source_chars:
+          type: integer
+          title: Source Chars
+      type: object
+      required:
+      - summary_bullets
+      - source_chars
+      title: TldrResponse

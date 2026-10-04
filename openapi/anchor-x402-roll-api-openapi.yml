@@ -48,15 +48,41 @@ paths:
       - Roll
 components:
   schemas:
-    HTTPValidationError:
+    RollRequest:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
+        low:
+          type: integer
+          title: Low
+          description: Inclusive low bound of the integer range.
+        high:
+          type: integer
+          title: High
+          description: Inclusive high bound. Must be >= low.
+        count:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Count
+          description: How many integers to sample. 1-100.
+          default: 1
+        commitment:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Commitment
+          description: Optional 32-byte hex pre-commitment from the caller. Included in the signed payload, so the server cannot have chosen the result after seeing the caller's downstream intent.
+        label:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Label
+          description: Optional caller-defined tag (e.g. 'treasure_drop_42'). Included verbatim in the signed payload.
       type: object
-      title: HTTPValidationError
+      required:
+      - low
+      - high
+      title: RollRequest
     ValidationError:
       properties:
         loc:
@@ -83,6 +109,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     RollResponse:
       properties:
         range:
@@ -142,38 +177,3 @@ components:
       - scheme
       - domain
       title: RollResponse
-    RollRequest:
-      properties:
-        low:
-          type: integer
-          title: Low
-          description: Inclusive low bound of the integer range.
-        high:
-          type: integer
-          title: High
-          description: Inclusive high bound. Must be >= low.
-        count:
-          type: integer
-          maximum: 100.0
-          minimum: 1.0
-          title: Count
-          description: How many integers to sample. 1-100.
-          default: 1
-        commitment:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Commitment
-          description: Optional 32-byte hex pre-commitment from the caller. Included in the signed payload, so the server cannot have chosen the result after seeing the caller's downstream intent.
-        label:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Label
-          description: Optional caller-defined tag (e.g. 'treasure_drop_42'). Included verbatim in the signed payload.
-      type: object
-      required:
-      - low
-      - high
-      title: RollRequest

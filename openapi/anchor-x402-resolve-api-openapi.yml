@@ -48,6 +48,25 @@ paths:
       - Resolve
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _NameBody:
+      properties:
+        name:
+          type: string
+          title: Name
+          description: Human-readable name, e.g. 'vitalik.eth' or 'bonfida.sol'. ENS (.eth) and Bonfida SNS (.sol) are supported.
+      type: object
+      required:
+      - name
+      title: _NameBody
     ValidationError:
       properties:
         loc:
@@ -109,25 +128,6 @@ components:
       - resolved_at
       - supported_tlds
       title: NameResolveResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    _NameBody:
-      properties:
-        name:
-          type: string
-          title: Name
-          description: Human-readable name, e.g. 'vitalik.eth' or 'bonfida.sol'. ENS (.eth) and Bonfida SNS (.sol) are supported.
-      type: object
-      required:
-      - name
-      title: _NameBody
     NameAddress:
       properties:
         chain:

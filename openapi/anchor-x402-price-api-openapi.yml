@@ -48,57 +48,6 @@ paths:
       - Price
 components:
   schemas:
-    TokenPriceResponse:
-      properties:
-        symbol:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Symbol
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        contract:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contract
-        chain:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chain
-        usd:
-          type: number
-          title: Usd
-        usd_24h_change_pct:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Usd 24H Change Pct
-        market_cap_usd:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Market Cap Usd
-        source:
-          type: string
-          title: Source
-          default: coingecko
-        fetched_at:
-          type: integer
-          title: Fetched At
-        age_seconds:
-          type: integer
-          title: Age Seconds
-      type: object
-      required:
-      - usd
-      - fetched_at
-      - age_seconds
-      title: TokenPriceResponse
     ValidationError:
       properties:
         loc:
@@ -156,3 +105,54 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    TokenPriceResponse:
+      properties:
+        symbol:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Symbol
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        contract:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contract
+        chain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chain
+        usd:
+          type: number
+          title: Usd
+        usd_24h_change_pct:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Usd 24H Change Pct
+        market_cap_usd:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Market Cap Usd
+        source:
+          type: string
+          title: Source
+          default: coingecko
+        fetched_at:
+          type: integer
+          title: Fetched At
+        age_seconds:
+          type: integer
+          title: Age Seconds
+      type: object
+      required:
+      - usd
+      - fetched_at
+      - age_seconds
+      title: TokenPriceResponse

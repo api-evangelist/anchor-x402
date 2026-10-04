@@ -77,16 +77,40 @@ paths:
       - Investigate
 components:
   schemas:
-    InvestigateRequest:
+    InvestigateAcceptedResponse:
       properties:
-        address:
+        job_id:
           type: string
-          title: Address
-          description: EVM 0x... or Solana base58 address to investigate.
+          title: Job Id
+          description: Unique job id; poll /v1/investigate/status/{job_id}.
+        status:
+          type: string
+          const: accepted
+          title: Status
+          default: accepted
+        status_url:
+          type: string
+          title: Status Url
+          description: Absolute URL to poll for completion.
+        eta_seconds:
+          type: integer
+          title: Eta Seconds
+          description: Approximate wait until DELIVERED.
+          default: 600
       type: object
       required:
-      - address
-      title: InvestigateRequest
+      - job_id
+      - status_url
+      title: InvestigateAcceptedResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -113,85 +137,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    InvestigateAcceptedResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-          description: Unique job id; poll /v1/investigate/status/{job_id}.
-        status:
-          type: string
-          const: accepted
-          title: Status
-          default: accepted
-        status_url:
-          type: string
-          title: Status Url
-          description: Absolute URL to poll for completion.
-        eta_seconds:
-          type: integer
-          title: Eta Seconds
-          description: Approximate wait until DELIVERED.
-          default: 600
-      type: object
-      required:
-      - job_id
-      - status_url
-      title: InvestigateAcceptedResponse
-    InvestigateStatusResponse:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-        status:
-          type: string
-          enum:
-          - DISPATCHING
-          - IN_PROGRESS
-          - DELIVERED
-          - FAILED
-          - UNKNOWN
-          title: Status
-        deliverable:
-          anyOf:
-          - $ref: '#/components/schemas/InvestigateDeliverable'
-          - type: 'null'
-        eta_seconds:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Eta Seconds
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        refund_tx:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refund Tx
-          description: On-chain USDC refund tx hash (Base) when a FAILED job has been refunded. Auto-refunded for Base USDC payers; Solana/JPYC payers see `refund_pending=manual` and need a follow-up.
-        refund_pending:
-          anyOf:
-          - type: string
-            const: manual
-          - type: 'null'
-          title: Refund Pending
-      type: object
-      required:
-      - job_id
-      - status
-      title: InvestigateStatusResponse
     InvestigateDeliverable:
       properties:
         reportUrl:
@@ -246,3 +191,58 @@ components:
           title: Disclaimer
       type: object
       title: InvestigateDeliverable
+    InvestigateStatusResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+        status:
+          type: string
+          enum:
+          - DISPATCHING
+          - IN_PROGRESS
+          - DELIVERED
+          - FAILED
+          - UNKNOWN
+          title: Status
+        deliverable:
+          anyOf:
+          - $ref: '#/components/schemas/InvestigateDeliverable'
+          - type: 'null'
+        eta_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Eta Seconds
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        refund_tx:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refund Tx
+          description: On-chain USDC refund tx hash (Base) when a FAILED job has been refunded. Auto-refunded for Base USDC payers; Solana/JPYC payers see `refund_pending=manual` and need a follow-up.
+        refund_pending:
+          anyOf:
+          - type: string
+            const: manual
+          - type: 'null'
+          title: Refund Pending
+      type: object
+      required:
+      - job_id
+      - status
+      title: InvestigateStatusResponse
+    InvestigateRequest:
+      properties:
+        address:
+          type: string
+          title: Address
+          description: EVM 0x... or Solana base58 address to investigate.
+      type: object
+      required:
+      - address
+      title: InvestigateRequest

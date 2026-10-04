@@ -82,6 +82,15 @@ paths:
       - Decode
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -108,6 +117,23 @@ components:
       - msg
       - type
       title: ValidationError
+    DecodedParam:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        type:
+          type: string
+          title: Type
+        value:
+          title: Value
+      type: object
+      required:
+      - type
+      - value
+      title: DecodedParam
     CalldataDecodeResponse:
       properties:
         function_selector:
@@ -146,48 +172,25 @@ components:
       - function_selector
       - decoded
       title: CalldataDecodeResponse
-    DecodedParam:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        type:
-          type: string
-          title: Type
-        value:
-          title: Value
-      type: object
-      required:
-      - type
-      - value
-      title: DecodedParam
-    CalldataDecodeRequest:
+    TxDecodeRequest:
       properties:
         chain:
           type: string
           enum:
+          - base
           - ethereum
           - solana
           title: Chain
-          description: '"ethereum" supported; "solana" returns 400.'
-        calldata_hex:
+        tx_hash:
           type: string
-          minLength: 8
-          title: Calldata Hex
-          description: Raw EVM calldata (>=4-byte selector), with or without 0x prefix.
-        contract_address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contract Address
-          description: Optional. Reserved for future on-chain ABI lookups; currently unused.
+          maxLength: 128
+          minLength: 1
+          title: Tx Hash
       type: object
       required:
       - chain
-      - calldata_hex
-      title: CalldataDecodeRequest
+      - tx_hash
+      title: TxDecodeRequest
     TxDecodeResponse:
       properties:
         chain:
@@ -282,31 +285,28 @@ components:
       - chain
       - tx_hash
       title: TxDecodeResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TxDecodeRequest:
+    CalldataDecodeRequest:
       properties:
         chain:
           type: string
           enum:
-          - base
           - ethereum
           - solana
           title: Chain
-        tx_hash:
+          description: '"ethereum" supported; "solana" returns 400.'
+        calldata_hex:
           type: string
-          maxLength: 128
-          minLength: 1
-          title: Tx Hash
+          minLength: 8
+          title: Calldata Hex
+          description: Raw EVM calldata (>=4-byte selector), with or without 0x prefix.
+        contract_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contract Address
+          description: Optional. Reserved for future on-chain ABI lookups; currently unused.
       type: object
       required:
       - chain
-      - tx_hash
-      title: TxDecodeRequest
+      - calldata_hex
+      title: CalldataDecodeRequest

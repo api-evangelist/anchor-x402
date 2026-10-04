@@ -74,6 +74,18 @@ components:
       - msg
       - type
       title: ValidationError
+    OracleRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Question
+          description: A yes/no question for the oracle.
+      type: object
+      required:
+      - question
+      title: OracleRequest
     OracleResponse:
       properties:
         answer:
@@ -109,18 +121,6 @@ components:
       - base_tx
       - asked_at
       title: OracleResponse
-    OracleRequest:
-      properties:
-        question:
-          type: string
-          maxLength: 1000
-          minLength: 1
-          title: Question
-          description: A yes/no question for the oracle.
-      type: object
-      required:
-      - question
-      title: OracleRequest
     HTTPValidationError:
       properties:
         detail:

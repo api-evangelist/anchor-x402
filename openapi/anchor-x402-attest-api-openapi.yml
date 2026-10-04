@@ -74,6 +74,148 @@ paths:
       - Attest
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AttestRequest:
+      properties:
+        input_hash:
+          type: string
+          title: Input Hash
+          description: 64-char hex SHA-256 of the agent's input.
+        output_hash:
+          type: string
+          title: Output Hash
+          description: 64-char hex SHA-256 of the agent's output / decision payload.
+        decision:
+          type: string
+          maxLength: 64
+          title: Decision
+          description: Free-form short label, e.g. "APPROVED", "REJECTED", "CONFIDENCE=0.93".
+        scheme:
+          anyOf:
+          - type: string
+            enum:
+            - eip191
+            - ed25519
+          - type: 'null'
+          title: Scheme
+          description: 'Signature scheme when you supply a `signature`: "eip191" (EVM) or "ed25519" (Solana).'
+        signature:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Signature
+          description: 0x-prefixed hex (eip191) or base58 (ed25519). Omit to have the anchor-x402 treasury sign for you (hosted-signer mode, for wallet-less agents).
+        signer_pubkey:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Signer Pubkey
+          description: Required for ed25519 (Solana base58 pubkey). Ignored for eip191 — address is recovered.
+      type: object
+      required:
+      - input_hash
+      - output_hash
+      - decision
+      title: AttestRequest
+    AttestVerifyRequest:
+      properties:
+        input_hash:
+          type: string
+          title: Input Hash
+          description: 64-char hex SHA-256 of the agent's input.
+        output_hash:
+          type: string
+          title: Output Hash
+          description: 64-char hex SHA-256 of the agent's output / decision payload.
+        decision:
+          type: string
+          maxLength: 64
+          title: Decision
+        scheme:
+          type: string
+          enum:
+          - eip191
+          - ed25519
+          title: Scheme
+          description: '"eip191" or "ed25519" — matches the receipt.'
+        signature:
+          type: string
+          title: Signature
+          description: The signature from the receipt.
+        signer_pubkey:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Signer Pubkey
+          description: Required for ed25519.
+        base_tx:
+          type: string
+          title: Base Tx
+          description: 0x-prefixed Base tx hash returned by the mint.
+      type: object
+      required:
+      - input_hash
+      - output_hash
+      - decision
+      - scheme
+      - signature
+      - base_tx
+      title: AttestVerifyRequest
+      description: 'A minted receipt submitted for free re-verification: the signed tuple plus
+
+        the signature and the Base tx that should carry the anchored root.'
+    AttestVerifyResponse:
+      properties:
+        valid:
+          type: boolean
+          title: Valid
+          description: True iff signature verified AND the Base tx confirms the exact root.
+        merkle_root:
+          type: string
+          title: Merkle Root
+        signature_valid:
+          type: boolean
+          title: Signature Valid
+        signer:
+          type: string
+          title: Signer
+        anchor_confirmed:
+          type: boolean
+          title: Anchor Confirmed
+        root_matches:
+          type: boolean
+          title: Root Matches
+        anchored_at_block:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Anchored At Block
+        anchored_at_time:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Anchored At Time
+        notes:
+          type: string
+          title: Notes
+      type: object
+      required:
+      - valid
+      - merkle_root
+      - signature_valid
+      - signer
+      - anchor_confirmed
+      - root_matches
+      - notes
+      title: AttestVerifyResponse
     ValidationError:
       properties:
         loc:
@@ -146,48 +288,6 @@ components:
       - decision
       - signed_at
       title: AttestResponse
-    AttestRequest:
-      properties:
-        input_hash:
-          type: string
-          title: Input Hash
-          description: 64-char hex SHA-256 of the agent's input.
-        output_hash:
-          type: string
-          title: Output Hash
-          description: 64-char hex SHA-256 of the agent's output / decision payload.
-        decision:
-          type: string
-          maxLength: 64
-          title: Decision
-          description: Free-form short label, e.g. "APPROVED", "REJECTED", "CONFIDENCE=0.93".
-        scheme:
-          anyOf:
-          - type: string
-            enum:
-            - eip191
-            - ed25519
-          - type: 'null'
-          title: Scheme
-          description: 'Signature scheme when you supply a `signature`: "eip191" (EVM) or "ed25519" (Solana).'
-        signature:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Signature
-          description: 0x-prefixed hex (eip191) or base58 (ed25519). Omit to have the anchor-x402 treasury sign for you (hosted-signer mode, for wallet-less agents).
-        signer_pubkey:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Signer Pubkey
-          description: Required for ed25519 (Solana base58 pubkey). Ignored for eip191 — address is recovered.
-      type: object
-      required:
-      - input_hash
-      - output_hash
-      - decision
-      title: AttestRequest
     ChainAnchor:
       properties:
         tx:
@@ -201,103 +301,3 @@ components:
       - tx
       - explorer_url
       title: ChainAnchor
-    AttestVerifyResponse:
-      properties:
-        valid:
-          type: boolean
-          title: Valid
-          description: True iff signature verified AND the Base tx confirms the exact root.
-        merkle_root:
-          type: string
-          title: Merkle Root
-        signature_valid:
-          type: boolean
-          title: Signature Valid
-        signer:
-          type: string
-          title: Signer
-        anchor_confirmed:
-          type: boolean
-          title: Anchor Confirmed
-        root_matches:
-          type: boolean
-          title: Root Matches
-        anchored_at_block:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Anchored At Block
-        anchored_at_time:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Anchored At Time
-        notes:
-          type: string
-          title: Notes
-      type: object
-      required:
-      - valid
-      - merkle_root
-      - signature_valid
-      - signer
-      - anchor_confirmed
-      - root_matches
-      - notes
-      title: AttestVerifyResponse
-    AttestVerifyRequest:
-      properties:
-        input_hash:
-          type: string
-          title: Input Hash
-          description: 64-char hex SHA-256 of the agent's input.
-        output_hash:
-          type: string
-          title: Output Hash
-          description: 64-char hex SHA-256 of the agent's output / decision payload.
-        decision:
-          type: string
-          maxLength: 64
-          title: Decision
-        scheme:
-          type: string
-          enum:
-          - eip191
-          - ed25519
-          title: Scheme
-          description: '"eip191" or "ed25519" — matches the receipt.'
-        signature:
-          type: string
-          title: Signature
-          description: The signature from the receipt.
-        signer_pubkey:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Signer Pubkey
-          description: Required for ed25519.
-        base_tx:
-          type: string
-          title: Base Tx
-          description: 0x-prefixed Base tx hash returned by the mint.
-      type: object
-      required:
-      - input_hash
-      - output_hash
-      - decision
-      - scheme
-      - signature
-      - base_tx
-      title: AttestVerifyRequest
-      description: 'A minted receipt submitted for free re-verification: the signed tuple plus
-
-        the signature and the Base tx that should carry the anchored root.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

@@ -74,19 +74,6 @@ components:
       - msg
       - type
       title: ValidationError
-    RoastResponse:
-      properties:
-        roast:
-          type: string
-          title: Roast
-        target_summary:
-          type: string
-          title: Target Summary
-      type: object
-      required:
-      - roast
-      - target_summary
-      title: RoastResponse
     RoastRequest:
       properties:
         target:
@@ -108,3 +95,16 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    RoastResponse:
+      properties:
+        roast:
+          type: string
+          title: Roast
+        target_summary:
+          type: string
+          title: Target Summary
+      type: object
+      required:
+      - roast
+      - target_summary
+      title: RoastResponse

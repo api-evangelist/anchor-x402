@@ -48,45 +48,6 @@ paths:
       - Aura
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    AuraResponse:
-      properties:
-        color:
-          type: string
-          title: Color
-        tier:
-          type: string
-          enum:
-          - S
-          - A
-          - B
-          - C
-          - D
-          - F
-          title: Tier
-        score:
-          type: integer
-          maximum: 9999.0
-          minimum: 0.0
-          title: Score
-        description:
-          type: string
-          title: Description
-      type: object
-      required:
-      - color
-      - tier
-      - score
-      - description
-      title: AuraResponse
     ValidationError:
       properties:
         loc:
@@ -125,3 +86,42 @@ components:
       required:
       - target
       title: AuraRequest
+    AuraResponse:
+      properties:
+        color:
+          type: string
+          title: Color
+        tier:
+          type: string
+          enum:
+          - S
+          - A
+          - B
+          - C
+          - D
+          - F
+          title: Tier
+        score:
+          type: integer
+          maximum: 9999.0
+          minimum: 0.0
+          title: Score
+        description:
+          type: string
+          title: Description
+      type: object
+      required:
+      - color
+      - tier
+      - score
+      - description
+      title: AuraResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

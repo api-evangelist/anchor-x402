@@ -48,115 +48,6 @@ paths:
       - Intel
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    IntelWalletActivity:
-      properties:
-        base_tx_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Base Tx Count
-        has_history:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Has History
-      type: object
-      title: IntelWalletActivity
-    IntelWalletIdentity:
-      properties:
-        ens_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ens Name
-        sns_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sns Name
-      type: object
-      title: IntelWalletIdentity
-    ScreenSignal:
-      properties:
-        code:
-          type: string
-          title: Code
-        severity:
-          type: string
-          title: Severity
-          description: '"critical" | "high" | "medium"'
-        source:
-          type: string
-          title: Source
-          description: '"treasury.gov" | "goplus"'
-        detail:
-          type: string
-          title: Detail
-      type: object
-      required:
-      - code
-      - severity
-      - source
-      - detail
-      title: ScreenSignal
-    _WalletBody:
-      properties:
-        wallet:
-          type: string
-          title: Wallet
-          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
-      type: object
-      required:
-      - wallet
-      title: _WalletBody
-    IntelWalletError:
-      properties:
-        source:
-          type: string
-          title: Source
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - source
-      - message
-      title: IntelWalletError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ScreenResponse:
       properties:
         wallet:
@@ -228,6 +119,62 @@ components:
       - notes
       - checked_at
       title: ScreenResponse
+    ScreenSignal:
+      properties:
+        code:
+          type: string
+          title: Code
+        severity:
+          type: string
+          title: Severity
+          description: '"critical" | "high" | "medium"'
+        source:
+          type: string
+          title: Source
+          description: '"treasury.gov" | "goplus"'
+        detail:
+          type: string
+          title: Detail
+      type: object
+      required:
+      - code
+      - severity
+      - source
+      - detail
+      title: ScreenSignal
+    IntelWalletIdentity:
+      properties:
+        ens_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ens Name
+        sns_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sns Name
+      type: object
+      title: IntelWalletIdentity
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _WalletBody:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
+      type: object
+      required:
+      - wallet
+      title: _WalletBody
     IntelWalletBalances:
       properties:
         base_eth:
@@ -257,6 +204,59 @@ components:
           title: Solana Usdc
       type: object
       title: IntelWalletBalances
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    IntelWalletError:
+      properties:
+        source:
+          type: string
+          title: Source
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - source
+      - message
+      title: IntelWalletError
+    IntelWalletActivity:
+      properties:
+        base_tx_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Base Tx Count
+        has_history:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Has History
+      type: object
+      title: IntelWalletActivity
     IntelWalletResponse:
       properties:
         wallet:
