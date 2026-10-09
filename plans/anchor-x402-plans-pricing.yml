@@ -195,3 +195,28 @@ refunds:
   note: >-
     No refund, void or chargeback path is documented for any call. Settlement is an on-chain transfer to the
     treasury address. See the reversibility block in conventions/anchor-x402-conventions.yml.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  units: []
+  plans:
+  - name: Commodity (pay-per-call)
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods: []
+  - name: Institutional
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: White-label / custom bot
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
