@@ -48,6 +48,48 @@ paths:
       - Screen
 components:
   schemas:
+    ScreenSignal:
+      properties:
+        code:
+          type: string
+          title: Code
+        severity:
+          type: string
+          title: Severity
+          description: '"critical" | "high" | "medium"'
+        source:
+          type: string
+          title: Source
+          description: '"treasury.gov" | "goplus"'
+        detail:
+          type: string
+          title: Detail
+      type: object
+      required:
+      - code
+      - severity
+      - source
+      - detail
+      title: ScreenSignal
+    _WalletBody:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
+      type: object
+      required:
+      - wallet
+      title: _WalletBody
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ScreenResponse:
       properties:
         wallet:
@@ -119,48 +161,6 @@ components:
       - notes
       - checked_at
       title: ScreenResponse
-    ScreenSignal:
-      properties:
-        code:
-          type: string
-          title: Code
-        severity:
-          type: string
-          title: Severity
-          description: '"critical" | "high" | "medium"'
-        source:
-          type: string
-          title: Source
-          description: '"treasury.gov" | "goplus"'
-        detail:
-          type: string
-          title: Detail
-      type: object
-      required:
-      - code
-      - severity
-      - source
-      - detail
-      title: ScreenSignal
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    _WalletBody:
-      properties:
-        wallet:
-          type: string
-          title: Wallet
-          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
-      type: object
-      required:
-      - wallet
-      title: _WalletBody
     ValidationError:
       properties:
         loc:

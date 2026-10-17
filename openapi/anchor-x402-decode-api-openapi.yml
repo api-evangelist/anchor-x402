@@ -82,96 +82,6 @@ paths:
       - Decode
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DecodedParam:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        type:
-          type: string
-          title: Type
-        value:
-          title: Value
-      type: object
-      required:
-      - type
-      - value
-      title: DecodedParam
-    CalldataDecodeResponse:
-      properties:
-        function_selector:
-          type: string
-          title: Function Selector
-        function_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Function Name
-        function_signature:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Function Signature
-        params:
-          items:
-            $ref: '#/components/schemas/DecodedParam'
-          type: array
-          title: Params
-        decoded:
-          type: boolean
-          title: Decoded
-        candidates:
-          items:
-            type: string
-          type: array
-          title: Candidates
-          description: Other matching sigs when the 4byte selector is ambiguous.
-        source:
-          type: string
-          title: Source
-          default: openchain.xyz
-      type: object
-      required:
-      - function_selector
-      - decoded
-      title: CalldataDecodeResponse
     TxDecodeRequest:
       properties:
         chain:
@@ -285,6 +195,70 @@ components:
       - chain
       - tx_hash
       title: TxDecodeResponse
+    CalldataDecodeResponse:
+      properties:
+        function_selector:
+          type: string
+          title: Function Selector
+        function_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Function Name
+        function_signature:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Function Signature
+        params:
+          items:
+            $ref: '#/components/schemas/DecodedParam'
+          type: array
+          title: Params
+        decoded:
+          type: boolean
+          title: Decoded
+        candidates:
+          items:
+            type: string
+          type: array
+          title: Candidates
+          description: Other matching sigs when the 4byte selector is ambiguous.
+        source:
+          type: string
+          title: Source
+          default: openchain.xyz
+      type: object
+      required:
+      - function_selector
+      - decoded
+      title: CalldataDecodeResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DecodedParam:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        type:
+          type: string
+          title: Type
+        value:
+          title: Value
+      type: object
+      required:
+      - type
+      - value
+      title: DecodedParam
     CalldataDecodeRequest:
       properties:
         chain:
@@ -310,3 +284,29 @@ components:
       - chain
       - calldata_hex
       title: CalldataDecodeRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

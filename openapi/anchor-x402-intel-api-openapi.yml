@@ -48,6 +48,120 @@ paths:
       - Intel
 components:
   schemas:
+    _WalletBody:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
+      type: object
+      required:
+      - wallet
+      title: _WalletBody
+    IntelWalletIdentity:
+      properties:
+        ens_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ens Name
+        sns_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sns Name
+      type: object
+      title: IntelWalletIdentity
+    IntelWalletError:
+      properties:
+        source:
+          type: string
+          title: Source
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - source
+      - message
+      title: IntelWalletError
+    IntelWalletBalances:
+      properties:
+        base_eth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Eth
+        eth_eth:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eth Eth
+        base_usdc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Usdc
+        sol:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sol
+        solana_usdc:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Solana Usdc
+      type: object
+      title: IntelWalletBalances
+    IntelWalletResponse:
+      properties:
+        wallet:
+          type: string
+          title: Wallet
+        chain_inferred:
+          type: string
+          title: Chain Inferred
+        balances:
+          $ref: '#/components/schemas/IntelWalletBalances'
+        activity:
+          $ref: '#/components/schemas/IntelWalletActivity'
+        identity:
+          $ref: '#/components/schemas/IntelWalletIdentity'
+        sanctions:
+          anyOf:
+          - $ref: '#/components/schemas/ScreenResponse'
+          - type: 'null'
+        errors:
+          items:
+            $ref: '#/components/schemas/IntelWalletError'
+          type: array
+          title: Errors
+        fetched_at:
+          type: integer
+          title: Fetched At
+        cache_age_seconds:
+          type: integer
+          title: Cache Age Seconds
+      type: object
+      required:
+      - wallet
+      - chain_inferred
+      - balances
+      - activity
+      - identity
+      - fetched_at
+      - cache_age_seconds
+      title: IntelWalletResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ScreenResponse:
       properties:
         wallet:
@@ -119,6 +233,20 @@ components:
       - notes
       - checked_at
       title: ScreenResponse
+    IntelWalletActivity:
+      properties:
+        base_tx_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Base Tx Count
+        has_history:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Has History
+      type: object
+      title: IntelWalletActivity
     ScreenSignal:
       properties:
         code:
@@ -142,68 +270,6 @@ components:
       - source
       - detail
       title: ScreenSignal
-    IntelWalletIdentity:
-      properties:
-        ens_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ens Name
-        sns_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sns Name
-      type: object
-      title: IntelWalletIdentity
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    _WalletBody:
-      properties:
-        wallet:
-          type: string
-          title: Wallet
-          description: EVM 0x… address (40 hex) or Solana base58 pubkey.
-      type: object
-      required:
-      - wallet
-      title: _WalletBody
-    IntelWalletBalances:
-      properties:
-        base_eth:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Eth
-        eth_eth:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eth Eth
-        base_usdc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Usdc
-        sol:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sol
-        solana_usdc:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Solana Usdc
-      type: object
-      title: IntelWalletBalances
     ValidationError:
       properties:
         loc:
@@ -230,69 +296,3 @@ components:
       - msg
       - type
       title: ValidationError
-    IntelWalletError:
-      properties:
-        source:
-          type: string
-          title: Source
-        message:
-          type: string
-          title: Message
-      type: object
-      required:
-      - source
-      - message
-      title: IntelWalletError
-    IntelWalletActivity:
-      properties:
-        base_tx_count:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Base Tx Count
-        has_history:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Has History
-      type: object
-      title: IntelWalletActivity
-    IntelWalletResponse:
-      properties:
-        wallet:
-          type: string
-          title: Wallet
-        chain_inferred:
-          type: string
-          title: Chain Inferred
-        balances:
-          $ref: '#/components/schemas/IntelWalletBalances'
-        activity:
-          $ref: '#/components/schemas/IntelWalletActivity'
-        identity:
-          $ref: '#/components/schemas/IntelWalletIdentity'
-        sanctions:
-          anyOf:
-          - $ref: '#/components/schemas/ScreenResponse'
-          - type: 'null'
-        errors:
-          items:
-            $ref: '#/components/schemas/IntelWalletError'
-          type: array
-          title: Errors
-        fetched_at:
-          type: integer
-          title: Fetched At
-        cache_age_seconds:
-          type: integer
-          title: Cache Age Seconds
-      type: object
-      required:
-      - wallet
-      - chain_inferred
-      - balances
-      - activity
-      - identity
-      - fetched_at
-      - cache_age_seconds
-      title: IntelWalletResponse

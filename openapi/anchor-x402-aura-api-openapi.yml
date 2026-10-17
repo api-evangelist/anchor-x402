@@ -48,44 +48,6 @@ paths:
       - Aura
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AuraRequest:
-      properties:
-        target:
-          type: string
-          maxLength: 4000
-          minLength: 1
-          title: Target
-          description: Anything to read the aura of.
-      type: object
-      required:
-      - target
-      title: AuraRequest
     AuraResponse:
       properties:
         color:
@@ -116,6 +78,32 @@ components:
       - score
       - description
       title: AuraResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -125,3 +113,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    AuraRequest:
+      properties:
+        target:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Target
+          description: Anything to read the aura of.
+      type: object
+      required:
+      - target
+      title: AuraRequest

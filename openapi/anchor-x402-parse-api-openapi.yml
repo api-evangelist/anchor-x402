@@ -48,15 +48,6 @@ paths:
       - Parse
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     DatetimeParseRequest:
       properties:
         input:
@@ -80,6 +71,55 @@ components:
       required:
       - input
       title: DatetimeParseRequest
+    DatetimeParseResponse:
+      properties:
+        iso:
+          type: string
+          title: Iso
+        unix:
+          type: integer
+          title: Unix
+        timezone:
+          type: string
+          title: Timezone
+        components:
+          $ref: '#/components/schemas/DatetimeComponents'
+        relative_seconds:
+          type: integer
+          title: Relative Seconds
+        relative_human:
+          type: string
+          title: Relative Human
+        confidence:
+          type: string
+          enum:
+          - high
+          - medium
+          - low
+          title: Confidence
+        parsed_input:
+          type: string
+          title: Parsed Input
+      type: object
+      required:
+      - iso
+      - unix
+      - timezone
+      - components
+      - relative_seconds
+      - relative_human
+      - confidence
+      - parsed_input
+      title: DatetimeParseResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -145,43 +185,3 @@ components:
       - weekday
       - day_name
       title: DatetimeComponents
-    DatetimeParseResponse:
-      properties:
-        iso:
-          type: string
-          title: Iso
-        unix:
-          type: integer
-          title: Unix
-        timezone:
-          type: string
-          title: Timezone
-        components:
-          $ref: '#/components/schemas/DatetimeComponents'
-        relative_seconds:
-          type: integer
-          title: Relative Seconds
-        relative_human:
-          type: string
-          title: Relative Human
-        confidence:
-          type: string
-          enum:
-          - high
-          - medium
-          - low
-          title: Confidence
-        parsed_input:
-          type: string
-          title: Parsed Input
-      type: object
-      required:
-      - iso
-      - unix
-      - timezone
-      - components
-      - relative_seconds
-      - relative_human
-      - confidence
-      - parsed_input
-      title: DatetimeParseResponse

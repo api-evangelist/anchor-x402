@@ -74,37 +74,6 @@ components:
       - msg
       - type
       title: ValidationError
-    _TokenPriceBody:
-      properties:
-        symbol:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Symbol
-          description: Token symbol like 'ETH', 'BTC', 'SOL', 'USDC'. Mutually exclusive with chain+contract.
-        chain:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Chain
-          description: 'Chain slug: base, ethereum, solana, polygon, arbitrum, optimism, bsc, avalanche. Use with contract.'
-        contract:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Contract
-          description: Token contract address. Requires chain.
-      type: object
-      title: _TokenPriceBody
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     TokenPriceResponse:
       properties:
         symbol:
@@ -156,3 +125,34 @@ components:
       - fetched_at
       - age_seconds
       title: TokenPriceResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    _TokenPriceBody:
+      properties:
+        symbol:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Symbol
+          description: Token symbol like 'ETH', 'BTC', 'SOL', 'USDC'. Mutually exclusive with chain+contract.
+        chain:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Chain
+          description: 'Chain slug: base, ethereum, solana, polygon, arbitrum, optimism, bsc, avalanche. Use with contract.'
+        contract:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contract
+          description: Token contract address. Requires chain.
+      type: object
+      title: _TokenPriceBody

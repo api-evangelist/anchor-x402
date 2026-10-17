@@ -48,69 +48,6 @@ paths:
       - Anchor
 components:
   schemas:
-    AnchorResponse:
-      properties:
-        merkle_root:
-          type: string
-          title: Merkle Root
-          description: The 64-char hex hash that was anchored.
-        base:
-          $ref: '#/components/schemas/ChainAnchor'
-        solana:
-          anyOf:
-          - $ref: '#/components/schemas/ChainAnchor'
-          - type: 'null'
-          description: None if the Solana side failed; Base anchor still proves the hash existed.
-        anchored_at:
-          type: integer
-          title: Anchored At
-          description: Unix epoch seconds when the anchor txs were broadcast.
-        note:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Note
-      type: object
-      required:
-      - merkle_root
-      - base
-      - anchored_at
-      title: AnchorResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     AnchorRequest:
       properties:
         hash:
@@ -147,3 +84,66 @@ components:
       - tx
       - explorer_url
       title: ChainAnchor
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    AnchorResponse:
+      properties:
+        merkle_root:
+          type: string
+          title: Merkle Root
+          description: The 64-char hex hash that was anchored.
+        base:
+          $ref: '#/components/schemas/ChainAnchor'
+        solana:
+          anyOf:
+          - $ref: '#/components/schemas/ChainAnchor'
+          - type: 'null'
+          description: None if the Solana side failed; Base anchor still proves the hash existed.
+        anchored_at:
+          type: integer
+          title: Anchored At
+          description: Unix epoch seconds when the anchor txs were broadcast.
+        note:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Note
+      type: object
+      required:
+      - merkle_root
+      - base
+      - anchored_at
+      title: AnchorResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

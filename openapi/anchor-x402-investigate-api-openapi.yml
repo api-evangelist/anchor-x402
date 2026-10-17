@@ -77,6 +77,51 @@ paths:
       - Investigate
 components:
   schemas:
+    InvestigateStatusResponse:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+        status:
+          type: string
+          enum:
+          - DISPATCHING
+          - IN_PROGRESS
+          - DELIVERED
+          - FAILED
+          - UNKNOWN
+          title: Status
+        deliverable:
+          anyOf:
+          - $ref: '#/components/schemas/InvestigateDeliverable'
+          - type: 'null'
+        eta_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Eta Seconds
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        refund_tx:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refund Tx
+          description: On-chain USDC refund tx hash (Base) when a FAILED job has been refunded. Auto-refunded for Base USDC payers; Solana/JPYC payers see `refund_pending=manual` and need a follow-up.
+        refund_pending:
+          anyOf:
+          - type: string
+            const: manual
+          - type: 'null'
+          title: Refund Pending
+      type: object
+      required:
+      - job_id
+      - status
+      title: InvestigateStatusResponse
     InvestigateAcceptedResponse:
       properties:
         job_id:
@@ -111,32 +156,16 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
+    InvestigateRequest:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        address:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Address
+          description: EVM 0x... or Solana base58 address to investigate.
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - address
+      title: InvestigateRequest
     InvestigateDeliverable:
       properties:
         reportUrl:
@@ -191,58 +220,29 @@ components:
           title: Disclaimer
       type: object
       title: InvestigateDeliverable
-    InvestigateStatusResponse:
+    ValidationError:
       properties:
-        job_id:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Job Id
-        status:
+          title: Message
+        type:
           type: string
-          enum:
-          - DISPATCHING
-          - IN_PROGRESS
-          - DELIVERED
-          - FAILED
-          - UNKNOWN
-          title: Status
-        deliverable:
-          anyOf:
-          - $ref: '#/components/schemas/InvestigateDeliverable'
-          - type: 'null'
-        eta_seconds:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Eta Seconds
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        refund_tx:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refund Tx
-          description: On-chain USDC refund tx hash (Base) when a FAILED job has been refunded. Auto-refunded for Base USDC payers; Solana/JPYC payers see `refund_pending=manual` and need a follow-up.
-        refund_pending:
-          anyOf:
-          - type: string
-            const: manual
-          - type: 'null'
-          title: Refund Pending
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - job_id
-      - status
-      title: InvestigateStatusResponse
-    InvestigateRequest:
-      properties:
-        address:
-          type: string
-          title: Address
-          description: EVM 0x... or Solana base58 address to investigate.
-      type: object
-      required:
-      - address
-      title: InvestigateRequest
+      - loc
+      - msg
+      - type
+      title: ValidationError
