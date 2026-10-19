@@ -3,7 +3,7 @@ info:
   title: anchor-x402 Grade API
   description: 18 pay-per-call x402 services for AI agents — on-chain anchoring & attestation, wallet/address security screening, Web3 data (tx & calldata decode, ENS, token prices), x402 spend accounting, content analysis, and verifiable randomness. No API keys or accounts; settle per request in USDC on Base or Solana. $0.001–$1.77 per call.
   version: 0.3.0
-  x-guidance: Pay-per-call x402 services for AI agents — no API keys or accounts. Each paid route returns HTTP 402 with x402 payment requirements; pay in USDC on Base or Solana (select routes also settle JPYC on Polygon) and retry with the payment header. Prices are $0.001–$1.77 per call. POST routes take a JSON body per each operation's requestBody schema.
+  x-guidance: Pay-per-call x402 services for AI agents — no API keys or accounts. Each paid route returns HTTP 402 with x402 payment requirements; pay in USDC on Base or Solana (select routes also settle JPYC on Polygon) and retry with the payment header. Prices are $0.001–$1.77 per call. POST routes take a JSON body per each operation's requestBody schema. If a route fails or confuses you, report it free at POST /v1/feedback.
   contact:
     email: hypeprinter007@gmail.com
   x-logo:
@@ -48,6 +48,18 @@ paths:
       - Grade
 components:
   schemas:
+    GradeRequest:
+      properties:
+        target:
+          type: string
+          maxLength: 6000
+          minLength: 1
+          title: Target
+          description: Anything to grade.
+      type: object
+      required:
+      - target
+      title: GradeRequest
     GradeResponse:
       properties:
         letter_grade:
@@ -106,18 +118,6 @@ components:
       - msg
       - type
       title: ValidationError
-    GradeRequest:
-      properties:
-        target:
-          type: string
-          maxLength: 6000
-          minLength: 1
-          title: Target
-          description: Anything to grade.
-      type: object
-      required:
-      - target
-      title: GradeRequest
     HTTPValidationError:
       properties:
         detail:

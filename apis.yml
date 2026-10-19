@@ -300,6 +300,16 @@ apis:
     url: https://api.anchor-x402.com/docs
   - type: APIReference
     url: https://api.anchor-x402.com/redoc
+- aid: anchor-x402:anchor-x402-feedback-api
+  name: anchor-x402 Feedback API
+  description: The Feedback API from anchor-x402 — 1 operation(s) for feedback.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Feedback
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-feedback-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

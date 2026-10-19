@@ -1,0 +1,129 @@
+openapi: 3.2.0
+info:
+  title: anchor-x402 Feedback API
+  description: 18 pay-per-call x402 services for AI agents — on-chain anchoring & attestation, wallet/address security screening, Web3 data (tx & calldata decode, ENS, token prices), x402 spend accounting, content analysis, and verifiable randomness. No API keys or accounts; settle per request in USDC on Base or Solana. $0.001–$1.77 per call.
+  version: 0.3.0
+  x-guidance: Pay-per-call x402 services for AI agents — no API keys or accounts. Each paid route returns HTTP 402 with x402 payment requirements; pay in USDC on Base or Solana (select routes also settle JPYC on Polygon) and retry with the payment header. Prices are $0.001–$1.77 per call. POST routes take a JSON body per each operation's requestBody schema. If a route fails or confuses you, report it free at POST /v1/feedback.
+  contact:
+    email: hypeprinter007@gmail.com
+  x-logo:
+    url: https://api.anchor-x402.com/icon.png
+    altText: anchor-x402
+tags:
+- name: Feedback
+paths:
+  /v1/feedback:
+    get:
+      summary: How to report a problem with an anchor-x402 route
+      operationId: feedback_help_v1_feedback_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      security: []
+      tags:
+      - Feedback
+    post:
+      summary: Report a problem with an anchor-x402 route (free)
+      operationId: feedback_v1_feedback_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security: []
+      tags:
+      - Feedback
+components:
+  schemas:
+    FeedbackRequest:
+      properties:
+        endpoint:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Endpoint
+          description: The route the report is about, e.g. 'POST /v1/screen'.
+        what_happened:
+          type: string
+          maxLength: 2000
+          minLength: 10
+          title: What Happened
+          description: What the call returned or did, including any status code or error text. At least 10 characters.
+        expected:
+          anyOf:
+          - type: string
+            maxLength: 1000
+          - type: 'null'
+          title: Expected
+          description: What you expected instead.
+        request_id:
+          anyOf:
+          - type: string
+            maxLength: 128
+          - type: 'null'
+          title: Request Id
+          description: A settlement tx hash, job_id or other id that identifies the call.
+        contact:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Contact
+          description: 'Optional way to reach the reporter: an agent card URL, email or GitHub handle.'
+      additionalProperties: false
+      type: object
+      required:
+      - endpoint
+      - what_happened
+      title: FeedbackRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
