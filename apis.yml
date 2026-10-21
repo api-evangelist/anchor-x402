@@ -1,7 +1,17 @@
 aid: anchor-x402
+
 name: anchor-x402
-description: >-
-  anchor-x402 operates a pay-per-call API surface for AI agents, billed with the x402 HTTP payment protocol instead of API keys or accounts. Eighteen stateless services run on AWS Lambda and FastAPI behind https://api.anchor-x402.com, each returning an x402 v2 402 PaymentRequired challenge that a caller settles per request in USDC on Base or Solana (select routes also settle JPYC on Polygon) via EIP-3009 transferWithAuthorization. The catalog spans on-chain anchoring and attestation, wallet sanctions and risk screening, Web3 data decoding, ENS/SNS name resolution, token pricing, x402 spend accounting, verifiable signed randomness, and LLM-backed content analysis, priced from $0.001 to $1.77 per call. The same 18 services are exposed over MCP (a hosted Streamable HTTP endpoint at https://api.anchor-x402.com/mcp whose tools/list is free and anonymous, plus an npm stdio package) and over a signed A2A JSON-RPC door at /v1/a2a, with a conformant A2A 0.3.0 agent card and a hosted Claude chatbot at chat.anchor-x402.com for non-developers. Source is MIT licensed and the operator publishes a trust portal that states plainly it holds no SOC 2, ISO 27001, PCI or HIPAA certification.
+
+description: anchor-x402 operates a pay-per-call API surface for AI agents, billed with the x402 HTTP payment protocol instead of API keys or
+  accounts. Eighteen stateless services run on AWS Lambda and FastAPI behind https://api.anchor-x402.com, each returning an x402 v2 402 PaymentRequired
+  challenge that a caller settles per request in USDC on Base or Solana (select routes also settle JPYC on Polygon) via EIP-3009 transferWithAuthorization.
+  The catalog spans on-chain anchoring and attestation, wallet sanctions and risk screening, Web3 data decoding, ENS/SNS name resolution, token
+  pricing, x402 spend accounting, verifiable signed randomness, and LLM-backed content analysis, priced from $0.001 to $1.77 per call. The same
+  18 services are exposed over MCP (a hosted Streamable HTTP endpoint at https://api.anchor-x402.com/mcp whose tools/list is free and anonymous,
+  plus an npm stdio package) and over a signed A2A JSON-RPC door at /v1/a2a, with a conformant A2A 0.3.0 agent card and a hosted Claude chatbot
+  at chat.anchor-x402.com for non-developers. Source is MIT licensed and the operator publishes a trust portal that states plainly it holds no
+  SOC 2, ISO 27001, PCI or HIPAA certification.
+
 deliveryModel:
   model: open-core
   license: MIT
@@ -20,19 +30,33 @@ deliveryModel:
   - repository-license
   generated: '2026-09-25'
   method: derived
+
 image: https://anchor-x402.com/og.png
+
 url: https://raw.githubusercontent.com/api-evangelist/anchor-x402/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: manual:direct-request
-x-tier: stub
-x-tier-reason: direct-request
+
+x-tier: profiled
+
+x-tier-reason: enrichment pass 2026-10-20 (local-v5; was direct-request)
+
 specificationVersion: '0.20'
+
 created: '2026-09-11'
+
 modified: '2026-09-11'
+
 position: Producing
+
 x-docs-platform: swagger-ui
+
 x-docs-platform-confidence: medium
+
 x-docs-platform-checked: 2026-09-18
+
 tags:
 - Company
 - x402
@@ -47,6 +71,7 @@ tags:
 - Compliance
 - Attestation
 - A2A
+
 tags_raw:
 - Company
 - x402
@@ -61,261 +86,32 @@ tags_raw:
 - Compliance
 - Attestation
 - A2A
-apis:
-- aid: anchor-x402:anchor-x402-anchor-api
-  name: anchor-x402 Anchor API
-  description: The Anchor API from anchor-x402 — 1 operation(s) for anchor.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Anchor
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-anchor-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-attest-api
-  name: anchor-x402 Attest API
-  description: The Attest API from anchor-x402 — 2 operation(s) for attest.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Attest
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-attest-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-aura-api
-  name: anchor-x402 Aura API
-  description: The Aura API from anchor-x402 — 1 operation(s) for aura.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Aura
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-aura-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-decode-api
-  name: anchor-x402 Decode API
-  description: The Decode API from anchor-x402 — 2 operation(s) for decode.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Decode
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-decode-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-grade-api
-  name: anchor-x402 Grade API
-  description: The Grade API from anchor-x402 — 1 operation(s) for grade.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Grade
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-grade-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-health-api
-  name: anchor-x402 Health API
-  description: The Health API from anchor-x402 — 1 operation(s) for health.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Health
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-health-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-intel-api
-  name: anchor-x402 Intel API
-  description: The Intel API from anchor-x402 — 1 operation(s) for intel.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Intel
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-intel-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-investigate-api
-  name: anchor-x402 Investigate API
-  description: The Investigate API from anchor-x402 — 2 operation(s) for investigate.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Investigate
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-investigate-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-ledger-api
-  name: anchor-x402 Ledger API
-  description: The Ledger API from anchor-x402 — 3 operation(s) for ledger.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Ledger
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-ledger-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-oracle-api
-  name: anchor-x402 Oracle API
-  description: The Oracle API from anchor-x402 — 1 operation(s) for oracle.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Oracle
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-oracle-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-parse-api
-  name: anchor-x402 Parse API
-  description: The Parse API from anchor-x402 — 1 operation(s) for parse.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Parse
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-parse-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-price-api
-  name: anchor-x402 Price API
-  description: The Price API from anchor-x402 — 1 operation(s) for price.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Price
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-price-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-resolve-api
-  name: anchor-x402 Resolve API
-  description: The Resolve API from anchor-x402 — 1 operation(s) for resolve.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Resolve
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-resolve-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-roast-api
-  name: anchor-x402 Roast API
-  description: The Roast API from anchor-x402 — 1 operation(s) for roast.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Roast
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-roast-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-roll-api
-  name: anchor-x402 Roll API
-  description: The Roll API from anchor-x402 — 1 operation(s) for roll.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Roll
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-roll-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-screen-api
-  name: anchor-x402 Screen API
-  description: The Screen API from anchor-x402 — 1 operation(s) for screen.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Screen
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-screen-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-tldr-api
-  name: anchor-x402 Tldr API
-  description: The Tldr API from anchor-x402 — 1 operation(s) for tldr.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Tldr
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-tldr-api-openapi.yml
-  - type: Documentation
-    url: https://api.anchor-x402.com/docs
-  - type: APIReference
-    url: https://api.anchor-x402.com/redoc
-- aid: anchor-x402:anchor-x402-feedback-api
-  name: anchor-x402 Feedback API
-  description: The Feedback API from anchor-x402 — 1 operation(s) for feedback.
-  humanURL: https://api.anchor-x402.com/docs
-  baseURL: https://api.anchor-x402.com
-  tags:
-  - Feedback
-  properties:
-  - type: OpenAPI
-    url: openapi/anchor-x402-feedback-api-openapi.yml
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: Compliance
+  url: https://anchor-x402.com/trust/
+- type: AgenticAccess
+  url: agentic-access/anchor-x402-agentic-access.yml
+- type: Spectral
+  url: rules/anchor-x402-rules.yml
+- type: JSONLD
+  url: json-ld/anchor-x402-context.jsonld
+- type: Vocabulary
+  url: vocabulary/anchor-x402-vocabulary.yml
+- type: Deprecation
+  url: lifecycle/anchor-x402-lifecycle.yml
+- type: Hosts
+  url: hosts/anchor-x402-hosts.yml
+- type: IntegrationEdges
+  url: integrations/anchor-x402-integration-edges.yml
+- type: Vendors
+  url: vendors/anchor-x402-vendors.yml
 - type: Overlay
   url: overlays/anchor-x402-openapi-overlay.yaml
 - type: Website
@@ -378,17 +174,347 @@ common:
   url: examples/anchor-x402-examples.yml
 - type: Plans
   url: plans/anchor-x402-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/anchor-x402-rate-limits.yml
+
+apis:
+- aid: anchor-x402:anchor-x402-anchor-api
+  name: anchor-x402 Anchor API
+  description: The Anchor API from anchor-x402 — 1 operation(s) for anchor.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Anchor
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-anchor-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-anchor-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-anchor-request-schema.json
+- aid: anchor-x402:anchor-x402-attest-api
+  name: anchor-x402 Attest API
+  description: The Attest API from anchor-x402 — 2 operation(s) for attest.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Attest
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-attest-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-attest-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-attest-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-attest-verify-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-attest-verify-response-schema.json
+- aid: anchor-x402:anchor-x402-aura-api
+  name: anchor-x402 Aura API
+  description: The Aura API from anchor-x402 — 1 operation(s) for aura.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Aura
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-aura-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-aura-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-aura-request-schema.json
+- aid: anchor-x402:anchor-x402-decode-api
+  name: anchor-x402 Decode API
+  description: The Decode API from anchor-x402 — 2 operation(s) for decode.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Decode
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-decode-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-tx-decode-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-calldata-decode-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-calldata-decode-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-tx-decode-request-schema.json
+- aid: anchor-x402:anchor-x402-grade-api
+  name: anchor-x402 Grade API
+  description: The Grade API from anchor-x402 — 1 operation(s) for grade.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Grade
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-grade-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-grade-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-grade-request-schema.json
+- aid: anchor-x402:anchor-x402-health-api
+  name: anchor-x402 Health API
+  description: The Health API from anchor-x402 — 1 operation(s) for health.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-health-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+- aid: anchor-x402:anchor-x402-intel-api
+  name: anchor-x402 Intel API
+  description: The Intel API from anchor-x402 — 1 operation(s) for intel.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Intel
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-intel-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-intel-wallet-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-wallet-body-schema.json
+- aid: anchor-x402:anchor-x402-investigate-api
+  name: anchor-x402 Investigate API
+  description: The Investigate API from anchor-x402 — 2 operation(s) for investigate.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Investigate
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-investigate-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-investigate-status-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-investigate-accepted-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-investigate-request-schema.json
+- aid: anchor-x402:anchor-x402-ledger-api
+  name: anchor-x402 Ledger API
+  description: The Ledger API from anchor-x402 — 3 operation(s) for ledger.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Ledger
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-ledger-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-ledger-report-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-ledger-summary-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-ledger-report-status-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-ledger-report-accepted-schema.json
+- aid: anchor-x402:anchor-x402-oracle-api
+  name: anchor-x402 Oracle API
+  description: The Oracle API from anchor-x402 — 1 operation(s) for oracle.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Oracle
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-oracle-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-oracle-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-oracle-request-schema.json
+- aid: anchor-x402:anchor-x402-parse-api
+  name: anchor-x402 Parse API
+  description: The Parse API from anchor-x402 — 1 operation(s) for parse.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Parse
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-parse-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-datetime-parse-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-datetime-parse-request-schema.json
+- aid: anchor-x402:anchor-x402-price-api
+  name: anchor-x402 Price API
+  description: The Price API from anchor-x402 — 1 operation(s) for price.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Price
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-price-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-token-price-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-token-price-body-schema.json
+- aid: anchor-x402:anchor-x402-resolve-api
+  name: anchor-x402 Resolve API
+  description: The Resolve API from anchor-x402 — 1 operation(s) for resolve.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Resolve
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-resolve-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-name-resolve-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-name-body-schema.json
+- aid: anchor-x402:anchor-x402-roast-api
+  name: anchor-x402 Roast API
+  description: The Roast API from anchor-x402 — 1 operation(s) for roast.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Roast
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-roast-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-roast-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-roast-response-schema.json
+- aid: anchor-x402:anchor-x402-roll-api
+  name: anchor-x402 Roll API
+  description: The Roll API from anchor-x402 — 1 operation(s) for roll.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Roll
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-roll-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-roll-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-roll-response-schema.json
+- aid: anchor-x402:anchor-x402-screen-api
+  name: anchor-x402 Screen API
+  description: The Screen API from anchor-x402 — 1 operation(s) for screen.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Screen
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-screen-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-screen-response-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-wallet-body-schema.json
+- aid: anchor-x402:anchor-x402-tldr-api
+  name: anchor-x402 Tldr API
+  description: The Tldr API from anchor-x402 — 1 operation(s) for tldr.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Tldr
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-tldr-api-openapi.yml
+  - type: Documentation
+    url: https://api.anchor-x402.com/docs
+  - type: APIReference
+    url: https://api.anchor-x402.com/redoc
+  - type: JSONSchema
+    url: json-schema/anchor-x402-tldr-request-schema.json
+  - type: JSONSchema
+    url: json-schema/anchor-x402-tldr-response-schema.json
+- aid: anchor-x402:anchor-x402-feedback-api
+  name: anchor-x402 Feedback API
+  description: The Feedback API from anchor-x402 — 1 operation(s) for feedback.
+  humanURL: https://api.anchor-x402.com/docs
+  baseURL: https://api.anchor-x402.com
+  tags:
+  - Feedback
+  properties:
+  - type: OpenAPI
+    url: openapi/anchor-x402-feedback-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/anchor-x402-feedback-request-schema.json
+
 x-enrichment:
-  date: '2026-09-11'
+  date: '2026-10-20'
   status: enriched
-  artifacts_added: 36
-  pass: local-v3
+  artifacts_added: 0
+  pass: local-v5
+
 x-a2a:
   verified: true
   probed: '2026-09-26'
-  url: "https://api.anchor-x402.com/.well-known/agent-card.json"
-  grade: "conformant"
-  protocol_version: "0.3.0"
+  url: https://api.anchor-x402.com/.well-known/agent-card.json
+  grade: conformant
+  protocol_version: 0.3.0
   control: 404

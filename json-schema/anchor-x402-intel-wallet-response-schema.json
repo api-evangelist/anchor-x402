@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-intel-wallet-response-schema.json",
+  "title": "IntelWalletResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/IntelWalletResponse",
+  "properties": {
+    "wallet": {
+      "type": "string",
+      "title": "Wallet"
+    },
+    "chain_inferred": {
+      "type": "string",
+      "title": "Chain Inferred"
+    },
+    "balances": {
+      "$ref": "#/$defs/IntelWalletBalances"
+    },
+    "activity": {
+      "$ref": "#/$defs/IntelWalletActivity"
+    },
+    "identity": {
+      "$ref": "#/$defs/IntelWalletIdentity"
+    },
+    "sanctions": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ScreenResponse"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "errors": {
+      "items": {
+        "$ref": "#/$defs/IntelWalletError"
+      },
+      "type": "array",
+      "title": "Errors"
+    },
+    "fetched_at": {
+      "type": "integer",
+      "title": "Fetched At"
+    },
+    "cache_age_seconds": {
+      "type": "integer",
+      "title": "Cache Age Seconds"
+    }
+  },
+  "type": "object",
+  "required": [
+    "wallet",
+    "chain_inferred",
+    "balances",
+    "activity",
+    "identity",
+    "fetched_at",
+    "cache_age_seconds"
+  ],
+  "$defs": {
+    "IntelWalletActivity": {
+      "properties": {
+        "base_tx_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Tx Count"
+        },
+        "has_history": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Has History"
+        }
+      },
+      "type": "object",
+      "title": "IntelWalletActivity"
+    },
+    "IntelWalletBalances": {
+      "properties": {
+        "base_eth": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Eth"
+        },
+        "eth_eth": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Eth Eth"
+        },
+        "base_usdc": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Base Usdc"
+        },
+        "sol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sol"
+        },
+        "solana_usdc": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Solana Usdc"
+        }
+      },
+      "type": "object",
+      "title": "IntelWalletBalances"
+    },
+    "IntelWalletError": {
+      "properties": {
+        "source": {
+          "type": "string",
+          "title": "Source"
+        },
+        "message": {
+          "type": "string",
+          "title": "Message"
+        }
+      },
+      "type": "object",
+      "required": [
+        "source",
+        "message"
+      ],
+      "title": "IntelWalletError"
+    },
+    "IntelWalletIdentity": {
+      "properties": {
+        "ens_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ens Name"
+        },
+        "sns_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sns Name"
+        }
+      },
+      "type": "object",
+      "title": "IntelWalletIdentity"
+    },
+    "ScreenResponse": {
+      "properties": {
+        "wallet": {
+          "type": "string",
+          "title": "Wallet"
+        },
+        "chain_inferred": {
+          "type": "string",
+          "title": "Chain Inferred",
+          "description": "\"ethereum\" | \"solana\" | \"unknown\""
+        },
+        "sanctions_match": {
+          "type": "boolean",
+          "title": "Sanctions Match"
+        },
+        "sanctioned_lists": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Sanctioned Lists"
+        },
+        "risk_level": {
+          "type": "string",
+          "title": "Risk Level",
+          "description": "\"low\" | \"medium\" | \"high\" | \"critical\""
+        },
+        "notes": {
+          "type": "string",
+          "title": "Notes"
+        },
+        "checked_at": {
+          "type": "integer",
+          "title": "Checked At"
+        },
+        "recommendation": {
+          "type": "string",
+          "title": "Recommendation",
+          "description": "\"allow\" | \"review\" | \"block\" — the field an agent branches on before sending funds.",
+          "default": "review"
+        },
+        "risk_score": {
+          "type": "integer",
+          "title": "Risk Score",
+          "description": "0-100; higher is riskier.",
+          "default": 0
+        },
+        "address_type": {
+          "type": "string",
+          "title": "Address Type",
+          "description": "\"eoa\" | \"contract\" | \"unknown\"",
+          "default": "unknown"
+        },
+        "signals": {
+          "items": {
+            "$ref": "#/$defs/ScreenSignal"
+          },
+          "type": "array",
+          "title": "Signals"
+        },
+        "labels": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "title": "Labels"
+        },
+        "corpus_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Corpus Version"
+        },
+        "partial": {
+          "type": "boolean",
+          "title": "Partial",
+          "description": "True if the enrichment layer was unavailable or N/A (Solana) — treat an `allow` as provisional.",
+          "default": false
+        }
+      },
+      "type": "object",
+      "required": [
+        "wallet",
+        "chain_inferred",
+        "sanctions_match",
+        "risk_level",
+        "notes",
+        "checked_at"
+      ],
+      "title": "ScreenResponse"
+    },
+    "ScreenSignal": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "title": "Code"
+        },
+        "severity": {
+          "type": "string",
+          "title": "Severity",
+          "description": "\"critical\" | \"high\" | \"medium\""
+        },
+        "source": {
+          "type": "string",
+          "title": "Source",
+          "description": "\"treasury.gov\" | \"goplus\""
+        },
+        "detail": {
+          "type": "string",
+          "title": "Detail"
+        }
+      },
+      "type": "object",
+      "required": [
+        "code",
+        "severity",
+        "source",
+        "detail"
+      ],
+      "title": "ScreenSignal"
+    }
+  }
+}

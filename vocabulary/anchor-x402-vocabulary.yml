@@ -1,0 +1,372 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/anchor-x402-anchor-api-openapi.yml
+- openapi/anchor-x402-attest-api-openapi.yml
+- openapi/anchor-x402-aura-api-openapi.yml
+- openapi/anchor-x402-decode-api-openapi.yml
+- openapi/anchor-x402-feedback-api-openapi.yml
+vocabulary:
+  name: anchor-x402 Domain Vocabulary
+  description: 'Terms declared by anchor-x402''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-20'
+  terms:
+  - term: AnchorResponse
+    definition: 'Object declared by the contract with fields: merkle_root, base, solana, anchored_at, note.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-anchor-api-openapi.yml#/components/schemas/AnchorResponse
+  - term: ChainAnchor
+    definition: 'Object declared by the contract with fields: tx, explorer_url.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-anchor-api-openapi.yml#/components/schemas/ChainAnchor
+  - term: ValidationError
+    definition: 'Object declared by the contract with fields: loc, msg, type, input, ctx.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-anchor-api-openapi.yml#/components/schemas/ValidationError
+  - term: AnchorRequest
+    definition: 'Object declared by the contract with fields: hash, data, note.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-anchor-api-openapi.yml#/components/schemas/AnchorRequest
+  - term: HTTPValidationError
+    definition: 'Object declared by the contract with fields: detail.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-anchor-api-openapi.yml#/components/schemas/HTTPValidationError
+  - term: AttestVerifyRequest
+    definition: 'A minted receipt submitted for free re-verification: the signed tuple plus the signature and the Base tx that should carry the
+      anchored root.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestVerifyRequest
+  - term: AttestVerifyResponse
+    definition: 'Object declared by the contract with fields: valid, merkle_root, signature_valid, signer, anchor_confirmed, root_matches, anchored_at_block,
+      anchored_at_time, notes.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestVerifyResponse
+  - term: AttestRequest
+    definition: 'Object declared by the contract with fields: input_hash, output_hash, decision, scheme, signature, signer_pubkey.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestRequest
+  - term: AttestResponse
+    definition: 'Object declared by the contract with fields: merkle_root, signer_verified, signer, base, solana, decision, signed_at, signed_by,
+      verify_url.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestResponse
+  - term: AuraResponse
+    definition: 'Object declared by the contract with fields: color, tier, score, description.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-aura-api-openapi.yml#/components/schemas/AuraResponse
+  - term: AuraRequest
+    definition: 'Object declared by the contract with fields: target.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-aura-api-openapi.yml#/components/schemas/AuraRequest
+  - term: CalldataDecodeRequest
+    definition: 'Object declared by the contract with fields: chain, calldata_hex, contract_address.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/CalldataDecodeRequest
+  - term: TxDecodeRequest
+    definition: 'Object declared by the contract with fields: chain, tx_hash.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/TxDecodeRequest
+  - term: TxDecodeResponse
+    definition: 'Object declared by the contract with fields: chain, tx_hash, block_number, timestamp, from_address, to_address, value_wei, value_eth,
+      gas_used, status, input_calldata_hex, native_currency. (5 more)'
+    tags:
+    - Object
+    source: openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/TxDecodeResponse
+  - term: CalldataDecodeResponse
+    definition: 'Object declared by the contract with fields: function_selector, function_name, function_signature, params, decoded, candidates,
+      source.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/CalldataDecodeResponse
+  - term: DecodedParam
+    definition: 'Object declared by the contract with fields: name, type, value.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/DecodedParam
+  - term: FeedbackRequest
+    definition: 'Object declared by the contract with fields: endpoint, what_happened, expected, request_id, contact.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-feedback-api-openapi.yml#/components/schemas/FeedbackRequest
+  - term: GradeRequest
+    definition: 'Object declared by the contract with fields: target.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-grade-api-openapi.yml#/components/schemas/GradeRequest
+  - term: GradeResponse
+    definition: 'Object declared by the contract with fields: letter_grade, marginalia, summary.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-grade-api-openapi.yml#/components/schemas/GradeResponse
+  - term: ScreenResponse
+    definition: 'Object declared by the contract with fields: wallet, chain_inferred, sanctions_match, sanctioned_lists, risk_level, notes, checked_at,
+      recommendation, risk_score, address_type, signals, labels. (2 more)'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/ScreenResponse
+  - term: _WalletBody
+    definition: 'Object declared by the contract with fields: wallet.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/_WalletBody
+  - term: IntelWalletError
+    definition: 'Object declared by the contract with fields: source, message.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/IntelWalletError
+  - term: ScreenSignal
+    definition: 'Object declared by the contract with fields: code, severity, source, detail.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/ScreenSignal
+  - term: IntelWalletIdentity
+    definition: 'Object declared by the contract with fields: ens_name, sns_name.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/IntelWalletIdentity
+  - term: IntelWalletActivity
+    definition: 'Object declared by the contract with fields: base_tx_count, has_history.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/IntelWalletActivity
+  - term: IntelWalletResponse
+    definition: 'Object declared by the contract with fields: wallet, chain_inferred, balances, activity, identity, sanctions, errors, fetched_at,
+      cache_age_seconds.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/IntelWalletResponse
+  - term: IntelWalletBalances
+    definition: 'Object declared by the contract with fields: base_eth, eth_eth, base_usdc, sol, solana_usdc.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/IntelWalletBalances
+  - term: InvestigateDeliverable
+    definition: 'Object declared by the contract with fields: reportUrl, reportJsonUrl, verdict, score, signedBy, signature, merkleRoot, baseAnchorTx,
+      solanaAnchorTx, disclaimer.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-investigate-api-openapi.yml#/components/schemas/InvestigateDeliverable
+  - term: InvestigateRequest
+    definition: 'Object declared by the contract with fields: address.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-investigate-api-openapi.yml#/components/schemas/InvestigateRequest
+  - term: InvestigateAcceptedResponse
+    definition: 'Object declared by the contract with fields: job_id, status, status_url, eta_seconds.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-investigate-api-openapi.yml#/components/schemas/InvestigateAcceptedResponse
+  - term: InvestigateStatusResponse
+    definition: 'Object declared by the contract with fields: job_id, status, deliverable, eta_seconds, error, refund_tx, refund_pending.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-investigate-api-openapi.yml#/components/schemas/InvestigateStatusResponse
+  - term: LedgerReportStatus
+    definition: 'Object declared by the contract with fields: job_id, status, deliverable, eta_seconds, error, refund_tx, refund_pending.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-ledger-api-openapi.yml#/components/schemas/LedgerReportStatus
+  - term: LedgerReportRequest
+    definition: 'Object declared by the contract with fields: wallet, from, to, direction, min_amount, group_by, include_unfiltered, format, title,
+      prepared_for.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-ledger-api-openapi.yml#/components/schemas/LedgerReportRequest
+  - term: LedgerSummaryRequest
+    definition: 'Object declared by the contract with fields: wallet, from, to, direction, min_amount, group_by, include_unfiltered.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-ledger-api-openapi.yml#/components/schemas/LedgerSummaryRequest
+  - term: LedgerReportAccepted
+    definition: 'Object declared by the contract with fields: job_id, status, status_url, eta_seconds.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-ledger-api-openapi.yml#/components/schemas/LedgerReportAccepted
+  - term: OracleRequest
+    definition: 'Object declared by the contract with fields: question.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-oracle-api-openapi.yml#/components/schemas/OracleRequest
+  - term: OracleResponse
+    definition: 'Object declared by the contract with fields: answer, explanation, merkle_root, base_tx, solana_tx, asked_at.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-oracle-api-openapi.yml#/components/schemas/OracleResponse
+  - term: DatetimeParseResponse
+    definition: 'Object declared by the contract with fields: iso, unix, timezone, components, relative_seconds, relative_human, confidence, parsed_input.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-parse-api-openapi.yml#/components/schemas/DatetimeParseResponse
+  - term: DatetimeParseRequest
+    definition: 'Object declared by the contract with fields: input, base_time, timezone.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-parse-api-openapi.yml#/components/schemas/DatetimeParseRequest
+  - term: DatetimeComponents
+    definition: 'Object declared by the contract with fields: year, month, day, hour, minute, second, weekday, day_name.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-parse-api-openapi.yml#/components/schemas/DatetimeComponents
+  - term: _TokenPriceBody
+    definition: 'Object declared by the contract with fields: symbol, chain, contract.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-price-api-openapi.yml#/components/schemas/_TokenPriceBody
+  - term: TokenPriceResponse
+    definition: 'Object declared by the contract with fields: symbol, name, contract, chain, usd, usd_24h_change_pct, market_cap_usd, source,
+      fetched_at, age_seconds.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-price-api-openapi.yml#/components/schemas/TokenPriceResponse
+  - term: _NameBody
+    definition: 'Object declared by the contract with fields: name.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-resolve-api-openapi.yml#/components/schemas/_NameBody
+  - term: NameResolveResponse
+    definition: 'Object declared by the contract with fields: name, addresses, resolved_at, registry_used, supported_tlds, notes.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-resolve-api-openapi.yml#/components/schemas/NameResolveResponse
+  - term: NameAddress
+    definition: 'Object declared by the contract with fields: chain, address, ttl_hint_seconds.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-resolve-api-openapi.yml#/components/schemas/NameAddress
+  - term: RoastRequest
+    definition: 'Object declared by the contract with fields: target.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-roast-api-openapi.yml#/components/schemas/RoastRequest
+  - term: RoastResponse
+    definition: 'Object declared by the contract with fields: roast, target_summary.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-roast-api-openapi.yml#/components/schemas/RoastResponse
+  - term: RollResponse
+    definition: 'Object declared by the contract with fields: range, count, commitment, label, result, input_hash, result_hash, signature, signer,
+      scheme, domain.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-roll-api-openapi.yml#/components/schemas/RollResponse
+  - term: RollRequest
+    definition: 'Object declared by the contract with fields: low, high, count, commitment, label.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-roll-api-openapi.yml#/components/schemas/RollRequest
+  - term: TldrResponse
+    definition: 'Object declared by the contract with fields: summary_bullets, source_chars.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-tldr-api-openapi.yml#/components/schemas/TldrResponse
+  - term: TldrRequest
+    definition: 'Object declared by the contract with fields: text, url.'
+    tags:
+    - Object
+    source: openapi/anchor-x402-tldr-api-openapi.yml#/components/schemas/TldrRequest
+  - term: Anchor
+    definition: 'Resource group in the contract; its operation POST /v1/anchor: Create a dual-chain proof anchoring a 32-byte hash'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-anchor-api-openapi.yml
+  - term: Attest
+    definition: 'Resource group in the contract; its operation POST /v1/attest: Create a signed, anchored receipt for an AI decision'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-attest-api-openapi.yml
+  - term: Aura
+    definition: 'Resource group in the contract; its operation POST /v1/aura: Read a wallet''s aura color, tier, and score'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-aura-api-openapi.yml
+  - term: Decode
+    definition: 'Resource group in the contract; its operation POST /v1/decode/tx: Parse a Base or Solana transaction into plain English'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-decode-api-openapi.yml
+  - term: Feedback
+    definition: 'Resource group in the contract; its operation GET /v1/feedback: How to report a problem with an anchor-x402 route'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-feedback-api-openapi.yml
+  - term: Grade
+    definition: 'Resource group in the contract; its operation POST /v1/grade: Generate a letter grade and margin notes for text'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-grade-api-openapi.yml
+  - term: Health
+    definition: 'Resource group in the contract; its operation GET /health: Report service health and version status'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-health-api-openapi.yml
+  - term: Intel
+    definition: 'Resource group in the contract; its operation POST /v1/intel/wallet: Fetch bundled wallet sanctions, balance, and activity data'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-intel-api-openapi.yml
+  - term: Investigate
+    definition: 'Resource group in the contract; its operation POST /v1/investigate: Accept payment, record job, async-dispatch to private worker.'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-investigate-api-openapi.yml
+  - term: Ledger
+    definition: 'Resource group in the contract; its operation POST /v1/ledger/summary: Categorized x402 spend for a wallet, computed at request
+      time.'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-ledger-api-openapi.yml
+  - term: Oracle
+    definition: 'Resource group in the contract; its operation POST /v1/oracle: Generate a signed oracle verdict for a question'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-oracle-api-openapi.yml
+  - term: Parse
+    definition: 'Resource group in the contract; its operation POST /v1/parse/datetime: Parse natural-language dates into a normalized datetime'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-parse-api-openapi.yml
+  - term: Price
+    definition: 'Resource group in the contract; its operation POST /v1/price/token: Look up a token''s current price in US dollars'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-price-api-openapi.yml
+  - term: Resolve
+    definition: 'Resource group in the contract; its operation POST /v1/resolve/name: Resolve an ENS or Solana name to a wallet address'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-resolve-api-openapi.yml
+  - term: Roast
+    definition: 'Resource group in the contract; its operation POST /v1/roast: Generate a comic roast of a wallet''s trading history'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-roast-api-openapi.yml
+  - term: Roll
+    definition: 'Resource group in the contract; its operation POST /v1/roll: Generate verifiable dice rolls with a signed result'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-roll-api-openapi.yml
+  - term: Screen
+    definition: 'Resource group in the contract; its operation POST /v1/screen: Check a wallet address for sanctions and risk'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-screen-api-openapi.yml
+  - term: Tldr
+    definition: 'Resource group in the contract; its operation POST /v1/tldr: Summarize long text into a short TL;DR'
+    tags:
+    - Resource Group
+    source: openapi/anchor-x402-tldr-api-openapi.yml

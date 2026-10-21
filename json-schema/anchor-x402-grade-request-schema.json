@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-grade-request-schema.json",
+  "title": "GradeRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-grade-api-openapi.yml#/components/schemas/GradeRequest",
+  "properties": {
+    "target": {
+      "type": "string",
+      "maxLength": 6000,
+      "minLength": 1,
+      "title": "Target",
+      "description": "Anything to grade."
+    }
+  },
+  "type": "object",
+  "required": [
+    "target"
+  ]
+}

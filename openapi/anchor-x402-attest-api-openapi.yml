@@ -121,19 +121,6 @@ components:
       description: 'A minted receipt submitted for free re-verification: the signed tuple plus
 
         the signature and the Base tx that should carry the anchored root.'
-    ChainAnchor:
-      properties:
-        tx:
-          type: string
-          title: Tx
-        explorer_url:
-          type: string
-          title: Explorer Url
-      type: object
-      required:
-      - tx
-      - explorer_url
-      title: ChainAnchor
     AttestVerifyResponse:
       properties:
         valid:
@@ -178,6 +165,19 @@ components:
       - root_matches
       - notes
       title: AttestVerifyResponse
+    ChainAnchor:
+      properties:
+        tx:
+          type: string
+          title: Tx
+        explorer_url:
+          type: string
+          title: Explorer Url
+      type: object
+      required:
+      - tx
+      - explorer_url
+      title: ChainAnchor
     ValidationError:
       properties:
         loc:
@@ -204,6 +204,15 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     AttestRequest:
       properties:
         input_hash:
@@ -292,12 +301,3 @@ components:
       - decision
       - signed_at
       title: AttestResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-calldata-decode-request-schema.json",
+  "title": "CalldataDecodeRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/CalldataDecodeRequest",
+  "properties": {
+    "chain": {
+      "type": "string",
+      "enum": [
+        "ethereum",
+        "solana"
+      ],
+      "title": "Chain",
+      "description": "\"ethereum\" supported; \"solana\" returns 400."
+    },
+    "calldata_hex": {
+      "type": "string",
+      "minLength": 8,
+      "title": "Calldata Hex",
+      "description": "Raw EVM calldata (>=4-byte selector), with or without 0x prefix."
+    },
+    "contract_address": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Contract Address",
+      "description": "Optional. Reserved for future on-chain ABI lookups; currently unused."
+    }
+  },
+  "type": "object",
+  "required": [
+    "chain",
+    "calldata_hex"
+  ]
+}

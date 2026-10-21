@@ -48,16 +48,59 @@ paths:
       - Resolve
 components:
   schemas:
-    _NameBody:
+    NameAddress:
       properties:
-        name:
+        chain:
           type: string
-          title: Name
-          description: Human-readable name, e.g. 'vitalik.eth' or 'bonfida.sol'. ENS (.eth) and Bonfida SNS (.sol) are supported.
+          title: Chain
+          description: '"ethereum" | "solana"'
+        address:
+          type: string
+          title: Address
+        ttl_hint_seconds:
+          type: integer
+          title: Ttl Hint Seconds
       type: object
       required:
-      - name
-      title: _NameBody
+      - chain
+      - address
+      - ttl_hint_seconds
+      title: NameAddress
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     NameResolveResponse:
       properties:
         name:
@@ -93,56 +136,13 @@ components:
       - resolved_at
       - supported_tlds
       title: NameResolveResponse
-    ValidationError:
+    _NameBody:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        name:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Name
+          description: Human-readable name, e.g. 'vitalik.eth' or 'bonfida.sol'. ENS (.eth) and Bonfida SNS (.sol) are supported.
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    NameAddress:
-      properties:
-        chain:
-          type: string
-          title: Chain
-          description: '"ethereum" | "solana"'
-        address:
-          type: string
-          title: Address
-        ttl_hint_seconds:
-          type: integer
-          title: Ttl Hint Seconds
-      type: object
-      required:
-      - chain
-      - address
-      - ttl_hint_seconds
-      title: NameAddress
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - name
+      title: _NameBody

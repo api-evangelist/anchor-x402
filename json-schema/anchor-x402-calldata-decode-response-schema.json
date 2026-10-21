@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-calldata-decode-response-schema.json",
+  "title": "CalldataDecodeResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/CalldataDecodeResponse",
+  "properties": {
+    "function_selector": {
+      "type": "string",
+      "title": "Function Selector"
+    },
+    "function_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Function Name"
+    },
+    "function_signature": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Function Signature"
+    },
+    "params": {
+      "items": {
+        "$ref": "#/$defs/DecodedParam"
+      },
+      "type": "array",
+      "title": "Params"
+    },
+    "decoded": {
+      "type": "boolean",
+      "title": "Decoded"
+    },
+    "candidates": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Candidates",
+      "description": "Other matching sigs when the 4byte selector is ambiguous."
+    },
+    "source": {
+      "type": "string",
+      "title": "Source",
+      "default": "openchain.xyz"
+    }
+  },
+  "type": "object",
+  "required": [
+    "function_selector",
+    "decoded"
+  ],
+  "$defs": {
+    "DecodedParam": {
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name"
+        },
+        "type": {
+          "type": "string",
+          "title": "Type"
+        },
+        "value": {
+          "title": "Value"
+        }
+      },
+      "type": "object",
+      "required": [
+        "type",
+        "value"
+      ],
+      "title": "DecodedParam"
+    }
+  }
+}

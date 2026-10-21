@@ -83,6 +83,18 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    AuraRequest:
+      properties:
+        target:
+          type: string
+          maxLength: 4000
+          minLength: 1
+          title: Target
+          description: Anything to read the aura of.
+      type: object
+      required:
+      - target
+      title: AuraRequest
     AuraResponse:
       properties:
         color:
@@ -113,15 +125,3 @@ components:
       - score
       - description
       title: AuraResponse
-    AuraRequest:
-      properties:
-        target:
-          type: string
-          maxLength: 4000
-          minLength: 1
-          title: Target
-          description: Anything to read the aura of.
-      type: object
-      required:
-      - target
-      title: AuraRequest

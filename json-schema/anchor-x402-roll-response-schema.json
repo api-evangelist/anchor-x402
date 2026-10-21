@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-roll-response-schema.json",
+  "title": "RollResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-roll-api-openapi.yml#/components/schemas/RollResponse",
+  "properties": {
+    "range": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array",
+      "title": "Range"
+    },
+    "count": {
+      "type": "integer",
+      "title": "Count"
+    },
+    "commitment": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Commitment"
+    },
+    "label": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Label"
+    },
+    "result": {
+      "items": {
+        "type": "integer"
+      },
+      "type": "array",
+      "title": "Result"
+    },
+    "input_hash": {
+      "type": "string",
+      "title": "Input Hash"
+    },
+    "result_hash": {
+      "type": "string",
+      "title": "Result Hash"
+    },
+    "signature": {
+      "type": "string",
+      "title": "Signature"
+    },
+    "signer": {
+      "type": "string",
+      "title": "Signer"
+    },
+    "scheme": {
+      "type": "string",
+      "const": "eip191",
+      "title": "Scheme"
+    },
+    "domain": {
+      "type": "string",
+      "const": "anchor-x402/roll/v1",
+      "title": "Domain"
+    }
+  },
+  "type": "object",
+  "required": [
+    "range",
+    "count",
+    "commitment",
+    "label",
+    "result",
+    "input_hash",
+    "result_hash",
+    "signature",
+    "signer",
+    "scheme",
+    "domain"
+  ]
+}

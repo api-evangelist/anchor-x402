@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-attest-verify-response-schema.json",
+  "title": "AttestVerifyResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestVerifyResponse",
+  "properties": {
+    "valid": {
+      "type": "boolean",
+      "title": "Valid",
+      "description": "True iff signature verified AND the Base tx confirms the exact root."
+    },
+    "merkle_root": {
+      "type": "string",
+      "title": "Merkle Root"
+    },
+    "signature_valid": {
+      "type": "boolean",
+      "title": "Signature Valid"
+    },
+    "signer": {
+      "type": "string",
+      "title": "Signer"
+    },
+    "anchor_confirmed": {
+      "type": "boolean",
+      "title": "Anchor Confirmed"
+    },
+    "root_matches": {
+      "type": "boolean",
+      "title": "Root Matches"
+    },
+    "anchored_at_block": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Anchored At Block"
+    },
+    "anchored_at_time": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Anchored At Time"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    }
+  },
+  "type": "object",
+  "required": [
+    "valid",
+    "merkle_root",
+    "signature_valid",
+    "signer",
+    "anchor_confirmed",
+    "root_matches",
+    "notes"
+  ]
+}

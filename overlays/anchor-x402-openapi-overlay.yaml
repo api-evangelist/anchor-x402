@@ -14,7 +14,7 @@ x-note: >-
   substantive additions are the missing servers[] block, the missing securitySchemes for the x402
   PAYMENT-SIGNATURE header, and a content schema for the 402 challenge, which 20 operations declare with no
   body shape at all.
-extends: openapi/anchor-x402-openapi.json
+extends: ../openapi/_original/anchor-x402-openapi.json
 actions:
 - target: $
   description: >-

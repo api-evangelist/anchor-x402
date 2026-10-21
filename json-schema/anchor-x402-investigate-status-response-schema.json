@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-investigate-status-response-schema.json",
+  "title": "InvestigateStatusResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-investigate-api-openapi.yml#/components/schemas/InvestigateStatusResponse",
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "title": "Job Id"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DISPATCHING",
+        "IN_PROGRESS",
+        "DELIVERED",
+        "FAILED",
+        "UNKNOWN"
+      ],
+      "title": "Status"
+    },
+    "deliverable": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/InvestigateDeliverable"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "eta_seconds": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Eta Seconds"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Error"
+    },
+    "refund_tx": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Refund Tx",
+      "description": "On-chain USDC refund tx hash (Base) when a FAILED job has been refunded. Auto-refunded for Base USDC payers; Solana/JPYC payers see `refund_pending=manual` and need a follow-up."
+    },
+    "refund_pending": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "manual"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Refund Pending"
+    }
+  },
+  "type": "object",
+  "required": [
+    "job_id",
+    "status"
+  ],
+  "$defs": {
+    "InvestigateDeliverable": {
+      "properties": {
+        "reportUrl": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reporturl"
+        },
+        "reportJsonUrl": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reportjsonurl"
+        },
+        "verdict": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Verdict"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Score"
+        },
+        "signedBy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Signedby"
+        },
+        "signature": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Signature"
+        },
+        "merkleRoot": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Merkleroot"
+        },
+        "baseAnchorTx": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Baseanchortx"
+        },
+        "solanaAnchorTx": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Solanaanchortx"
+        },
+        "disclaimer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Disclaimer"
+        }
+      },
+      "type": "object",
+      "title": "InvestigateDeliverable"
+    }
+  }
+}

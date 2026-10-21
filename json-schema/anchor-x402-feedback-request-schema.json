@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-feedback-request-schema.json",
+  "title": "FeedbackRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-feedback-api-openapi.yml#/components/schemas/FeedbackRequest",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Endpoint",
+      "description": "The route the report is about, e.g. 'POST /v1/screen'."
+    },
+    "what_happened": {
+      "type": "string",
+      "maxLength": 2000,
+      "minLength": 10,
+      "title": "What Happened",
+      "description": "What the call returned or did, including any status code or error text. At least 10 characters."
+    },
+    "expected": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 1000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Expected",
+      "description": "What you expected instead."
+    },
+    "request_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 128
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Request Id",
+      "description": "A settlement tx hash, job_id or other id that identifies the call."
+    },
+    "contact": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 200
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Contact",
+      "description": "Optional way to reach the reporter: an agent card URL, email or GitHub handle."
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "endpoint",
+    "what_happened"
+  ]
+}

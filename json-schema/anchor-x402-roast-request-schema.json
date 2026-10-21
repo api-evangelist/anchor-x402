@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-roast-request-schema.json",
+  "title": "RoastRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-roast-api-openapi.yml#/components/schemas/RoastRequest",
+  "properties": {
+    "target": {
+      "type": "string",
+      "maxLength": 8000,
+      "minLength": 1,
+      "title": "Target",
+      "description": "Anything to roast: wallet, tweet, idea, code, etc."
+    }
+  },
+  "type": "object",
+  "required": [
+    "target"
+  ]
+}

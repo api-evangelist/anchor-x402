@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-grade-response-schema.json",
+  "title": "GradeResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-grade-api-openapi.yml#/components/schemas/GradeResponse",
+  "properties": {
+    "letter_grade": {
+      "type": "string",
+      "enum": [
+        "A+",
+        "A",
+        "A-",
+        "B+",
+        "B",
+        "B-",
+        "C+",
+        "C",
+        "C-",
+        "D+",
+        "D",
+        "F"
+      ],
+      "title": "Letter Grade"
+    },
+    "marginalia": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Marginalia"
+    },
+    "summary": {
+      "type": "string",
+      "title": "Summary"
+    }
+  },
+  "type": "object",
+  "required": [
+    "letter_grade",
+    "marginalia",
+    "summary"
+  ]
+}

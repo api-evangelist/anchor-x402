@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-datetime-parse-response-schema.json",
+  "title": "DatetimeParseResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-parse-api-openapi.yml#/components/schemas/DatetimeParseResponse",
+  "properties": {
+    "iso": {
+      "type": "string",
+      "title": "Iso"
+    },
+    "unix": {
+      "type": "integer",
+      "title": "Unix"
+    },
+    "timezone": {
+      "type": "string",
+      "title": "Timezone"
+    },
+    "components": {
+      "$ref": "#/$defs/DatetimeComponents"
+    },
+    "relative_seconds": {
+      "type": "integer",
+      "title": "Relative Seconds"
+    },
+    "relative_human": {
+      "type": "string",
+      "title": "Relative Human"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "title": "Confidence"
+    },
+    "parsed_input": {
+      "type": "string",
+      "title": "Parsed Input"
+    }
+  },
+  "type": "object",
+  "required": [
+    "iso",
+    "unix",
+    "timezone",
+    "components",
+    "relative_seconds",
+    "relative_human",
+    "confidence",
+    "parsed_input"
+  ],
+  "$defs": {
+    "DatetimeComponents": {
+      "properties": {
+        "year": {
+          "type": "integer",
+          "title": "Year"
+        },
+        "month": {
+          "type": "integer",
+          "title": "Month"
+        },
+        "day": {
+          "type": "integer",
+          "title": "Day"
+        },
+        "hour": {
+          "type": "integer",
+          "title": "Hour"
+        },
+        "minute": {
+          "type": "integer",
+          "title": "Minute"
+        },
+        "second": {
+          "type": "integer",
+          "title": "Second"
+        },
+        "weekday": {
+          "type": "integer",
+          "maximum": 6.0,
+          "minimum": 0.0,
+          "title": "Weekday"
+        },
+        "day_name": {
+          "type": "string",
+          "title": "Day Name"
+        }
+      },
+      "type": "object",
+      "required": [
+        "year",
+        "month",
+        "day",
+        "hour",
+        "minute",
+        "second",
+        "weekday",
+        "day_name"
+      ],
+      "title": "DatetimeComponents"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-name-resolve-response-schema.json",
+  "title": "NameResolveResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-resolve-api-openapi.yml#/components/schemas/NameResolveResponse",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "addresses": {
+      "items": {
+        "$ref": "#/$defs/NameAddress"
+      },
+      "type": "array",
+      "title": "Addresses"
+    },
+    "resolved_at": {
+      "type": "integer",
+      "title": "Resolved At"
+    },
+    "registry_used": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Registry Used",
+      "description": "\"ENS\" | \"SNS\" | null"
+    },
+    "supported_tlds": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Supported Tlds"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Notes"
+    }
+  },
+  "type": "object",
+  "required": [
+    "name",
+    "resolved_at",
+    "supported_tlds"
+  ],
+  "$defs": {
+    "NameAddress": {
+      "properties": {
+        "chain": {
+          "type": "string",
+          "title": "Chain",
+          "description": "\"ethereum\" | \"solana\""
+        },
+        "address": {
+          "type": "string",
+          "title": "Address"
+        },
+        "ttl_hint_seconds": {
+          "type": "integer",
+          "title": "Ttl Hint Seconds"
+        }
+      },
+      "type": "object",
+      "required": [
+        "chain",
+        "address",
+        "ttl_hint_seconds"
+      ],
+      "title": "NameAddress"
+    }
+  }
+}

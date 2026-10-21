@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-tx-decode-request-schema.json",
+  "title": "TxDecodeRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-decode-api-openapi.yml#/components/schemas/TxDecodeRequest",
+  "properties": {
+    "chain": {
+      "type": "string",
+      "enum": [
+        "base",
+        "ethereum",
+        "solana"
+      ],
+      "title": "Chain"
+    },
+    "tx_hash": {
+      "type": "string",
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Tx Hash"
+    }
+  },
+  "type": "object",
+  "required": [
+    "chain",
+    "tx_hash"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-attest-verify-request-schema.json",
+  "title": "AttestVerifyRequest",
+  "description": "A minted receipt submitted for free re-verification: the signed tuple plus\nthe signature and the Base tx that should carry the anchored root.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestVerifyRequest",
+  "properties": {
+    "input_hash": {
+      "type": "string",
+      "title": "Input Hash",
+      "description": "64-char hex SHA-256 of the agent's input."
+    },
+    "output_hash": {
+      "type": "string",
+      "title": "Output Hash",
+      "description": "64-char hex SHA-256 of the agent's output / decision payload."
+    },
+    "decision": {
+      "type": "string",
+      "maxLength": 64,
+      "title": "Decision"
+    },
+    "scheme": {
+      "type": "string",
+      "enum": [
+        "eip191",
+        "ed25519"
+      ],
+      "title": "Scheme",
+      "description": "\"eip191\" or \"ed25519\" — matches the receipt."
+    },
+    "signature": {
+      "type": "string",
+      "title": "Signature",
+      "description": "The signature from the receipt."
+    },
+    "signer_pubkey": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Signer Pubkey",
+      "description": "Required for ed25519."
+    },
+    "base_tx": {
+      "type": "string",
+      "title": "Base Tx",
+      "description": "0x-prefixed Base tx hash returned by the mint."
+    }
+  },
+  "type": "object",
+  "required": [
+    "input_hash",
+    "output_hash",
+    "decision",
+    "scheme",
+    "signature",
+    "base_tx"
+  ]
+}

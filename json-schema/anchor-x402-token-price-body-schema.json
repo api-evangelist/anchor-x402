@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-token-price-body-schema.json",
+  "title": "_TokenPriceBody",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-price-api-openapi.yml#/components/schemas/_TokenPriceBody",
+  "properties": {
+    "symbol": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Symbol",
+      "description": "Token symbol like 'ETH', 'BTC', 'SOL', 'USDC'. Mutually exclusive with chain+contract."
+    },
+    "chain": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Chain",
+      "description": "Chain slug: base, ethereum, solana, polygon, arbitrum, optimism, bsc, avalanche. Use with contract."
+    },
+    "contract": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Contract",
+      "description": "Token contract address. Requires chain."
+    }
+  },
+  "type": "object"
+}

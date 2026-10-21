@@ -48,6 +48,103 @@ paths:
       - Parse
 components:
   schemas:
+    DatetimeParseRequest:
+      properties:
+        input:
+          type: string
+          maxLength: 500
+          minLength: 1
+          title: Input
+          description: Freeform datetime string in any format.
+        base_time:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Base Time
+          description: ISO 8601 reference; defaults to now UTC.
+        timezone:
+          type: string
+          title: Timezone
+          description: IANA tz name (e.g. 'America/New_York').
+          default: UTC
+      type: object
+      required:
+      - input
+      title: DatetimeParseRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DatetimeComponents:
+      properties:
+        year:
+          type: integer
+          title: Year
+        month:
+          type: integer
+          title: Month
+        day:
+          type: integer
+          title: Day
+        hour:
+          type: integer
+          title: Hour
+        minute:
+          type: integer
+          title: Minute
+        second:
+          type: integer
+          title: Second
+        weekday:
+          type: integer
+          maximum: 6.0
+          minimum: 0.0
+          title: Weekday
+        day_name:
+          type: string
+          title: Day Name
+      type: object
+      required:
+      - year
+      - month
+      - day
+      - hour
+      - minute
+      - second
+      - weekday
+      - day_name
+      title: DatetimeComponents
     DatetimeParseResponse:
       properties:
         iso:
@@ -88,100 +185,3 @@ components:
       - confidence
       - parsed_input
       title: DatetimeParseResponse
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    DatetimeParseRequest:
-      properties:
-        input:
-          type: string
-          maxLength: 500
-          minLength: 1
-          title: Input
-          description: Freeform datetime string in any format.
-        base_time:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Base Time
-          description: ISO 8601 reference; defaults to now UTC.
-        timezone:
-          type: string
-          title: Timezone
-          description: IANA tz name (e.g. 'America/New_York').
-          default: UTC
-      type: object
-      required:
-      - input
-      title: DatetimeParseRequest
-    DatetimeComponents:
-      properties:
-        year:
-          type: integer
-          title: Year
-        month:
-          type: integer
-          title: Month
-        day:
-          type: integer
-          title: Day
-        hour:
-          type: integer
-          title: Hour
-        minute:
-          type: integer
-          title: Minute
-        second:
-          type: integer
-          title: Second
-        weekday:
-          type: integer
-          maximum: 6.0
-          minimum: 0.0
-          title: Weekday
-        day_name:
-          type: string
-          title: Day Name
-      type: object
-      required:
-      - year
-      - month
-      - day
-      - hour
-      - minute
-      - second
-      - weekday
-      - day_name
-      title: DatetimeComponents
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

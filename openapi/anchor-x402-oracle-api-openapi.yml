@@ -48,53 +48,6 @@ paths:
       - Oracle
 components:
   schemas:
-    OracleRequest:
-      properties:
-        question:
-          type: string
-          maxLength: 1000
-          minLength: 1
-          title: Question
-          description: A yes/no question for the oracle.
-      type: object
-      required:
-      - question
-      title: OracleRequest
-    OracleResponse:
-      properties:
-        answer:
-          type: string
-          enum:
-          - 'YES'
-          - 'NO'
-          - MAYBE
-          title: Answer
-        explanation:
-          type: string
-          title: Explanation
-        merkle_root:
-          type: string
-          title: Merkle Root
-          description: sha256(question|answer|asked_at), 64 hex chars no 0x.
-        base_tx:
-          type: string
-          title: Base Tx
-        solana_tx:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Solana Tx
-        asked_at:
-          type: integer
-          title: Asked At
-      type: object
-      required:
-      - answer
-      - explanation
-      - merkle_root
-      - base_tx
-      - asked_at
-      title: OracleResponse
     ValidationError:
       properties:
         loc:
@@ -130,3 +83,50 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    OracleResponse:
+      properties:
+        answer:
+          type: string
+          enum:
+          - 'YES'
+          - 'NO'
+          - MAYBE
+          title: Answer
+        explanation:
+          type: string
+          title: Explanation
+        merkle_root:
+          type: string
+          title: Merkle Root
+          description: sha256(question|answer|asked_at), 64 hex chars no 0x.
+        base_tx:
+          type: string
+          title: Base Tx
+        solana_tx:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Solana Tx
+        asked_at:
+          type: integer
+          title: Asked At
+      type: object
+      required:
+      - answer
+      - explanation
+      - merkle_root
+      - base_tx
+      - asked_at
+      title: OracleResponse
+    OracleRequest:
+      properties:
+        question:
+          type: string
+          maxLength: 1000
+          minLength: 1
+          title: Question
+          description: A yes/no question for the oracle.
+      type: object
+      required:
+      - question
+      title: OracleRequest

@@ -1,0 +1,719 @@
+{
+  "@context": {
+    "@vocab": "https://anchor-x402.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "anchor": "https://anchor-x402.com/schema#",
+    "AnchorResponse": "anchor:AnchorResponse",
+    "merkle_root": {
+      "@id": "anchor:merkle_root",
+      "@type": "xsd:string"
+    },
+    "base": {
+      "@id": "anchor:base",
+      "@type": "@id"
+    },
+    "solana": {
+      "@id": "anchor:solana"
+    },
+    "anchored_at": {
+      "@id": "anchor:anchored_at",
+      "@type": "xsd:integer"
+    },
+    "note": {
+      "@id": "anchor:note"
+    },
+    "ChainAnchor": "anchor:ChainAnchor",
+    "tx": {
+      "@id": "anchor:tx",
+      "@type": "xsd:string"
+    },
+    "explorer_url": {
+      "@id": "anchor:explorer_url",
+      "@type": "xsd:string"
+    },
+    "ValidationError": "anchor:ValidationError",
+    "loc": {
+      "@id": "anchor:loc",
+      "@container": "@list"
+    },
+    "msg": {
+      "@id": "anchor:msg",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "anchor:type",
+      "@type": "xsd:string"
+    },
+    "input": {
+      "@id": "anchor:input"
+    },
+    "ctx": {
+      "@id": "anchor:ctx"
+    },
+    "AnchorRequest": "anchor:AnchorRequest",
+    "hash": {
+      "@id": "anchor:hash"
+    },
+    "data": {
+      "@id": "anchor:data"
+    },
+    "HTTPValidationError": "anchor:HTTPValidationError",
+    "detail": {
+      "@id": "anchor:detail",
+      "@container": "@list"
+    },
+    "AttestVerifyRequest": "anchor:AttestVerifyRequest",
+    "input_hash": {
+      "@id": "anchor:input_hash",
+      "@type": "xsd:string"
+    },
+    "output_hash": {
+      "@id": "anchor:output_hash",
+      "@type": "xsd:string"
+    },
+    "decision": {
+      "@id": "anchor:decision",
+      "@type": "xsd:string"
+    },
+    "scheme": {
+      "@id": "anchor:scheme",
+      "@type": "xsd:string"
+    },
+    "signature": {
+      "@id": "anchor:signature",
+      "@type": "xsd:string"
+    },
+    "signer_pubkey": {
+      "@id": "anchor:signer_pubkey"
+    },
+    "base_tx": {
+      "@id": "anchor:base_tx",
+      "@type": "xsd:string"
+    },
+    "AttestVerifyResponse": "anchor:AttestVerifyResponse",
+    "valid": {
+      "@id": "anchor:valid",
+      "@type": "xsd:boolean"
+    },
+    "signature_valid": {
+      "@id": "anchor:signature_valid",
+      "@type": "xsd:boolean"
+    },
+    "signer": {
+      "@id": "anchor:signer",
+      "@type": "xsd:string"
+    },
+    "anchor_confirmed": {
+      "@id": "anchor:anchor_confirmed",
+      "@type": "xsd:boolean"
+    },
+    "root_matches": {
+      "@id": "anchor:root_matches",
+      "@type": "xsd:boolean"
+    },
+    "anchored_at_block": {
+      "@id": "anchor:anchored_at_block"
+    },
+    "anchored_at_time": {
+      "@id": "anchor:anchored_at_time"
+    },
+    "notes": {
+      "@id": "anchor:notes",
+      "@type": "xsd:string"
+    },
+    "AttestRequest": "anchor:AttestRequest",
+    "AttestResponse": "anchor:AttestResponse",
+    "signer_verified": {
+      "@id": "anchor:signer_verified",
+      "@type": "xsd:boolean"
+    },
+    "signed_at": {
+      "@id": "anchor:signed_at",
+      "@type": "xsd:integer"
+    },
+    "signed_by": {
+      "@id": "anchor:signed_by",
+      "@type": "xsd:string"
+    },
+    "verify_url": {
+      "@id": "anchor:verify_url"
+    },
+    "AuraResponse": "anchor:AuraResponse",
+    "color": {
+      "@id": "anchor:color",
+      "@type": "xsd:string"
+    },
+    "tier": {
+      "@id": "anchor:tier",
+      "@type": "xsd:string"
+    },
+    "score": {
+      "@id": "anchor:score",
+      "@type": "xsd:integer"
+    },
+    "description": {
+      "@id": "anchor:description",
+      "@type": "xsd:string"
+    },
+    "AuraRequest": "anchor:AuraRequest",
+    "target": {
+      "@id": "anchor:target",
+      "@type": "xsd:string"
+    },
+    "CalldataDecodeRequest": "anchor:CalldataDecodeRequest",
+    "chain": {
+      "@id": "anchor:chain",
+      "@type": "xsd:string"
+    },
+    "calldata_hex": {
+      "@id": "anchor:calldata_hex",
+      "@type": "xsd:string"
+    },
+    "contract_address": {
+      "@id": "anchor:contract_address"
+    },
+    "TxDecodeRequest": "anchor:TxDecodeRequest",
+    "tx_hash": {
+      "@id": "anchor:tx_hash",
+      "@type": "xsd:string"
+    },
+    "TxDecodeResponse": "anchor:TxDecodeResponse",
+    "block_number": {
+      "@id": "anchor:block_number"
+    },
+    "timestamp": {
+      "@id": "anchor:timestamp"
+    },
+    "from_address": {
+      "@id": "anchor:from_address"
+    },
+    "to_address": {
+      "@id": "anchor:to_address"
+    },
+    "value_wei": {
+      "@id": "anchor:value_wei"
+    },
+    "value_eth": {
+      "@id": "anchor:value_eth"
+    },
+    "gas_used": {
+      "@id": "anchor:gas_used"
+    },
+    "status": {
+      "@id": "anchor:status"
+    },
+    "input_calldata_hex": {
+      "@id": "anchor:input_calldata_hex"
+    },
+    "native_currency": {
+      "@id": "anchor:native_currency"
+    },
+    "slot": {
+      "@id": "anchor:slot"
+    },
+    "block_time": {
+      "@id": "anchor:block_time"
+    },
+    "fee_lamports": {
+      "@id": "anchor:fee_lamports"
+    },
+    "signers": {
+      "@id": "anchor:signers"
+    },
+    "program_calls": {
+      "@id": "anchor:program_calls"
+    },
+    "CalldataDecodeResponse": "anchor:CalldataDecodeResponse",
+    "function_selector": {
+      "@id": "anchor:function_selector",
+      "@type": "xsd:string"
+    },
+    "function_name": {
+      "@id": "anchor:function_name"
+    },
+    "function_signature": {
+      "@id": "anchor:function_signature"
+    },
+    "params": {
+      "@id": "anchor:params",
+      "@container": "@list"
+    },
+    "decoded": {
+      "@id": "anchor:decoded",
+      "@type": "xsd:boolean"
+    },
+    "candidates": {
+      "@id": "anchor:candidates",
+      "@container": "@list"
+    },
+    "source": {
+      "@id": "anchor:source",
+      "@type": "xsd:string"
+    },
+    "DecodedParam": "anchor:DecodedParam",
+    "name": {
+      "@id": "anchor:name"
+    },
+    "value": {
+      "@id": "anchor:value"
+    },
+    "FeedbackRequest": "anchor:FeedbackRequest",
+    "endpoint": {
+      "@id": "anchor:endpoint",
+      "@type": "xsd:string"
+    },
+    "what_happened": {
+      "@id": "anchor:what_happened",
+      "@type": "xsd:string"
+    },
+    "expected": {
+      "@id": "anchor:expected"
+    },
+    "request_id": {
+      "@id": "anchor:request_id"
+    },
+    "contact": {
+      "@id": "anchor:contact"
+    },
+    "GradeRequest": "anchor:GradeRequest",
+    "GradeResponse": "anchor:GradeResponse",
+    "letter_grade": {
+      "@id": "anchor:letter_grade",
+      "@type": "xsd:string"
+    },
+    "marginalia": {
+      "@id": "anchor:marginalia",
+      "@container": "@list"
+    },
+    "summary": {
+      "@id": "anchor:summary",
+      "@type": "xsd:string"
+    },
+    "ScreenResponse": "anchor:ScreenResponse",
+    "wallet": {
+      "@id": "anchor:wallet",
+      "@type": "xsd:string"
+    },
+    "chain_inferred": {
+      "@id": "anchor:chain_inferred",
+      "@type": "xsd:string"
+    },
+    "sanctions_match": {
+      "@id": "anchor:sanctions_match",
+      "@type": "xsd:boolean"
+    },
+    "sanctioned_lists": {
+      "@id": "anchor:sanctioned_lists",
+      "@container": "@list"
+    },
+    "risk_level": {
+      "@id": "anchor:risk_level",
+      "@type": "xsd:string"
+    },
+    "checked_at": {
+      "@id": "anchor:checked_at",
+      "@type": "xsd:integer"
+    },
+    "recommendation": {
+      "@id": "anchor:recommendation",
+      "@type": "xsd:string"
+    },
+    "risk_score": {
+      "@id": "anchor:risk_score",
+      "@type": "xsd:integer"
+    },
+    "address_type": {
+      "@id": "anchor:address_type",
+      "@type": "xsd:string"
+    },
+    "signals": {
+      "@id": "anchor:signals",
+      "@container": "@list"
+    },
+    "labels": {
+      "@id": "anchor:labels",
+      "@container": "@list"
+    },
+    "corpus_version": {
+      "@id": "anchor:corpus_version"
+    },
+    "partial": {
+      "@id": "anchor:partial",
+      "@type": "xsd:boolean"
+    },
+    "_WalletBody": "anchor:_WalletBody",
+    "IntelWalletError": "anchor:IntelWalletError",
+    "message": {
+      "@id": "anchor:message",
+      "@type": "xsd:string"
+    },
+    "ScreenSignal": "anchor:ScreenSignal",
+    "code": {
+      "@id": "anchor:code",
+      "@type": "xsd:string"
+    },
+    "severity": {
+      "@id": "anchor:severity",
+      "@type": "xsd:string"
+    },
+    "IntelWalletIdentity": "anchor:IntelWalletIdentity",
+    "ens_name": {
+      "@id": "anchor:ens_name"
+    },
+    "sns_name": {
+      "@id": "anchor:sns_name"
+    },
+    "IntelWalletActivity": "anchor:IntelWalletActivity",
+    "base_tx_count": {
+      "@id": "anchor:base_tx_count"
+    },
+    "has_history": {
+      "@id": "anchor:has_history"
+    },
+    "IntelWalletResponse": "anchor:IntelWalletResponse",
+    "balances": {
+      "@id": "anchor:balances",
+      "@type": "@id"
+    },
+    "activity": {
+      "@id": "anchor:activity",
+      "@type": "@id"
+    },
+    "identity": {
+      "@id": "anchor:identity",
+      "@type": "@id"
+    },
+    "sanctions": {
+      "@id": "anchor:sanctions"
+    },
+    "errors": {
+      "@id": "anchor:errors",
+      "@container": "@list"
+    },
+    "fetched_at": {
+      "@id": "anchor:fetched_at",
+      "@type": "xsd:integer"
+    },
+    "cache_age_seconds": {
+      "@id": "anchor:cache_age_seconds",
+      "@type": "xsd:integer"
+    },
+    "IntelWalletBalances": "anchor:IntelWalletBalances",
+    "base_eth": {
+      "@id": "anchor:base_eth"
+    },
+    "eth_eth": {
+      "@id": "anchor:eth_eth"
+    },
+    "base_usdc": {
+      "@id": "anchor:base_usdc"
+    },
+    "sol": {
+      "@id": "anchor:sol"
+    },
+    "solana_usdc": {
+      "@id": "anchor:solana_usdc"
+    },
+    "InvestigateDeliverable": "anchor:InvestigateDeliverable",
+    "reportUrl": {
+      "@id": "anchor:reportUrl"
+    },
+    "reportJsonUrl": {
+      "@id": "anchor:reportJsonUrl"
+    },
+    "verdict": {
+      "@id": "anchor:verdict"
+    },
+    "signedBy": {
+      "@id": "anchor:signedBy"
+    },
+    "merkleRoot": {
+      "@id": "anchor:merkleRoot"
+    },
+    "baseAnchorTx": {
+      "@id": "anchor:baseAnchorTx"
+    },
+    "solanaAnchorTx": {
+      "@id": "anchor:solanaAnchorTx"
+    },
+    "disclaimer": {
+      "@id": "anchor:disclaimer"
+    },
+    "InvestigateRequest": "anchor:InvestigateRequest",
+    "address": {
+      "@id": "anchor:address",
+      "@type": "xsd:string"
+    },
+    "InvestigateAcceptedResponse": "anchor:InvestigateAcceptedResponse",
+    "job_id": {
+      "@id": "anchor:job_id",
+      "@type": "xsd:string"
+    },
+    "status_url": {
+      "@id": "anchor:status_url",
+      "@type": "xsd:string"
+    },
+    "eta_seconds": {
+      "@id": "anchor:eta_seconds",
+      "@type": "xsd:integer"
+    },
+    "InvestigateStatusResponse": "anchor:InvestigateStatusResponse",
+    "deliverable": {
+      "@id": "anchor:deliverable"
+    },
+    "error": {
+      "@id": "anchor:error"
+    },
+    "refund_tx": {
+      "@id": "anchor:refund_tx"
+    },
+    "refund_pending": {
+      "@id": "anchor:refund_pending"
+    },
+    "LedgerReportStatus": "anchor:LedgerReportStatus",
+    "LedgerReportRequest": "anchor:LedgerReportRequest",
+    "from": {
+      "@id": "anchor:from"
+    },
+    "to": {
+      "@id": "anchor:to"
+    },
+    "direction": {
+      "@id": "anchor:direction",
+      "@type": "xsd:string"
+    },
+    "min_amount": {
+      "@id": "anchor:min_amount"
+    },
+    "group_by": {
+      "@id": "anchor:group_by",
+      "@type": "xsd:string"
+    },
+    "include_unfiltered": {
+      "@id": "anchor:include_unfiltered",
+      "@type": "xsd:boolean"
+    },
+    "format": {
+      "@id": "anchor:format",
+      "@type": "xsd:string"
+    },
+    "title": {
+      "@id": "anchor:title"
+    },
+    "prepared_for": {
+      "@id": "anchor:prepared_for"
+    },
+    "LedgerSummaryRequest": "anchor:LedgerSummaryRequest",
+    "LedgerReportAccepted": "anchor:LedgerReportAccepted",
+    "OracleRequest": "anchor:OracleRequest",
+    "question": {
+      "@id": "anchor:question",
+      "@type": "xsd:string"
+    },
+    "OracleResponse": "anchor:OracleResponse",
+    "answer": {
+      "@id": "anchor:answer",
+      "@type": "xsd:string"
+    },
+    "explanation": {
+      "@id": "anchor:explanation",
+      "@type": "xsd:string"
+    },
+    "solana_tx": {
+      "@id": "anchor:solana_tx"
+    },
+    "asked_at": {
+      "@id": "anchor:asked_at",
+      "@type": "xsd:integer"
+    },
+    "DatetimeParseResponse": "anchor:DatetimeParseResponse",
+    "iso": {
+      "@id": "anchor:iso",
+      "@type": "xsd:string"
+    },
+    "unix": {
+      "@id": "anchor:unix",
+      "@type": "xsd:integer"
+    },
+    "timezone": {
+      "@id": "anchor:timezone",
+      "@type": "xsd:string"
+    },
+    "components": {
+      "@id": "anchor:components",
+      "@type": "@id"
+    },
+    "relative_seconds": {
+      "@id": "anchor:relative_seconds",
+      "@type": "xsd:integer"
+    },
+    "relative_human": {
+      "@id": "anchor:relative_human",
+      "@type": "xsd:string"
+    },
+    "confidence": {
+      "@id": "anchor:confidence",
+      "@type": "xsd:string"
+    },
+    "parsed_input": {
+      "@id": "anchor:parsed_input",
+      "@type": "xsd:string"
+    },
+    "DatetimeParseRequest": "anchor:DatetimeParseRequest",
+    "base_time": {
+      "@id": "anchor:base_time"
+    },
+    "DatetimeComponents": "anchor:DatetimeComponents",
+    "year": {
+      "@id": "anchor:year",
+      "@type": "xsd:integer"
+    },
+    "month": {
+      "@id": "anchor:month",
+      "@type": "xsd:integer"
+    },
+    "day": {
+      "@id": "anchor:day",
+      "@type": "xsd:integer"
+    },
+    "hour": {
+      "@id": "anchor:hour",
+      "@type": "xsd:integer"
+    },
+    "minute": {
+      "@id": "anchor:minute",
+      "@type": "xsd:integer"
+    },
+    "second": {
+      "@id": "anchor:second",
+      "@type": "xsd:integer"
+    },
+    "weekday": {
+      "@id": "anchor:weekday",
+      "@type": "xsd:integer"
+    },
+    "day_name": {
+      "@id": "anchor:day_name",
+      "@type": "xsd:string"
+    },
+    "_TokenPriceBody": "anchor:_TokenPriceBody",
+    "symbol": {
+      "@id": "anchor:symbol"
+    },
+    "contract": {
+      "@id": "anchor:contract"
+    },
+    "TokenPriceResponse": "anchor:TokenPriceResponse",
+    "usd": {
+      "@id": "anchor:usd",
+      "@type": "xsd:decimal"
+    },
+    "usd_24h_change_pct": {
+      "@id": "anchor:usd_24h_change_pct"
+    },
+    "market_cap_usd": {
+      "@id": "anchor:market_cap_usd"
+    },
+    "age_seconds": {
+      "@id": "anchor:age_seconds",
+      "@type": "xsd:integer"
+    },
+    "_NameBody": "anchor:_NameBody",
+    "NameResolveResponse": "anchor:NameResolveResponse",
+    "addresses": {
+      "@id": "anchor:addresses",
+      "@container": "@list"
+    },
+    "resolved_at": {
+      "@id": "anchor:resolved_at",
+      "@type": "xsd:integer"
+    },
+    "registry_used": {
+      "@id": "anchor:registry_used"
+    },
+    "supported_tlds": {
+      "@id": "anchor:supported_tlds",
+      "@container": "@list"
+    },
+    "NameAddress": "anchor:NameAddress",
+    "ttl_hint_seconds": {
+      "@id": "anchor:ttl_hint_seconds",
+      "@type": "xsd:integer"
+    },
+    "RoastRequest": "anchor:RoastRequest",
+    "RoastResponse": "anchor:RoastResponse",
+    "roast": {
+      "@id": "anchor:roast",
+      "@type": "xsd:string"
+    },
+    "target_summary": {
+      "@id": "anchor:target_summary",
+      "@type": "xsd:string"
+    },
+    "RollResponse": "anchor:RollResponse",
+    "range": {
+      "@id": "anchor:range",
+      "@container": "@list"
+    },
+    "count": {
+      "@id": "anchor:count",
+      "@type": "xsd:integer"
+    },
+    "commitment": {
+      "@id": "anchor:commitment"
+    },
+    "label": {
+      "@id": "anchor:label"
+    },
+    "result": {
+      "@id": "anchor:result",
+      "@container": "@list"
+    },
+    "result_hash": {
+      "@id": "anchor:result_hash",
+      "@type": "xsd:string"
+    },
+    "domain": {
+      "@id": "anchor:domain",
+      "@type": "xsd:string"
+    },
+    "RollRequest": "anchor:RollRequest",
+    "low": {
+      "@id": "anchor:low",
+      "@type": "xsd:integer"
+    },
+    "high": {
+      "@id": "anchor:high",
+      "@type": "xsd:integer"
+    },
+    "TldrResponse": "anchor:TldrResponse",
+    "summary_bullets": {
+      "@id": "anchor:summary_bullets",
+      "@container": "@list"
+    },
+    "source_chars": {
+      "@id": "anchor:source_chars",
+      "@type": "xsd:integer"
+    },
+    "TldrRequest": "anchor:TldrRequest",
+    "text": {
+      "@id": "anchor:text"
+    },
+    "url": {
+      "@id": "anchor:url"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "anchor-x402 API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects anchor-x402's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-20) from openapi/anchor-x402-anchor-api-openapi.yml, openapi/anchor-x402-attest-api-openapi.yml, openapi/anchor-x402-aura-api-openapi.yml.",
+  "dcterms:created": "2026-10-20",
+  "dcterms:source": [
+    "openapi/anchor-x402-anchor-api-openapi.yml",
+    "openapi/anchor-x402-attest-api-openapi.yml",
+    "openapi/anchor-x402-aura-api-openapi.yml",
+    "openapi/anchor-x402-decode-api-openapi.yml",
+    "openapi/anchor-x402-feedback-api-openapi.yml"
+  ]
+}

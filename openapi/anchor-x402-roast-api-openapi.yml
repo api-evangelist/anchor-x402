@@ -48,31 +48,6 @@ paths:
       - Roast
 components:
   schemas:
-    RoastRequest:
-      properties:
-        target:
-          type: string
-          maxLength: 8000
-          minLength: 1
-          title: Target
-          description: 'Anything to roast: wallet, tweet, idea, code, etc.'
-      type: object
-      required:
-      - target
-      title: RoastRequest
-    RoastResponse:
-      properties:
-        roast:
-          type: string
-          title: Roast
-        target_summary:
-          type: string
-          title: Target Summary
-      type: object
-      required:
-      - roast
-      - target_summary
-      title: RoastResponse
     ValidationError:
       properties:
         loc:
@@ -108,3 +83,28 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    RoastRequest:
+      properties:
+        target:
+          type: string
+          maxLength: 8000
+          minLength: 1
+          title: Target
+          description: 'Anything to roast: wallet, tweet, idea, code, etc.'
+      type: object
+      required:
+      - target
+      title: RoastRequest
+    RoastResponse:
+      properties:
+        roast:
+          type: string
+          title: Roast
+        target_summary:
+          type: string
+          title: Target Summary
+      type: object
+      required:
+      - roast
+      - target_summary
+      title: RoastResponse

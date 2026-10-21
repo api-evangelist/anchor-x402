@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-screen-response-schema.json",
+  "title": "ScreenResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-screen-api-openapi.yml#/components/schemas/ScreenResponse",
+  "properties": {
+    "wallet": {
+      "type": "string",
+      "title": "Wallet"
+    },
+    "chain_inferred": {
+      "type": "string",
+      "title": "Chain Inferred",
+      "description": "\"ethereum\" | \"solana\" | \"unknown\""
+    },
+    "sanctions_match": {
+      "type": "boolean",
+      "title": "Sanctions Match"
+    },
+    "sanctioned_lists": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Sanctioned Lists"
+    },
+    "risk_level": {
+      "type": "string",
+      "title": "Risk Level",
+      "description": "\"low\" | \"medium\" | \"high\" | \"critical\""
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes"
+    },
+    "checked_at": {
+      "type": "integer",
+      "title": "Checked At"
+    },
+    "recommendation": {
+      "type": "string",
+      "title": "Recommendation",
+      "description": "\"allow\" | \"review\" | \"block\" — the field an agent branches on before sending funds.",
+      "default": "review"
+    },
+    "risk_score": {
+      "type": "integer",
+      "title": "Risk Score",
+      "description": "0-100; higher is riskier.",
+      "default": 0
+    },
+    "address_type": {
+      "type": "string",
+      "title": "Address Type",
+      "description": "\"eoa\" | \"contract\" | \"unknown\"",
+      "default": "unknown"
+    },
+    "signals": {
+      "items": {
+        "$ref": "#/$defs/ScreenSignal"
+      },
+      "type": "array",
+      "title": "Signals"
+    },
+    "labels": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "title": "Labels"
+    },
+    "corpus_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Corpus Version"
+    },
+    "partial": {
+      "type": "boolean",
+      "title": "Partial",
+      "description": "True if the enrichment layer was unavailable or N/A (Solana) — treat an `allow` as provisional.",
+      "default": false
+    }
+  },
+  "type": "object",
+  "required": [
+    "wallet",
+    "chain_inferred",
+    "sanctions_match",
+    "risk_level",
+    "notes",
+    "checked_at"
+  ],
+  "$defs": {
+    "ScreenSignal": {
+      "properties": {
+        "code": {
+          "type": "string",
+          "title": "Code"
+        },
+        "severity": {
+          "type": "string",
+          "title": "Severity",
+          "description": "\"critical\" | \"high\" | \"medium\""
+        },
+        "source": {
+          "type": "string",
+          "title": "Source",
+          "description": "\"treasury.gov\" | \"goplus\""
+        },
+        "detail": {
+          "type": "string",
+          "title": "Detail"
+        }
+      },
+      "type": "object",
+      "required": [
+        "code",
+        "severity",
+        "source",
+        "detail"
+      ],
+      "title": "ScreenSignal"
+    }
+  }
+}

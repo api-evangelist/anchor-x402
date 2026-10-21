@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-wallet-body-schema.json",
+  "title": "_WalletBody",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-intel-api-openapi.yml#/components/schemas/_WalletBody",
+  "properties": {
+    "wallet": {
+      "type": "string",
+      "title": "Wallet",
+      "description": "EVM 0x… address (40 hex) or Solana base58 pubkey."
+    }
+  },
+  "type": "object",
+  "required": [
+    "wallet"
+  ]
+}

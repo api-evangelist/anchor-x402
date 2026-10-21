@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-attest-response-schema.json",
+  "title": "AttestResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-attest-api-openapi.yml#/components/schemas/AttestResponse",
+  "properties": {
+    "merkle_root": {
+      "type": "string",
+      "title": "Merkle Root",
+      "description": "SHA-256 over the domain-separated (input_hash, output_hash, decision) — this is what gets anchored."
+    },
+    "signer_verified": {
+      "type": "boolean",
+      "title": "Signer Verified"
+    },
+    "signer": {
+      "type": "string",
+      "title": "Signer",
+      "description": "Recovered EVM address (eip191) or supplied Solana pubkey (ed25519)."
+    },
+    "base": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChainAnchor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "solana": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChainAnchor"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "decision": {
+      "type": "string",
+      "title": "Decision"
+    },
+    "signed_at": {
+      "type": "integer",
+      "title": "Signed At"
+    },
+    "signed_by": {
+      "type": "string",
+      "title": "Signed By",
+      "description": "\"caller\" (you supplied the signature) or \"treasury\" (hosted-signer mode).",
+      "default": "caller"
+    },
+    "verify_url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Verify Url",
+      "description": "Free endpoint a relying party POSTs this receipt to for independent re-verification."
+    }
+  },
+  "type": "object",
+  "required": [
+    "merkle_root",
+    "signer_verified",
+    "signer",
+    "decision",
+    "signed_at"
+  ],
+  "$defs": {
+    "ChainAnchor": {
+      "properties": {
+        "tx": {
+          "type": "string",
+          "title": "Tx"
+        },
+        "explorer_url": {
+          "type": "string",
+          "title": "Explorer Url"
+        }
+      },
+      "type": "object",
+      "required": [
+        "tx",
+        "explorer_url"
+      ],
+      "title": "ChainAnchor"
+    }
+  }
+}

@@ -1,3 +1,20 @@
+generated: '2026-10-20'
+method: searched
+source:
+- https://a2aregistry.org/api/agents
+- https://zapier.com/apps/anchor-x402/integrations
+- https://n8n.io/integrations/anchor-x402/
+- https://composio.dev/toolkits/anchor-x402
+- https://monid.ai/tools/anchor-x402
+checked:
+- https://a2aregistry.org/api/agents
+- https://registry.modelcontextprotocol.io/v0/servers
+- https://composio.dev/toolkits/anchor-x402
+- https://monid.ai/tools/anchor-x402
+- https://n8n.io/integrations/anchor-x402/
+- https://zapier.com/apps/anchor-x402/integrations
+summary: null
+marketplace_apps: []
 edges:
 - partner_name: MCP Registry
   partner: mcp
@@ -14,7 +31,7 @@ edges:
     registered_name: io.github.hypeprinter007-stack/anchor-x402
     register_id: io.github.hypeprinter007-stack/anchor-x402
     detected_by: sweep-agent-tools.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   mcp_registry:
     servers:
     - io.github.hypeprinter007-stack/anchor-x402
@@ -60,13 +77,7 @@ edges:
     matched_domain: anchor-x402.com
     matched_by: own-domain
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
-generated: '2026-10-14'
-method: searched
-checked:
-- https://a2aregistry.org/api/agents
-- https://registry.modelcontextprotocol.io/v0/servers
-source:
-- https://a2aregistry.org/api/agents
+templates: []

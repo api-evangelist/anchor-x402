@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-datetime-parse-request-schema.json",
+  "title": "DatetimeParseRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-parse-api-openapi.yml#/components/schemas/DatetimeParseRequest",
+  "properties": {
+    "input": {
+      "type": "string",
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Input",
+      "description": "Freeform datetime string in any format."
+    },
+    "base_time": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Base Time",
+      "description": "ISO 8601 reference; defaults to now UTC."
+    },
+    "timezone": {
+      "type": "string",
+      "title": "Timezone",
+      "description": "IANA tz name (e.g. 'America/New_York').",
+      "default": "UTC"
+    }
+  },
+  "type": "object",
+  "required": [
+    "input"
+  ]
+}

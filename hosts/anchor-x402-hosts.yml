@@ -1,0 +1,200 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 15
+  own: 3
+  other_domain: 10
+  platform: 2
+  roles:
+  - api
+  - docs
+  - other
+  - source
+  - status
+  - website
+hosts:
+- host: agentarena.site
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: agentarena.site
+  role: other
+  relation: other-domain
+- host: anchor-x402.betteruptime.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - StatusPage
+  serves:
+  - docs
+  registrable_domain: betteruptime.com
+  role: status
+  relation: other-domain
+- host: anchor-x402.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Compliance
+  - Website
+  - DeveloperPortal
+  - GettingStarted
+  - Pricing
+  serves:
+  - docs
+  - cdn
+  vendor: cloudflare
+  registrable_domain: anchor-x402.com
+  role: website
+  relation: own
+- host: api.agentic.market
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: agentic.market
+  role: api
+  relation: other-domain
+- host: api.anchor-x402.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - spec-found
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Documentation
+  - APIReference
+  serves:
+  - api
+  - docs
+  - spec
+  - api-gateway
+  - documentation
+  vendor: aws-api-gateway
+  registrable_domain: anchor-x402.com
+  role: docs
+  relation: own
+- host: api.betteruptime.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  title: Announcement status
+  status: 200
+  registrable_domain: betteruptime.com
+  role: api
+  relation: other-domain
+- host: apis.betteruptime.com
+  found_by:
+  - probed
+  - site-links
+  - namespace-probe
+  - well-known
+  types: []
+  serves: []
+  title: Hi.com status
+  status: 200
+  registrable_domain: betteruptime.com
+  role: api
+  relation: other-domain
+- host: app.virtuals.io
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: virtuals.io
+  role: other
+  relation: other-domain
+- host: chat.anchor-x402.com
+  found_by:
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types: []
+  serves:
+  - docs
+  registrable_domain: anchor-x402.com
+  role: other
+  relation: own
+- host: docs.cdp.coinbase.com
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: coinbase.com
+  role: docs
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  - docs-index
+  types:
+  - GitHubOrganization
+  - SourceCode
+  serves:
+  - docs
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: glama.ai
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: glama.ai
+  role: other
+  relation: other-domain
+- host: mcp.so
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: mcp.so
+  role: other
+  relation: other-domain
+- host: registry.modelcontextprotocol.io
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: modelcontextprotocol.io
+  role: other
+  relation: other-domain
+- host: www.npmjs.com
+  found_by:
+  - docs-index
+  types: []
+  serves:
+  - docs
+  registrable_domain: npmjs.com
+  role: other
+  relation: platform

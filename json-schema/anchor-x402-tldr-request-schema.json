@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-tldr-request-schema.json",
+  "title": "TldrRequest",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-tldr-api-openapi.yml#/components/schemas/TldrRequest",
+  "properties": {
+    "text": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 200000
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Text",
+      "description": "Pasted text to summarize. Provide either text or url."
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 2048
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Url",
+      "description": "URL to fetch and summarize. Provide either text or url."
+    }
+  },
+  "type": "object"
+}

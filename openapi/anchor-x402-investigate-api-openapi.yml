@@ -77,6 +77,51 @@ paths:
       - Investigate
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    InvestigateRequest:
+      properties:
+        address:
+          type: string
+          title: Address
+          description: EVM 0x... or Solana base58 address to investigate.
+      type: object
+      required:
+      - address
+      title: InvestigateRequest
     InvestigateDeliverable:
       properties:
         reportUrl:
@@ -131,42 +176,6 @@ components:
           title: Disclaimer
       type: object
       title: InvestigateDeliverable
-    InvestigateRequest:
-      properties:
-        address:
-          type: string
-          title: Address
-          description: EVM 0x... or Solana base58 address to investigate.
-      type: object
-      required:
-      - address
-      title: InvestigateRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     InvestigateAcceptedResponse:
       properties:
         job_id:
@@ -237,12 +246,3 @@ components:
       - job_id
       - status
       title: InvestigateStatusResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

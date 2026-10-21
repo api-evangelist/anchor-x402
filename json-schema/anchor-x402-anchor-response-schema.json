@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/anchor-x402/main/json-schema/anchor-x402-anchor-response-schema.json",
+  "title": "AnchorResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/anchor-x402-anchor-api-openapi.yml#/components/schemas/AnchorResponse",
+  "properties": {
+    "merkle_root": {
+      "type": "string",
+      "title": "Merkle Root",
+      "description": "The 64-char hex hash that was anchored."
+    },
+    "base": {
+      "$ref": "#/$defs/ChainAnchor"
+    },
+    "solana": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ChainAnchor"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "None if the Solana side failed; Base anchor still proves the hash existed."
+    },
+    "anchored_at": {
+      "type": "integer",
+      "title": "Anchored At",
+      "description": "Unix epoch seconds when the anchor txs were broadcast."
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Note"
+    }
+  },
+  "type": "object",
+  "required": [
+    "merkle_root",
+    "base",
+    "anchored_at"
+  ],
+  "$defs": {
+    "ChainAnchor": {
+      "properties": {
+        "tx": {
+          "type": "string",
+          "title": "Tx"
+        },
+        "explorer_url": {
+          "type": "string",
+          "title": "Explorer Url"
+        }
+      },
+      "type": "object",
+      "required": [
+        "tx",
+        "explorer_url"
+      ],
+      "title": "ChainAnchor"
+    }
+  }
+}

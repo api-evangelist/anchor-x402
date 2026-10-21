@@ -71,7 +71,26 @@
     "anchor-x402-openapi.json: declared missing tag: Roll",
     "anchor-x402-openapi.json: declared missing tag: Screen",
     "anchor-x402-openapi.json: declared missing tag: Tldr",
-    "apis.yml register: written (+1 apis, 18 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "anchor-x402-anchor-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-attest-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-aura-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-decode-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-feedback-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-grade-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-intel-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-investigate-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-ledger-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-oracle-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-parse-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-price-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-resolve-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-roast-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-roll-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-screen-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anchor-x402-tldr-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

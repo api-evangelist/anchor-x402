@@ -116,47 +116,66 @@ paths:
       - Ledger
 components:
   schemas:
-    LedgerReportStatus:
+    LedgerReportAccepted:
       properties:
         job_id:
           type: string
           title: Job Id
+          description: Unique job id; poll /v1/ledger/report/{job_id}.
         status:
           type: string
+          const: accepted
           title: Status
-          description: DISPATCHING | IN_PROGRESS | DELIVERED | FAILED | UNKNOWN
-        deliverable:
-          anyOf:
-          - additionalProperties: true
-            type: object
-          - type: 'null'
-          title: Deliverable
-          description: 'On DELIVERED: report URLs, sha256, eip191 signature, dual-chain anchor txs.'
+          default: accepted
+        status_url:
+          type: string
+          title: Status Url
+          description: Absolute URL to poll for completion.
         eta_seconds:
-          anyOf:
-          - type: integer
-          - type: 'null'
+          type: integer
           title: Eta Seconds
-        error:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Error
-        refund_tx:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refund Tx
-        refund_pending:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refund Pending
+          description: Approximate wait until DELIVERED.
+          default: 120
       type: object
       required:
       - job_id
-      - status
-      title: LedgerReportStatus
+      - status_url
+      title: LedgerReportAccepted
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     LedgerReportRequest:
       properties:
         wallet:
@@ -229,6 +248,47 @@ components:
       required:
       - wallet
       title: LedgerReportRequest
+    LedgerReportStatus:
+      properties:
+        job_id:
+          type: string
+          title: Job Id
+        status:
+          type: string
+          title: Status
+          description: DISPATCHING | IN_PROGRESS | DELIVERED | FAILED | UNKNOWN
+        deliverable:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Deliverable
+          description: 'On DELIVERED: report URLs, sha256, eip191 signature, dual-chain anchor txs.'
+        eta_seconds:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Eta Seconds
+        error:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error
+        refund_tx:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refund Tx
+        refund_pending:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refund Pending
+      type: object
+      required:
+      - job_id
+      - status
+      title: LedgerReportStatus
     LedgerSummaryRequest:
       properties:
         wallet:
@@ -280,63 +340,3 @@ components:
       required:
       - wallet
       title: LedgerSummaryRequest
-    LedgerReportAccepted:
-      properties:
-        job_id:
-          type: string
-          title: Job Id
-          description: Unique job id; poll /v1/ledger/report/{job_id}.
-        status:
-          type: string
-          const: accepted
-          title: Status
-          default: accepted
-        status_url:
-          type: string
-          title: Status Url
-          description: Absolute URL to poll for completion.
-        eta_seconds:
-          type: integer
-          title: Eta Seconds
-          description: Approximate wait until DELIVERED.
-          default: 120
-      type: object
-      required:
-      - job_id
-      - status_url
-      title: LedgerReportAccepted
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
