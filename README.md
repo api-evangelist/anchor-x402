@@ -64,40 +64,184 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-anchor-x402 operates a pay-per-call API surface for AI agents, billed with the x402 HTTP payment
-protocol instead of API keys or accounts. Eighteen stateless services run on AWS Lambda and FastAPI
-behind https://api.anchor-x402.com; each returns an x402 v2 402 PaymentRequired challenge settled per
-request in USDC on Base or Solana (select routes also settle JPYC on Polygon) via EIP-3009
-transferWithAuthorization. The same 18 services are exposed over a hosted MCP endpoint, an npm stdio
-MCP package, and a signed A2A JSON-RPC door, with a hosted Claude chatbot at chat.anchor-x402.com.
-Source is MIT licensed.
+anchor-x402 operates a pay-per-call API surface for AI agents, billed with the x402 HTTP payment protocol instead of API keys or accounts. Eighteen stateless services run on AWS Lambda and FastAPI behind https://api.anchor-x402.com, each returning an x402 v2 402 PaymentRequired challenge that a caller settles per request in USDC on Base or Solana (select routes also settle JPYC on Polygon) via EIP-3009 transferWithAuthorization. The catalog spans on-chain anchoring and attestation, wallet sanctions and risk screening, Web3 data decoding, ENS/SNS name resolution, token pricing, x402 spend accounting, verifiable signed randomness, and LLM-backed content analysis, priced from $0.001 to $1.77 per call. The same 18 services are exposed over MCP (a hosted Streamable HTTP endpoint at https://api.anchor-x402.com/mcp whose tools/list is free and anonymous, plus an npm stdio package) and over a signed A2A JSON-RPC door at /v1/a2a, with a conformant A2A 0.3.0 agent card and a hosted Claude chatbot at chat.anchor-x402.com for non-developers. Source is MIT licensed and the operator publishes a trust portal that states plainly it holds no SOC 2, ISO 27001, PCI or HIPAA certification.
 
-- https://anchor-x402.com
-- https://api.anchor-x402.com/docs
-- https://github.com/hypeprinter007-stack/anchor-x402
+**Areas:** Company · x402 · Agents · Payments · Blockchain · MCP · Web3 · pay-per-call · Agentic Payments · Stablecoins · Compliance · Attestation
 
-## Provenance
+## anchor-x402 on APIs.io
 
-This repository is an API Evangelist profile of a third-party company. It is assembled by the
-API Evangelist enrichment pipeline from public sources only — the provider's own documentation,
-machine-readable discovery documents, public package registries, and direct HTTPS probes of hosts the
-company controls. Nothing here is authored on the provider's behalf.
+Everything profiled for anchor-x402 is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/anchor-x402/](https://apis.io/providers/anchor-x402/)** — or go straight to one of the APIs or properties below.
 
-Every artifact carries provenance frontmatter recording `generated` (the date it was written),
-`method` (`searched`, `probed`, `generated`, `derived` or `none`) and `source` (the URL fetched or the
-in-repo file it was derived from). Where a probe missed, the miss is recorded with its HTTP status
-rather than omitted — a recorded absence is data.
+### APIs (18)
 
-- **Harvested verbatim:** `openapi/` (OpenAPI 3.1.0 from `https://api.anchor-x402.com/openapi.json`),
-  `a2a/` (the A2A agent card, graded conformant against A2A 1.0.0), `llms/` (`/llms.txt`),
-  `well-known/` (the `/.well-known/x402.json` service catalog and the MCP `server-card.json`),
-  `mcp/anchor-x402-tools-list.json` (a live, anonymous `tools/list`), and `skills/` (nine
-  provider-authored `PAY.md` pay-skills from the MIT-licensed source repository).
-- **Derived from those artifacts:** the tool crosswalk, data model, error catalog, examples and overlay.
-- **Corrections we made to our own tooling's output** are recorded inline in the artifact under an
-  `x-correction` key — see `security/anchor-x402-trust-center.yml`.
+- [anchor-x402 Anchor API](https://apis.io/apis/anchor-x402/anchor-x402-anchor-api/) — The Anchor API from anchor-x402 — 1 operation(s) for anchor.
+- [anchor-x402 Attest API](https://apis.io/apis/anchor-x402/anchor-x402-attest-api/) — The Attest API from anchor-x402 — 2 operation(s) for attest.
+- [anchor-x402 Aura API](https://apis.io/apis/anchor-x402/anchor-x402-aura-api/) — The Aura API from anchor-x402 — 1 operation(s) for aura.
+- [anchor-x402 Decode API](https://apis.io/apis/anchor-x402/anchor-x402-decode-api/) — The Decode API from anchor-x402 — 2 operation(s) for decode.
+- [anchor-x402 Grade API](https://apis.io/apis/anchor-x402/anchor-x402-grade-api/) — The Grade API from anchor-x402 — 1 operation(s) for grade.
+- [anchor-x402 Health API](https://apis.io/apis/anchor-x402/anchor-x402-health-api/) — The Health API from anchor-x402 — 1 operation(s) for health.
+- [anchor-x402 Intel API](https://apis.io/apis/anchor-x402/anchor-x402-intel-api/) — The Intel API from anchor-x402 — 1 operation(s) for intel.
+- [anchor-x402 Investigate API](https://apis.io/apis/anchor-x402/anchor-x402-investigate-api/) — The Investigate API from anchor-x402 — 2 operation(s) for investigate.
+- [anchor-x402 Ledger API](https://apis.io/apis/anchor-x402/anchor-x402-ledger-api/) — The Ledger API from anchor-x402 — 3 operation(s) for ledger.
+- [anchor-x402 Oracle API](https://apis.io/apis/anchor-x402/anchor-x402-oracle-api/) — The Oracle API from anchor-x402 — 1 operation(s) for oracle.
+- [anchor-x402 Parse API](https://apis.io/apis/anchor-x402/anchor-x402-parse-api/) — The Parse API from anchor-x402 — 1 operation(s) for parse.
+- [anchor-x402 Price API](https://apis.io/apis/anchor-x402/anchor-x402-price-api/) — The Price API from anchor-x402 — 1 operation(s) for price.
+- [anchor-x402 Resolve API](https://apis.io/apis/anchor-x402/anchor-x402-resolve-api/) — The Resolve API from anchor-x402 — 1 operation(s) for resolve.
+- [anchor-x402 Roast API](https://apis.io/apis/anchor-x402/anchor-x402-roast-api/) — The Roast API from anchor-x402 — 1 operation(s) for roast.
+- [anchor-x402 Roll API](https://apis.io/apis/anchor-x402/anchor-x402-roll-api/) — The Roll API from anchor-x402 — 1 operation(s) for roll.
+- [anchor-x402 Screen API](https://apis.io/apis/anchor-x402/anchor-x402-screen-api/) — The Screen API from anchor-x402 — 1 operation(s) for screen.
+- [anchor-x402 Tldr API](https://apis.io/apis/anchor-x402/anchor-x402-tldr-api/) — The Tldr API from anchor-x402 — 1 operation(s) for tldr.
+- [anchor-x402 Feedback API](https://apis.io/apis/anchor-x402/anchor-x402-feedback-api/) — The Feedback API from anchor-x402 — 1 operation(s) for feedback.
 
-Corrections are welcome: open an issue on this repository.
+### Published properties
 
-The profile is published to https://apis.io/ and https://apievangelist.com/.
-Artifacts are licensed CC BY-NC-SA; any code is Apache 2.0.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [anchor-x402](https://apis.io/servers/anchor-x402/anchor-x402/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Anchor X402 Agentic Access](https://apis.io/agentic-access/anchor-x402/anchor-x402-agentic-access/)
+
+#### JSON Schema (39)
+
+The data models the API reads and writes.
+
+- [AnchorRequest](https://apis.io/schemas/anchor-x402/anchor-x402-anchor-request/)
+- [AnchorResponse](https://apis.io/schemas/anchor-x402/anchor-x402-anchor-response/)
+- [AttestRequest](https://apis.io/schemas/anchor-x402/anchor-x402-attest-request/)
+- [AttestResponse](https://apis.io/schemas/anchor-x402/anchor-x402-attest-response/)
+- [AttestVerifyRequest](https://apis.io/schemas/anchor-x402/anchor-x402-attest-verify-request/)
+- [AttestVerifyResponse](https://apis.io/schemas/anchor-x402/anchor-x402-attest-verify-response/)
+- [AuraRequest](https://apis.io/schemas/anchor-x402/anchor-x402-aura-request/)
+- [AuraResponse](https://apis.io/schemas/anchor-x402/anchor-x402-aura-response/)
+- [CalldataDecodeRequest](https://apis.io/schemas/anchor-x402/anchor-x402-calldata-decode-request/)
+- [CalldataDecodeResponse](https://apis.io/schemas/anchor-x402/anchor-x402-calldata-decode-response/)
+- [DatetimeParseRequest](https://apis.io/schemas/anchor-x402/anchor-x402-datetime-parse-request/)
+- [DatetimeParseResponse](https://apis.io/schemas/anchor-x402/anchor-x402-datetime-parse-response/)
+- [FeedbackRequest](https://apis.io/schemas/anchor-x402/anchor-x402-feedback-request/)
+- [GradeRequest](https://apis.io/schemas/anchor-x402/anchor-x402-grade-request/)
+- [GradeResponse](https://apis.io/schemas/anchor-x402/anchor-x402-grade-response/)
+- [IntelWalletResponse](https://apis.io/schemas/anchor-x402/anchor-x402-intel-wallet-response/)
+- [InvestigateAcceptedResponse](https://apis.io/schemas/anchor-x402/anchor-x402-investigate-accepted-response/)
+- [InvestigateRequest](https://apis.io/schemas/anchor-x402/anchor-x402-investigate-request/)
+- [InvestigateStatusResponse](https://apis.io/schemas/anchor-x402/anchor-x402-investigate-status-response/)
+- [LedgerReportAccepted](https://apis.io/schemas/anchor-x402/anchor-x402-ledger-report-accepted/)
+- [LedgerReportRequest](https://apis.io/schemas/anchor-x402/anchor-x402-ledger-report-request/)
+- [LedgerReportStatus](https://apis.io/schemas/anchor-x402/anchor-x402-ledger-report-status/)
+- [LedgerSummaryRequest](https://apis.io/schemas/anchor-x402/anchor-x402-ledger-summary-request/)
+- [_NameBody](https://apis.io/schemas/anchor-x402/anchor-x402-name-body/)
+- [NameResolveResponse](https://apis.io/schemas/anchor-x402/anchor-x402-name-resolve-response/)
+- …and 14 more published on APIs.io
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Anchor X402 Context](https://apis.io/jsonld/anchor-x402/anchor-x402-context/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Anchor X402 Openapi Overlay](https://apis.io/overlays/anchor-x402/anchor-x402-openapi-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [anchor-x402 API Rules](https://apis.io/rules/anchor-x402/anchor-x402-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Anchor X402 Authentication](https://apis.io/security/anchor-x402/anchor-x402-authentication/)
+- [Anchor X402 Domain Security](https://apis.io/security/anchor-x402/anchor-x402-domain-security/)
+- [Anchor X402 Trust Center](https://apis.io/security/anchor-x402/anchor-x402-trust-center/)
+- [Anchor X402 Vulnerability Disclosure](https://apis.io/security/anchor-x402/anchor-x402-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Anchor X402 Plans Pricing](https://apis.io/plans/anchor-x402/anchor-x402-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Anchor X402 Rate Limits](https://apis.io/rate-limits/anchor-x402/anchor-x402-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://anchor-x402.com)
+- [Documentation](https://api.anchor-x402.com/docs)
+- [Getting started](https://anchor-x402.com/guides/pay-x402-api-node/)
+- [API reference](https://api.anchor-x402.com/redoc)
+- [Pricing](https://anchor-x402.com/.well-known/x402.json)
+- [GitHub](https://github.com/hypeprinter007-stack)
+- [Status](https://anchor-x402.betteruptime.com)
+
+## API Evangelist rating
+
+**Kin Score 46.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 42.9 |
+| Contract governance | 18.2 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 71.4 |
+| Access clarity | 50.0 |
+
+**Agent readiness 42.1** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | conformant |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | — |
+
+**Regulatory alignment 25.0** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/anchor-x402/](https://apis.io/providers/anchor-x402/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for anchor-x402: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/anchor-x402/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
